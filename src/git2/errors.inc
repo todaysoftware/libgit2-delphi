@@ -97,6 +97,7 @@ const
   GIT_ERROR_WORKTREE = 32;
   GIT_ERROR_SHA1 = 33;
   GIT_ERROR_HTTP = 34;
+  GIT_ERROR_INTERNAL = 35;
 type
   git_error_t = Integer;
 

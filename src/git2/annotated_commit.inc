@@ -60,7 +60,7 @@ function git_annotated_commit_lookup(out_: PPgit_annotated_commit;
   repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
- * Creates a `git_annotated_comit` from a revision string.
+ * Creates a `git_annotated_commit` from a revision string.
  *
  * See `man gitrevisions`, or
  * http://git-scm.com/docs/git-rev-parse.html#_specifying_revisions for

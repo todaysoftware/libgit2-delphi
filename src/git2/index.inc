@@ -575,8 +575,7 @@ function git_index_add_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cde
  *
  * If a previous index entry exists that has the same path as the
  * given 'entry', it will be replaced.  Otherwise, the 'entry' will be
- * added. The `id` and the `file_size` of the 'entry' are updated with the
- * real value of the blob.
+ * added.
  *
  * This forces the file to be added to the index, not looking
  * at gitignore rules.  Those rules can be evaluated through
