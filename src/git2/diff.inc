@@ -126,6 +126,8 @@ const
 	 *  can apply given diff information to binary files.
 	  *)
   GIT_DIFF_SHOW_BINARY = ( 1 shl 30 );
+  (** Ignore blank lines  *)
+  GIT_DIFF_IGNORE_BLANK_LINES = ( 1 shl 31 );
 type
   git_diff_option_t = Integer;
 
@@ -943,7 +945,7 @@ function git_diff_num_deltas(diff: Pgit_diff): size_t; cdecl; external libgit2_d
 (**
  * Query how many diff deltas are there in a diff filtered by type.
  *
- * This works just like `git_diff_entrycount()` with an extra parameter
+ * This works just like `git_diff_num_deltas()` with an extra parameter
  * that is a `git_delta_t` and returns just the count of how many deltas
  * match that particular type.
  *

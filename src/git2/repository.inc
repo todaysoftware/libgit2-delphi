@@ -206,36 +206,48 @@ function git_repository_init(out_: PPgit_repository; path: PAnsiChar;
  * These flags configure extra behaviors to `git_repository_init_ext`.
  * In every case, the default behavior is the zero value (i.e. flag is
  * not set).  Just OR the flag values together for the `flags` parameter
- * when initializing a new repo.  Details of individual values are:
- *
- * * BARE   - Create a bare repository with no working directory.
- * * NO_REINIT - Return an GIT_EEXISTS error if the repo_path appears to
- *        already be an git repository.
- * * NO_DOTGIT_DIR - Normally a "/.git/" will be appended to the repo
- *        path for non-bare repos (if it is not already there), but
- *        passing this flag prevents that behavior.
- * * MKDIR  - Make the repo_path (and workdir_path) as needed.  Init is
- *        always willing to create the ".git" directory even without this
- *        flag.  This flag tells init to create the trailing component of
- *        the repo and workdir paths as needed.
- * * MKPATH - Recursively make all components of the repo and workdir
- *        paths as necessary.
- * * EXTERNAL_TEMPLATE - libgit2 normally uses internal templates to
- *        initialize a new repo.  This flags enables external templates,
- *        looking the "template_path" from the options if set, or the
- *        `init.templatedir` global config if not, or falling back on
- *        "/usr/share/git-core/templates" if it exists.
- * * GIT_REPOSITORY_INIT_RELATIVE_GITLINK - If an alternate workdir is
- *        specified, use relative paths for the gitdir and core.worktree.
+ * when initializing a new repo.
   *)
 
 const
+  (**
+   * Create a bare repository with no working directory.
+   *)
   GIT_REPOSITORY_INIT_BARE = ( 1 shl 0 );
+  (**
+   * Return an GIT_EEXISTS error if the repo_path appears to already be
+   * an git repository.
+   *)
   GIT_REPOSITORY_INIT_NO_REINIT = ( 1 shl 1 );
+  (**
+   * Normally a "/.git/" will be appended to the repo path for
+   * non-bare repos (if it is not already there), but passing this flag
+   * prevents that behavior.
+   *)
   GIT_REPOSITORY_INIT_NO_DOTGIT_DIR = ( 1 shl 2 );
+  (**
+   * Make the repo_path (and workdir_path) as needed. Init is always willing
+   * to create the ".git" directory even without this flag. This flag tells
+   * init to create the trailing component of the repo and workdir paths
+   * as needed.
+   *)
   GIT_REPOSITORY_INIT_MKDIR = ( 1 shl 3 );
+  (**
+   * Recursively make all components of the repo and workdir paths as
+   * necessary.
+   *)
   GIT_REPOSITORY_INIT_MKPATH = ( 1 shl 4 );
+  (**
+   * libgit2 normally uses internal templates to initialize a new repo.
+   * This flags enables external templates, looking the "template_path" from
+   * the options if set, or the `init.templatedir` global config if not,
+   * or falling back on "/usr/share/git-core/templates" if it exists.
+   *)
   GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE = ( 1 shl 5 );
+  (**
+   * If an alternate workdir is specified, use relative paths for the gitdir
+   * and core.worktree.
+   *)
   GIT_REPOSITORY_INIT_RELATIVE_GITLINK = ( 1 shl 6 );
 type
   git_repository_init_flag_t = Integer;
@@ -245,18 +257,22 @@ type
  *
  * Set the mode field of the `git_repository_init_options` structure
  * either to the custom mode that you would like, or to one of the
- * following modes:
- *
- * * SHARED_UMASK - Use permissions configured by umask - the default.
- * * SHARED_GROUP - Use "--shared=group" behavior, chmod'ing the new repo
- *        to be group writable and "g+sx" for sticky group assignment.
- * * SHARED_ALL - Use "--shared=all" behavior, adding world readability.
- * * Anything else - Set to custom value.
+ * defined modes.
   *)
 
 const
+  (**
+   * Use permissions configured by umask - the default.
+   *)
   GIT_REPOSITORY_INIT_SHARED_UMASK = 0;
+  (**
+   * Use "--shared=group" behavior, chmod'ing the new repo to be group
+   * writable and "g+sx" for sticky group assignment.
+   *)
   GIT_REPOSITORY_INIT_SHARED_GROUP = 1533;
+  (**
+   * Use "--shared=all" behavior, adding world readability.
+   *)
   GIT_REPOSITORY_INIT_SHARED_ALL = 1535;
 type
   git_repository_init_mode_t = Integer;
@@ -265,39 +281,51 @@ type
  * Extended options structure for `git_repository_init_ext`.
  *
  * This contains extra options for `git_repository_init_ext` that enable
- * additional initialization features.  The fields are:
- *
- * * flags - Combination of GIT_REPOSITORY_INIT flags above.
- * * mode  - Set to one of the standard GIT_REPOSITORY_INIT_SHARED_...
- *        constants above, or to a custom value that you would like.
- * * workdir_path - The path to the working dir or NULL for default (i.e.
- *        repo_path parent on non-bare repos).  IF THIS IS RELATIVE PATH,
- *        IT WILL BE EVALUATED RELATIVE TO THE REPO_PATH.  If this is not
- *        the "natural" working directory, a .git gitlink file will be
- *        created here linking to the repo_path.
- * * description - If set, this will be used to initialize the "description"
- *        file in the repository, instead of using the template content.
- * * template_path - When GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE is set,
- *        this contains the path to use for the template directory.  If
- *        this is NULL, the config or default directory options will be
- *        used instead.
- * * initial_head - The name of the head to point HEAD at.  If NULL, then
- *        this will be treated as "master" and the HEAD ref will be set
- *        to "refs/heads/master".  If this begins with "refs/" it will be
- *        used verbatim; otherwise "refs/heads/" will be prefixed.
- * * origin_url - If this is non-NULL, then after the rest of the
- *        repository initialization is completed, an "origin" remote
- *        will be added pointing to this URL.
+ * additional initialization features.
   *)
 
   git_repository_init_options = record
     version : Cardinal;
+    (**
+     * Combination of GIT_REPOSITORY_INIT flags above.
+     *)
     flags : uint32_t;
+    (**
+     * Set to one of the standard GIT_REPOSITORY_INIT_SHARED_... constants
+     * above, or to a custom value that you would like.
+     *)
     mode : uint32_t;
+    (**
+     * The path to the working dir or NULL for default (i.e. repo_path parent
+     * on non-bare repos). IF THIS IS RELATIVE PATH, IT WILL BE EVALUATED
+     * RELATIVE TO THE REPO_PATH. If this is not the "natural" working
+     * directory, a .git gitlink file will be created here linking to the
+     * repo_path.
+     *)
     workdir_path : PAnsiChar;
+    (**
+     * If set, this will be used to initialize the "description" file in the
+     * repository, instead of using the template content.
+     *)
     description : PAnsiChar;
+    (**
+     * When GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE is set, this contains
+     * the path to use for the template directory. If this is NULL, the config
+     * or default directory options will be used instead.
+     *)
     template_path : PAnsiChar;
+    (**
+     * The name of the head to point HEAD at. If NULL, then this will be
+     * treated as "master" and the HEAD ref will be set to "refs/heads/master".
+     * If this begins with "refs/" it will be used verbatim;
+     * otherwise "refs/heads/" will be prefixed.
+     *)
     initial_head : PAnsiChar;
+    (**
+     * If this is non-NULL, then after the rest of the repository
+     * initialization is completed, an "origin" remote will be added
+     * pointing to this URL.
+     *)
     origin_url : PAnsiChar;
   end;
   Pgit_repository_init_options = ^git_repository_init_options;

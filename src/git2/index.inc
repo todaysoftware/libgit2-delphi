@@ -348,7 +348,7 @@ function git_index_write_tree(out_: Pgit_oid; index_: Pgit_index): Integer; cdec
  *
  * The index must not contain any file in conflict.
  *
- * @param out Pointer where to store OID of the the written tree
+ * @param out Pointer where to store OID of the written tree
  * @param index Index to write
  * @param repo Repository where to write the tree
  * @return 0 on success, GIT_EUNMERGED when the index is not clean
@@ -715,7 +715,7 @@ function git_index_update_all(index_: Pgit_index; pathspec: Pgit_strarray;
  * @param at_pos the address to which the position of the index entry is written (optional)
  * @param index an existing index object
  * @param path path to search
- * @return a zero-based position in the index if found; GIT_ENOTFOUND otherwise
+ * @return 0 or an error code
   *)
 
 type
@@ -730,7 +730,7 @@ function git_index_find(at_pos: Psize_t; index_: Pgit_index; path: PAnsiChar)
  * @param at_pos the address to which the position of the index entry is written (optional)
  * @param index an existing index object
  * @param prefix the prefix to search for
- * @return 0 with valid value in at_pos; an error code otherwise
+ * @return 0 or an error code
   *)
 
 function git_index_find_prefix(at_pos: Psize_t; index_: Pgit_index;

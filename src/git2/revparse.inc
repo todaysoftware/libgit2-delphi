@@ -57,16 +57,16 @@ function git_revparse_ext(object_out: PPgit_object;
 
 const
   (** The spec targeted a single object.  *)
-  GIT_REVPARSE_SINGLE_ = 1 shl 0;
+  GIT_REVSPEC_SINGLE_ = 1 shl 0;
   (** The spec targeted a range of commits.  *)
-  GIT_REVPARSE_RANGE = 1 shl 1;
+  GIT_REVSPEC_RANGE = 1 shl 1;
   (** The spec used the '...' operator, which invokes special semantics.  *)
-  GIT_REVPARSE_MERGE_BASE = 1 shl 2;
+  GIT_REVSPEC_MERGE_BASE = 1 shl 2;
 type
-  git_revparse_mode_t = Integer;
+  git_revspec_mode_t = Integer;
 
   (**
- * Git Revision Spec: output of a `git_revparse` operation
+ * Git Revision Spec: output of a `git_revspec` operation
   *)
 
   git_revspec = record

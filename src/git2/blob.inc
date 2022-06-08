@@ -75,7 +75,7 @@ function git_blob_owner(blob: Pgit_blob): Pgit_repository; cdecl; external libgi
  * time.
  *
  * @param blob pointer to the blob
- * @return the pointer
+ * @return the pointer, or NULL on error
   *)
 
 function git_blob_rawcontent(blob: Pgit_blob): Pointer; cdecl; external libgit2_dll;
@@ -105,12 +105,16 @@ const
 	 * When set, filters will be loaded from a `.gitattributes` file
 	 * in the HEAD commit.
 	  *)
-  GIT_BLOB_FILTER_ATTTRIBUTES_FROM_HEAD = ( 1 shl 2 );
+  GIT_BLOB_FILTER_ATTRIBUTES_FROM_HEAD = ( 1 shl 2 );
 type
   git_blob_filter_flag_t = Integer;
 
   (**
  * The options used when applying filter options to a file.
+ *
+ * Initialize with `GIT_BLOB_FILTER_OPTIONS_INIT`. Alternatively, you can
+ * use `git_blob_filter_options_init`.
+ *
   *)
 
   git_blob_filter_options = record
@@ -123,6 +127,21 @@ type
 const
   GIT_BLOB_FILTER_OPTIONS_VERSION = 1;
   //GIT_BLOB_FILTER_OPTIONS_INIT = { GIT_BLOB_FILTER_OPTIONS_VERSION , GIT_BLOB_FILTER_CHECK_FOR_BINARY };
+
+(**
+   * Initialize git_blob_filter_options structure
+   *
+   * Initializes a `git_blob_filter_options` with default values. Equivalent
+   * to creating an instance with `GIT_BLOB_FILTER_OPTIONS_INIT`.
+   *
+   * @param opts The `git_blob_filter_options` struct to initialize.
+   * @param version The struct version; pass `GIT_BLOB_FILTER_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+    *)
+
+function git_blob_filter_options_init(opts: Pgit_blob_filter_options; version: Cardinal):
+  Integer; cdecl; external libgit2_dll;
+
   (**
  * Get a buffer with the filtered content of a blob.
  *
@@ -224,7 +243,7 @@ function git_blob_create_from_stream_commit(out_: Pgit_oid;
  * Write an in-memory buffer to the ODB as a blob
  *
  * @param id return the id of the written blob
- * @param repo repository where to blob will be written
+ * @param repo repository where the blob will be written
  * @param buffer data to be written into the blob
  * @param len length of the data
  * @return 0 or an error code

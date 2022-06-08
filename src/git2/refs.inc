@@ -87,6 +87,9 @@ function git_reference_dwim(out_: PPgit_reference; repo: Pgit_repository;
  * of updating does not match the one passed through `current_value`
  * (i.e. if the ref has changed since the user read it).
  *
+ * If `current_value` is all zeros, this function will return GIT_EMODIFIED
+ * if the ref already exists.
+ *
  * @param out Pointer to the newly created reference
  * @param repo Repository where that reference will live
  * @param name The name of the reference
@@ -165,7 +168,7 @@ function git_reference_symbolic_create(out_: PPgit_reference;
  *
  * The message for the reflog will be ignored if the reference does
  * not belong in the standard set (HEAD, branches and remote-tracking
- * branches) and and it does not have a reflog.
+ * branches) and it does not have a reflog.
  *
  * @param out Pointer to the newly created reference
  * @param repo Repository where that reference will live
@@ -204,7 +207,7 @@ function git_reference_create(out_: PPgit_reference; repo: Pgit_repository;
  *
  * The message for the reflog will be ignored if the reference does
  * not belong in the standard set (HEAD, branches and remote-tracking
- * branches) and and it does not have a reflog.
+ * branches) and it does not have a reflog.
  *
  * It will return GIT_EMODIFIED if the reference's value at the time
  * of updating does not match the one passed through `current_id`
@@ -327,7 +330,7 @@ function git_reference_owner(ref: Pgit_reference): Pgit_repository; cdecl; exter
  *
  * The message for the reflog will be ignored if the reference does
  * not belong in the standard set (HEAD, branches and remote-tracking
- * branches) and and it does not have a reflog.
+ * branches) and it does not have a reflog.
  *
  * @param out Pointer to the newly created reference
  * @param ref The reference
@@ -763,11 +766,12 @@ function git_reference_peel(out_: PPgit_object; ref: Pgit_reference;
  *    the characters '~', '^', ':', '\\', '?', '[', and '*', and the
  *    sequences ".." and "@{" which have special meaning to revparse.
  *
+ * @param valid output pointer to set with validity of given reference name
  * @param refname name to be checked.
- * @return 1 if the reference name is acceptable; 0 if it isn't
+ * @return 0 on success or an error code
   *)
 
-function git_reference_is_valid_name(refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_is_valid_name(valid: PInteger; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the reference's short name

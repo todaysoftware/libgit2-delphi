@@ -89,6 +89,7 @@ function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
  * @param preimage the tree to apply the diff to
  * @param diff the diff to apply
  * @param options the options for the apply (or null for defaults)
+ * @return 0 or an error code
   *)
 
 function git_apply_to_tree(out_: PPgit_index; repo: Pgit_repository;
@@ -123,6 +124,7 @@ type
  * @param diff the diff to apply
  * @param location the location to apply (workdir, index or both)
  * @param options the options for the apply (or null for defaults)
+ * @return 0 or an error code
   *)
 
 function git_apply(repo: Pgit_repository; diff: Pgit_diff;

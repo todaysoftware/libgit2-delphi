@@ -260,7 +260,7 @@ function git_config_open_level(out_: PPgit_config; parent: Pgit_config;
  *
  * Git allows you to store your global configuration at
  * `$HOME/.gitconfig` or `$XDG_CONFIG_HOME/git/config`. For backwards
- * compatability, the XDG file shouldn't be used unless the use has
+ * compatibility, the XDG file shouldn't be used unless the use has
  * created it explicitly. With this function you'll open the correct
  * one to write to.
  *

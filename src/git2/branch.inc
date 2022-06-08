@@ -291,5 +291,19 @@ function git_branch_remote_name(out_: Pgit_buf; repo: Pgit_repository;
 function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository;
   refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
+(**
+ * Determine whether a branch name is valid, meaning that (when prefixed
+ * with `refs/heads/`) that it is a valid reference name, and that any
+ * additional branch name restrictions are imposed (eg, it cannot start
+ * with a `-`).
+ *
+ * @param valid output pointer to set with validity of given branch name
+ * @param name a branch name to test
+ * @return 0 on success or an error code
+  *)
+
+function git_branch_name_is_valid(valid: PInteger; name_: PAnsiChar): Integer;
+  cdecl; external libgit2_dll;
+
 (** @}  *)
 

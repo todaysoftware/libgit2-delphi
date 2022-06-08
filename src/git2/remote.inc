@@ -922,11 +922,12 @@ function git_remote_rename(problems: Pgit_strarray; repo: Pgit_repository;
 (**
  * Ensure the remote name is well-formed.
  *
+ * @param valid output pointer to set with validity of given remote name
  * @param remote_name name to be checked.
- * @return 1 if the reference name is acceptable; 0 if it isn't
+ * @return 0 on success or an error code
   *)
 
-function git_remote_is_valid_name(remote_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_name_is_valid(valid: PInteger; remote_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
 * Delete an existing persisted remote.

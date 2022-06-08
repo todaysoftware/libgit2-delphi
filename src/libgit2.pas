@@ -14,10 +14,6 @@ interface
 uses
   SysUtils;
 
-{$IFDEF CPU32}
-{$ALIGN 4}
-{$ENDIF}
-
 const
   {$IFDEF MSWINDOWS}
   libgit2_dll = 'git2.dll';

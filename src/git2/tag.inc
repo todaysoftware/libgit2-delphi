@@ -347,5 +347,19 @@ function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cde
 
 function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; external libgit2_dll;
 
+(**
+ * Determine whether a tag name is valid, meaning that (when prefixed
+ * with `refs/tags/`) that it is a valid reference name, and that any
+ * additional tag name restrictions are imposed (eg, it cannot start
+ * with a `-`).
+ *
+ * @param valid output pointer to set with validity of given tag name
+ * @param name a tag name to test
+ * @return 0 on success or an error code
+  *)
+
+function git_tag_name_is_valid(valid: PInteger; const name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+
+
 (** @}  *)
 

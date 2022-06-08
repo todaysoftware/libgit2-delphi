@@ -112,26 +112,15 @@ function git_filter_list_contains(filters: Pgit_filter_list; name_: PAnsiChar)
 (**
  * Apply filter list to a data buffer.
  *
- * See `git2/buffer.h` for background on `git_buf` objects.
- *
- * If the `in` buffer holds data allocated by libgit2 (i.e. `in->asize` is
- * not zero), then it will be overwritten when applying the filters.  If
- * not, then it will be left untouched.
- *
- * If there are no filters to apply (or `filters` is NULL), then the `out`
- * buffer will reference the `in` buffer data (with `asize` set to zero)
- * instead of allocating data.  This keeps allocations to a minimum, but
- * it means you have to be careful about freeing the `in` data since `out`
- * may be pointing to it!
- *
  * @param out Buffer to store the result of the filtering
  * @param filters A loaded git_filter_list (or NULL)
  * @param in Buffer containing the data to filter
+ * @param in_len The length of the input buffer
  * @return 0 on success, an error code otherwise
   *)
 
-function git_filter_list_apply_to_data(out_: Pgit_buf;
-  filters: Pgit_filter_list; in_: Pgit_buf): Integer; cdecl; external libgit2_dll;
+function git_filter_list_apply_to_buffer(out_: Pgit_buf;
+  filters: Pgit_filter_list; const in_: PAnsiChar; in_len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Apply a filter list to the contents of a file on disk
@@ -161,12 +150,13 @@ function git_filter_list_apply_to_blob(out_: Pgit_buf;
  * Apply a filter list to an arbitrary buffer as a stream
  *
  * @param filters the list of filters to apply
- * @param data the buffer to filter
+ * @param buffer the buffer to filter
+ * @param len the size of the buffer
  * @param target the stream into which the data will be written
   *)
 
-function git_filter_list_stream_data(filters: Pgit_filter_list; data: Pgit_buf;
-  target: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+function git_filter_list_stream_buffer(filters: Pgit_filter_list; const buffer: PAnsiChar;
+  len: size_t; target: Pgit_writestream): Integer; cdecl; external libgit2_dll;
 
 (**
  * Apply a filter list to a file as a stream

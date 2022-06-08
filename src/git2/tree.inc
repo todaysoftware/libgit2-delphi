@@ -332,6 +332,7 @@ function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder;
  *
  * @param bld Tree builder
  * @param filename Filename of the entry to remove
+ * @return 0 or an error code
   *)
 
 function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar)
@@ -484,6 +485,7 @@ type
  * @param baseline the tree to base these changes on
  * @param nupdates the number of elements in the update list
  * @param updates the list of updates to perform
+ * @return 0 or an error code
   *)
 
 type

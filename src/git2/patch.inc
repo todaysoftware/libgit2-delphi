@@ -16,6 +16,19 @@ type
   git_patch = record
   end;
 
+(**
+   * Get the repository associated with this patch. May be NULL.
+   *
+   * @param patch the patch
+   * @return a pointer to the repository
+    *)
+
+type
+  PPgit_patch = ^Pgit_patch;
+  Pgit_patch = ^git_patch;
+
+function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external libgit2_dll;
+
   (**
  * Return a patch for an entry in the diff list.
  *
@@ -37,9 +50,6 @@ type
  * @return 0 on success, other value < 0 on error
   *)
 
-type
-  PPgit_patch = ^Pgit_patch;
-  Pgit_patch = ^git_patch;
 function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t)
   : Integer; cdecl; external libgit2_dll;
 
