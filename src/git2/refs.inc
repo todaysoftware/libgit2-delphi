@@ -771,7 +771,7 @@ function git_reference_peel(out_: PPgit_object; ref: Pgit_reference;
  * @return 0 on success or an error code
   *)
 
-function git_reference_is_valid_name(valid: PInteger; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_name_is_valid(valid: PInteger; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the reference's short name

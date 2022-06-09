@@ -31,14 +31,29 @@ function git_graph_ahead_behind(ahead, behind: Psize_t; repo: Pgit_repository;
  * Note that a commit is not considered a descendant of itself, in contrast
  * to `git merge-base --is-ancestor`.
  *
- * @param commit a previously loaded commit.
- * @param ancestor a potential ancestor commit.
+ * @param repo the repository where the commits exist
+ * @param commit a previously loaded commit
+ * @param ancestor a potential ancestor commit
  * @return 1 if the given commit is a descendant of the potential ancestor,
  * 0 if not, error code otherwise.
   *)
 
 function git_graph_descendant_of(repo: Pgit_repository;
   commit, ancestor: Pgit_oid): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Determine if a commit is reachable from any of a list of commits by
+ * following parent edges.
+ *
+ * @param repo the repository where the commits exist
+ * @param commit a previously loaded commit
+ * @param length the number of commits in the provided `descendant_array`
+ * @param descendant_array oids of the commits
+ * @return 1 if the given commit is an ancestor of any of the given potential
+ * descendants, 0 if not, error code otherwise.
+ *)
+function git_graph_reachable_from_any(repo: Pgit_repository;
+  commit: Pgit_oid; descendant_array: Pgit_oid; length: size_t): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
 

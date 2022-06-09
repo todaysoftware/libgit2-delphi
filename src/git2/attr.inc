@@ -121,11 +121,35 @@ const
  *
  * Passing the `GIT_ATTR_CHECK_INCLUDE_HEAD` flag will use attributes
  * from a `.gitattributes` file in the repository at the HEAD revision.
+ *
+ * Passing the `GIT_ATTR_CHECK_INCLUDE_COMMIT` flag will use attributes
+ * from a `.gitattributes` file in a specific commit.
   *)
 
   GIT_ATTR_CHECK_NO_SYSTEM = ( 1 shl 2 );
   GIT_ATTR_CHECK_INCLUDE_HEAD = ( 1 shl 3 );
+  GIT_ATTR_CHECK_INCLUDE_COMMIT = ( 1 shl 4 );
   (**
+  * An options structure for querying attributes.
+  *)
+type
+  git_attr_options = record
+    version: Cardinal;
+    (** A combination of GIT_ATTR_CHECK flags *)
+    flags: Cardinal;
+    (**
+     * The commit to load attributes from, when
+     * `GIT_ATTR_CHECK_INCLUDE_COMMIT` is specified.
+     *)
+    commit_id: Pgit_oid;
+  end;
+  Pgit_attr_options = ^git_attr_options;
+
+const
+  GIT_ATTR_OPTIONS_VERSION = 1;
+  //GIT_ATTR_OPTIONS_INIT {GIT_ATTR_OPTIONS_VERSION}
+
+(**
  * Look up the value of one git attribute for path.
  *
  * @param value_out Output of the value of the attribute.  Use the GIT_ATTR_...
@@ -143,6 +167,24 @@ const
 
 function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository;
   flags: uint32_t; path, name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Look up the value of one git attribute for path with extended options.
+ *
+ * @param value_out Output of the value of the attribute.  Use the GIT_ATTR_...
+ *             macros to test for TRUE, FALSE, UNSPECIFIED, etc. or just
+ *             use the string value for attributes set to a value.  You
+ *             should NOT modify or free this value.
+ * @param repo The repository containing the path.
+ * @param opts The `git_attr_options` to use when querying these attributes.
+ * @param path The path to check for attributes.  Relative paths are
+ *             interpreted relative to the repo root.  The file does
+ *             not have to exist, but if it does not, then it will be
+ *             treated as a plain file (not a directory).
+ * @param name The name of the attribute to look up.
+ *)
+function git_attr_get_ext(value_out: PPAnsiChar; repo: Pgit_repository;
+  opts: Pgit_attr_options; path, name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Look up a list of git attributes for path.
@@ -176,6 +218,25 @@ function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository;
 
 function git_attr_get_many(values_out: PPAnsiChar; repo: Pgit_repository;
   flags: uint32_t; path: PAnsiChar; num_attr: size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Look up a list of git attributes for path with extended options.
+ *
+ * @param values_out An array of num_attr entries that will have string
+ *             pointers written into it for the values of the attributes.
+ *             You should not modify or free the values that are written
+ *             into this array (although of course, you should free the
+ *             array itself if you allocated it).
+ * @param repo The repository containing the path.
+ * @param opts The `git_attr_options` to use when querying these attributes.
+ * @param path The path inside the repo to check attributes.  This
+ *             does not have to exist, but if it does not, then
+ *             it will be treated as a plain file (i.e. not a directory).
+ * @param num_attr The number of attributes being looked up
+ * @param names An array of num_attr strings containing attribute names.
+ *)
+function git_attr_get_many_ext(values_out: PPAnsiChar; repo: Pgit_repository;
+  opts: Pgit_attr_options; path: PAnsiChar; num_attr: size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * The callback used with git_attr_foreach.
@@ -213,6 +274,22 @@ type
   *)
 
 function git_attr_foreach(repo: Pgit_repository; flags: uint32_t;
+  path: PAnsiChar; callback: git_attr_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Loop over all the git attributes for a path with extended options.
+ *
+ * @param repo The repository containing the path.
+ * @param opts The `git_attr_options` to use when querying these attributes.
+ * @param path Path inside the repo to check attributes.  This does not have
+ *             to exist, but if it does not, then it will be treated as a
+ *             plain file (i.e. not a directory).
+ * @param callback Function to invoke on each attribute name and value.
+ *                 See git_attr_foreach_cb.
+ * @param payload Passed on as extra parameter to callback function.
+ * @return 0 on success, non-zero callback return value, or error code
+ *)
+function git_attr_foreach_ext(repo: Pgit_repository; opts: Pgit_attr_options;
   path: PAnsiChar; callback: git_attr_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**

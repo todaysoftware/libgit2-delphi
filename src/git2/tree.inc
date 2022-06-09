@@ -379,21 +379,6 @@ function git_treebuilder_filter(bld: Pgit_treebuilder;
 
 function git_treebuilder_write(id: Pgit_oid; bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
 
-(**
- * Write the contents of the tree builder as a tree object
- * using a shared git_buf.
- *
- * @see git_treebuilder_write
- *
- * @param oid Pointer to store the OID of the newly written tree
- * @param bld Tree builder to write
- * @param tree Shared buffer for writing the tree. Will be grown as necessary.
- * @return 0 or an error code
-  *)
-
-function git_treebuilder_write_with_buffer(oid: Pgit_oid;
-  bld: Pgit_treebuilder; tree: Pgit_buf): Integer; cdecl; external libgit2_dll;
-
 (** Callback for the tree traversal method  *)
 
 type

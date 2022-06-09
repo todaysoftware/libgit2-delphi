@@ -130,6 +130,8 @@ const
   GIT_OPT_ENABLE_HTTP_EXPECT_CONTINUE = 28;
   GIT_OPT_GET_MWINDOW_FILE_LIMIT = 29;
   GIT_OPT_SET_MWINDOW_FILE_LIMIT = 30;
+  GIT_OPT_SET_ODB_PACKED_PRIORITY = 31;
+  GIT_OPT_SET_ODB_LOOSE_PRIORITY = 32;
 type
   git_libgit2_opt_t = Integer;
 
@@ -344,6 +346,15 @@ type
  *		> When connecting to a server using NTLM or Negotiate
  *		> authentication, use expect/continue when POSTing data.
  *		> This option is not available on Windows.
+ *
+ *
+ *       opts(GIT_OPT_SET_ODB_PACKED_PRIORITY, int priority)
+ *              > Override the default priority of the packed ODB backend which
+ *              > is added when default backends are assigned to a repository
+ *
+ *       opts(GIT_OPT_SET_ODB_LOOSE_PRIORITY, int priority)
+ *              > Override the default priority of the loose ODB backend which
+ *              > is added when default backends are assigned to a repository
  *
  * @param option Option key
  * @param ... value to set the option

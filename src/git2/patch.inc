@@ -27,6 +27,12 @@ type
   PPgit_patch = ^Pgit_patch;
   Pgit_patch = ^git_patch;
 
+(**
+ * Get the repository associated with this patch. May be NULL.
+ *
+ * @param patch the patch
+ * @return a pointer to the repository
+ *)
 function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external libgit2_dll;
 
   (**

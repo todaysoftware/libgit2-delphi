@@ -192,6 +192,7 @@ type
 
   git_worktree_prune_options = record
     version : Cardinal;
+    (** A combination of `git_worktree_prune_t` *)
     flags : uint32_t;
   end;
   Pgit_worktree_prune_options = ^git_worktree_prune_options;

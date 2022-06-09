@@ -292,6 +292,20 @@ function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository;
   refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
+ * Retrieve the upstream merge of a local branch
+ *
+ * This will return the currently configured "branch.*.merge" for a given
+ * branch. This branch must be local.
+ *
+ * @param buf the buffer into which to write the name
+ * @param repo the repository in which to look
+ * @param refname the full name of the branch
+ * @return 0 or an error code
+ *)
+ function git_branch_upstream_merge(buf: Pgit_buf; repo: Pgit_repository;
+   refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+
+(**
  * Determine whether a branch name is valid, meaning that (when prefixed
  * with `refs/heads/`) that it is a valid reference name, and that any
  * additional branch name restrictions are imposed (eg, it cannot start
@@ -300,10 +314,9 @@ function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository;
  * @param valid output pointer to set with validity of given branch name
  * @param name a branch name to test
  * @return 0 on success or an error code
-  *)
-
-function git_branch_name_is_valid(valid: PInteger; name_: PAnsiChar): Integer;
-  cdecl; external libgit2_dll;
+ *)
+ function git_branch_name_is_valid(valid: PInteger; name_: PAnsiChar): Integer;
+   cdecl; external libgit2_dll;
 
 (** @}  *)
 

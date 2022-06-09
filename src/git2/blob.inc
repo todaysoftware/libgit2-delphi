@@ -97,15 +97,20 @@ const
   (** When set, filters will not be applied to binary files.  *)
   GIT_BLOB_FILTER_CHECK_FOR_BINARY = ( 1 shl 0 );
   (**
-	 * When set, filters will not load configuration from the
-	 * system-wide `gitattributes` in `/etc` (or system equivalent).
-	  *)
+   * When set, filters will not load configuration from the
+   * system-wide `gitattributes` in `/etc` (or system equivalent).
+    *)
   GIT_BLOB_FILTER_NO_SYSTEM_ATTRIBUTES = ( 1 shl 1 );
   (**
-	 * When set, filters will be loaded from a `.gitattributes` file
-	 * in the HEAD commit.
-	  *)
+   * When set, filters will be loaded from a `.gitattributes` file
+   * in the HEAD commit.
+    *)
   GIT_BLOB_FILTER_ATTRIBUTES_FROM_HEAD = ( 1 shl 2 );
+  (**
+   * When set, filters will be loaded from a `.gitattributes` file
+   * in the specified commit.
+   *)
+  GIT_BLOB_FILTER_ATTRIBUTES_FROM_COMMIT = (1 shl 3);
 type
   git_blob_filter_flag_t = Integer;
 
@@ -121,6 +126,11 @@ type
     version : Integer;
     (** Flags to control the filtering process, see `git_blob_filter_flag_t` above  *)
     flags : uint32_t;
+    (**
+     * The commit to load attributes from, when
+     * `GIT_BLOB_FILTER_ATTRIBUTES_FROM_COMMIT` is specified.
+     *)
+    commit_id: Pgit_oid;
   end;
   Pgit_blob_filter_options = ^git_blob_filter_options;
 

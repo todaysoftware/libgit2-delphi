@@ -78,6 +78,13 @@ type
   //Pgit_odb_writepack = ^git_odb_writepack;
   //PPgit_odb_writepack = ^Pgit_odb_writepack;
 
+  (** a writer for multi-pack-index files. *)
+
+  git_midx_writer = record
+  end;
+  Pgit_midx_writer = ^git_midx_writer;
+  PPgit_midx_writer = ^Pgit_midx_writer;
+
   (** An open refs database handle.  *)
 
   git_refdb = record
@@ -92,9 +99,23 @@ type
   Pgit_refdb_backend = ^git_refdb_backend;
   PPgit_refdb_backend = ^Pgit_refdb_backend;
 
+  (** A git commit-graph *)
+
+  git_commit_graph = record
+  end;
+  Pgit_commit_graph = ^git_commit_graph;
+  PPgit_commit_graph = ^Pgit_commit_graph;
+
+  (** a writer for commit-graph files. *)
+
+  git_commit_graph_writer = record
+  end;
+  Pgit_commit_graph_writer = ^git_commit_graph_writer;
+  PPgit_commit_graph_writer = ^Pgit_commit_graph_writer;
+
   (**
- * Representation of an existing git repository,
- * including all its object contents
+   * Representation of an existing git repository,
+   * including all its object contents
   *)
 
   git_repository = record

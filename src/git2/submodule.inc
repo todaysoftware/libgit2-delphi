@@ -200,6 +200,16 @@ function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
   name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
+ * Create an in-memory copy of a submodule. The copy must be explicitly
+ * free'd or it will leak.
+ *
+ * @param out Pointer to store the copy of the submodule.
+ * @param source Original submodule to copy.
+ *)
+function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule)
+  :Integer; cdecl; external libgit2_dll;
+
+(**
  * Release a submodule
  *
  * @param submodule Submodule object

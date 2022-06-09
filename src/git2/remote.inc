@@ -77,6 +77,7 @@ type
   git_push_update_reference_cb = function(refname, status: PAnsiChar;
     data: Pointer): Integer; cdecl;
 
+{$IFNDEF GIT_DEPRECATE_HARD}
   (**
  * Callback to resolve URLs before connecting to remote
  *
@@ -88,10 +89,24 @@ type
  * @param direction GIT_DIRECTION_FETCH or GIT_DIRECTION_PUSH
  * @param payload Payload provided by the caller
  * @return 0 on success, GIT_PASSTHROUGH or an error
+ * @deprecated Use `git_remote_set_instance_url`
   *)
 
   git_url_resolve_cb = function(url_resolved: Pgit_buf; url: PAnsiChar;
     direction: Integer; payload: Pointer): Integer; cdecl;
+{$ENDIF}
+
+(**
+ * Callback invoked immediately before we attempt to connect to the
+ * given url.  Callers may change the URL before the connection by
+ * calling `git_remote_set_instance_url` in the callback.
+ *
+ * @param remote The remote to be connected
+ * @param direction GIT_DIRECTION_FETCH or GIT_DIRECTION_PUSH
+ * @param payload Payload provided by the caller
+ * @return 0 on success, or an error
+ *)
+ git_remote_ready_cb = function(remote: git_remote; direction: Integer; payload: Pointer): Integer; cdecl;
 
   (**
  * The callback settings structure
@@ -168,6 +183,10 @@ type
 	  *)
   transport : git_transport_cb;
   (**
+   * Callback when the remote is ready to connect.
+   *)
+  remote_ready: git_remote_ready_cb;
+  (**
 	 * This will be passed to each of the callbacks in this struct
 	 * as the last parameter.
 	  *)
@@ -176,7 +195,18 @@ type
 	 * Resolve URL before connecting to remote.
 	 * The returned URL will be used to connect to the remote instead.
 	  *)
-  resolve_url : git_url_resolve_cb;
+{$IFDEF GIT_DEPRECATE_HARD}
+  reserved: Pointer;
+{$ELSE}
+  (**
+   * Resolve URL before connecting to remote.
+   * The returned URL will be used to connect to the remote instead.
+   *
+   * This callback is deprecated; users should use
+   * git_remote_ready_cb and configure the instance URL instead.
+   *)
+   resolve_url : git_url_resolve_cb;
+{$ENDIF}
 end;
 Pgit_remote_callbacks = ^git_remote_callbacks;
 PPgit_remote_callbacks = ^Pgit_remote_callbacks;
@@ -531,8 +561,8 @@ function git_remote_name(remote: Pgit_remote): PAnsiChar; cdecl; external libgit
 (**
  * Get the remote's url
  *
- * If url.*.insteadOf has been configured for this URL, it will
- * return the modified URL.
+ * return the modified URL.  If `git_remote_set_instance_pushurl`
+ * has been called for this remote, then that URL will be returned.
  *
  * @param remote the remote
  * @return a pointer to the url
@@ -541,10 +571,10 @@ function git_remote_name(remote: Pgit_remote): PAnsiChar; cdecl; external libgit
 function git_remote_url(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll;
 
 (**
- * Get the remote's url for pushing
+ * Get the remote's url for pushing.
  *
- * If url.*.pushInsteadOf has been configured for this URL, it
- * will return the modified URL.
+ * will return the modified URL.  If `git_remote_set_instance_pushurl`
+ * has been called for this remote, then that URL will be returned.
  *
  * @param remote the remote
  * @return a pointer to the url or NULL if no special url for pushing is set
@@ -577,9 +607,32 @@ function git_remote_set_url(repo: Pgit_repository; remote, url: PAnsiChar)
  * @param repo the repository in which to perform the change
  * @param remote the remote's name
  * @param url the url to set
+ * @return 0, or an error code
   *)
 
 function git_remote_set_pushurl(repo: Pgit_repository; remote, url: PAnsiChar)
+  : Integer; cdecl; external libgit2_dll;
+
+(**
+ * Set the url for this particular url instance.  The URL in the
+ * configuration will be ignored, and will not be changed.
+ *
+ * @param remote the remote's name
+ * @param url the url to set
+ * @return 0 or an error value
+ *)
+function git_remote_set_instance_url(remote: Pgit_remote; url: PAnsiChar)
+  : Integer; cdecl; external libgit2_dll;
+
+(**
+ * Set the push url for this particular url instance.  The URL in the
+ * configuration will be ignored, and will not be changed.
+ *
+ * @param remote the remote's name
+ * @param url the url to set
+ * @return 0 or an error value
+ *)
+function git_remote_set_instance_pushurl(remote: Pgit_remote; url: PAnsiChar)
   : Integer; cdecl; external libgit2_dll;
 
 (**
@@ -881,6 +934,7 @@ function git_remote_autotag(remote: Pgit_remote): git_remote_autotag_option_t; c
  * @param repo the repository in which to make the change
  * @param remote the name of the remote
  * @param value the new value to take.
+ * @return 0, or an error code.
   *)
 
 function git_remote_set_autotag(repo: Pgit_repository; remote: PAnsiChar;
@@ -925,8 +979,7 @@ function git_remote_rename(problems: Pgit_strarray; repo: Pgit_repository;
  * @param valid output pointer to set with validity of given remote name
  * @param remote_name name to be checked.
  * @return 0 on success or an error code
-  *)
-
+ *)
 function git_remote_name_is_valid(valid: PInteger; remote_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
@@ -953,7 +1006,7 @@ function git_remote_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cd
  *
  * This function must only be called after connecting.
  *
- * @param out the buffern in which to store the reference name
+ * @param out the buffer in which to store the reference name
  * @param remote the remote
  * @return 0, GIT_ENOTFOUND if the remote does not have any references
  * or none of them point to HEAD's commit, or an error message.

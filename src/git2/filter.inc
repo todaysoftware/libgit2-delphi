@@ -34,10 +34,36 @@ const
   GIT_FILTER_NO_SYSTEM_ATTRIBUTES = ( 1 shl 1 );
   (** Load attributes from `.gitattributes` in the root of HEAD  *)
   GIT_FILTER_ATTRIBUTES_FROM_HEAD = ( 1 shl 2 );
+  (**
+   * Load attributes from `.gitattributes` in a given commit.
+   * This can only be specified in a `git_filter_options`.
+   *)
+  GIT_FILTER_ATTRIBUTES_FROM_COMMIT = (1 shl 3);
 type
   git_filter_flag_t = Integer;
 
   (**
+   * Filtering options
+   *)
+  git_filter_options = record
+    version: Cardinal;
+
+    (** See `git_filter_flag_t` above *)
+    flags: Cardinal;
+
+    (**
+     * The commit to load attributes from, when
+     * `GIT_FILTER_ATTRIBUTES_FROM_COMMIT` is specified.
+     *)
+    commit_id: Pgit_oid;
+  end;
+  Pgit_filter_options = ^git_filter_options;
+
+const
+  GIT_FILTER_OPTIONS_VERSION = 1;
+  //GIT_FILTER_OPTIONS_INIT {GIT_FILTER_OPTIONS_VERSION}
+
+(**
  * A filter that can transform file data
  *
  * This represents a filter that can be used to transform or even replace
@@ -53,6 +79,7 @@ type
  *   checkout and replaced "$Id: <anything>$" with "$Id$" on checkin.
   *)
 
+ type
   git_filter = record
   end;
 
@@ -92,6 +119,25 @@ type
 function git_filter_list_load(filters: PPgit_filter_list;
   repo: Pgit_repository; blob: Pgit_blob; path: PAnsiChar;
   mode: git_filter_mode_t; flags: uint32_t): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Load the filter list for a given path.
+ *
+ * This will return 0 (success) but set the output git_filter_list to NULL
+ * if no filters are requested for the given file.
+ *
+ * @param filters Output newly created git_filter_list (or NULL)
+ * @param repo Repository object that contains `path`
+ * @param blob The blob to which the filter will be applied (if known)
+ * @param path Relative path of the file to be filtered
+ * @param mode Filtering direction (WT->ODB or ODB->WT)
+ * @param opts The `git_filter_options` to use when loading filters
+ * @return 0 on success (which could still return NULL if no filters are
+ *         needed for the requested file), <0 on error
+ *)
+function git_filter_list_load_ext(filters: PPgit_filter_list;
+  repo: Pgit_repository; blob: Pgit_blob; path: PAnsiChar;
+  mode: git_filter_mode_t; opts: Pgit_filter_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Query the filter list to see if a given filter (by name) will run.
