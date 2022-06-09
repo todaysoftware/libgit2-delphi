@@ -20,48 +20,46 @@
 type
   git_buf = record
     (**
-	 * The buffer contents.
-	 *
-	 * `ptr` points to the start of the allocated memory.  If it is NULL,
-	 * then the `git_buf` is considered empty and libgit2 will feel free
-	 * to overwrite it with new data.
-	  *)
-    ptr : PAnsiChar;
+  * The buffer contents.
+  *
+  * `ptr` points to the start of the allocated memory.  If it is NULL,
+  * then the `git_buf` is considered empty and libgit2 will feel free
+  * to overwrite it with new data.
+   *)
+    ptr: PAnsiChar;
     (**
-	 * `asize` holds the known total amount of allocated memory if the `ptr`
-	 *  was allocated by libgit2.  It may be larger than `size`.  If `ptr`
-	 *  was not allocated by libgit2 and should not be resized and/or freed,
-	 *  then `asize` will be set to zero.
-	  *)
-    asize : size_t;
+  * `asize` holds the known total amount of allocated memory if the `ptr`
+  *  was allocated by libgit2.  It may be larger than `size`.  If `ptr`
+  *  was not allocated by libgit2 and should not be resized and/or freed,
+  *  then `asize` will be set to zero.
+   *)
+    asize: size_t;
     (**
-	 * `size` holds the size (in bytes) of the data that is actually used.
-	  *)
-    size : size_t;
+  * `size` holds the size (in bytes) of the data that is actually used.
+   *)
+    size: size_t;
   end;
 
+  (**
+   * Static initializer for git_buf from static buffer
+    *)
 
-(**
- * Static initializer for git_buf from static buffer
-  *)
+  //#define GIT_BUF_INIT_CONST(STR,LEN) { (char *)(STR), 0, (size_t)(LEN) }
 
-//#define GIT_BUF_INIT_CONST(STR,LEN) { (char *)(STR), 0, (size_t)(LEN) }
-
-(**
- * Free the memory referred to by the git_buf.
- *
- * Note that this does not free the `git_buf` itself, just the memory
- * pointed to by `buffer->ptr`.  This will not free the memory if it looks
- * like it was not allocated internally, but it will clear the buffer back
- * to the empty state.
- *
- * @param buffer The buffer to deallocate
-  *)
+  (**
+   * Free the memory referred to by the git_buf.
+   *
+   * Note that this does not free the `git_buf` itself, just the memory
+   * pointed to by `buffer->ptr`.  This will not free the memory if it looks
+   * like it was not allocated internally, but it will clear the buffer back
+   * to the empty state.
+   *
+   * @param buffer The buffer to deallocate
+    *)
 
 type
   Pgit_buf = ^git_buf;
 procedure git_buf_dispose(buffer: Pgit_buf); cdecl; external libgit2_dll;
-
 
 (**
  * Resize the buffer allocation to make more space.
@@ -87,7 +85,6 @@ procedure git_buf_dispose(buffer: Pgit_buf); cdecl; external libgit2_dll;
 
 function git_buf_grow(buffer: Pgit_buf; target_size: size_t): Integer; cdecl; external libgit2_dll;
 
-
 (**
  * Set buffer to a copy of some raw data.
  *
@@ -99,7 +96,6 @@ function git_buf_grow(buffer: Pgit_buf; target_size: size_t): Integer; cdecl; ex
 
 function git_buf_set(buffer: Pgit_buf; data: Pointer; datalen: size_t): Integer; cdecl; external libgit2_dll;
 
-
 (**
 * Check quickly if buffer looks like it contains binary data
 *
@@ -108,7 +104,6 @@ function git_buf_set(buffer: Pgit_buf; data: Pointer; datalen: size_t): Integer;
  *)
 
 function git_buf_is_binary(buf: Pgit_buf): Integer; cdecl; external libgit2_dll;
-
 
 (**
 * Check quickly if buffer contains a NUL byte

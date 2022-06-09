@@ -4,54 +4,54 @@
  * @defgroup git_rebase Git merge routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Rebase options
  *
  * Use to tell the rebase machinery how to operate.
-  *)
+ *)
 
 type
   git_rebase_options = record
-    version : Cardinal;
+    version: Cardinal;
     (**
-	 * Used by `git_rebase_init`, this will instruct other clients working
-	 * on this rebase that you want a quiet rebase experience, which they
-	 * may choose to provide in an application-specific manner.  This has no
-	 * effect upon libgit2 directly, but is provided for interoperability
-	 * between Git tools.
-	  *)
-    quiet : Integer;
+     * Used by `git_rebase_init`, this will instruct other clients working
+     * on this rebase that you want a quiet rebase experience, which they
+     * may choose to provide in an application-specific manner.  This has no
+     * effect upon libgit2 directly, but is provided for interoperability
+     * between Git tools.
+     *)
+    quiet: Integer;
     (**
-	 * Used by `git_rebase_init`, this will begin an in-memory rebase,
-	 * which will allow callers to step through the rebase operations and
-	 * commit the rebased changes, but will not rewind HEAD or update the
-	 * repository to be in a rebasing state.  This will not interfere with
-	 * the working directory (if there is one).
-	  *)
-    inmemory : Integer;
+     * Used by `git_rebase_init`, this will begin an in-memory rebase,
+     * which will allow callers to step through the rebase operations and
+     * commit the rebased changes, but will not rewind HEAD or update the
+     * repository to be in a rebasing state.  This will not interfere with
+     * the working directory (if there is one).
+     *)
+    inmemory: Integer;
     (**
-	 * Used by `git_rebase_finish`, this is the name of the notes reference
-	 * used to rewrite notes for rebased commits when finishing the rebase;
-	 * if NULL, the contents of the configuration option `notes.rewriteRef`
-	 * is examined, unless the configuration option `notes.rewrite.rebase`
-	 * is set to false.  If `notes.rewriteRef` is also NULL, notes will
-	 * not be rewritten.
-	  *)
-    rewrite_notes_ref : PAnsiChar;
+     * Used by `git_rebase_finish`, this is the name of the notes reference
+     * used to rewrite notes for rebased commits when finishing the rebase;
+     * if NULL, the contents of the configuration option `notes.rewriteRef`
+     * is examined, unless the configuration option `notes.rewrite.rebase`
+     * is set to false.  If `notes.rewriteRef` is also NULL, notes will
+     * not be rewritten.
+     *)
+    rewrite_notes_ref: PAnsiChar;
     (**
-	 * Options to control how trees are merged during `git_rebase_next`.
-	  *)
-    merge_options : git_merge_options;
+     * Options to control how trees are merged during `git_rebase_next`.
+     *)
+    merge_options: git_merge_options;
     (**
-	 * Options to control how files are written during `git_rebase_init`,
-	 * `git_rebase_next` and `git_rebase_abort`.  Note that a minimum
-	 * strategy of `GIT_CHECKOUT_SAFE` is defaulted in `init` and `next`,
-	 * and a minimum strategy of `GIT_CHECKOUT_FORCE` is defaulted in
-	 * `abort` to match git semantics.
-	  *)
-    checkout_options : git_checkout_options;
+     * Options to control how files are written during `git_rebase_init`,
+     * `git_rebase_next` and `git_rebase_abort`.  Note that a minimum
+     * strategy of `GIT_CHECKOUT_SAFE` is defaulted in `init` and `next`,
+     * and a minimum strategy of `GIT_CHECKOUT_FORCE` is defaulted in
+     * `abort` to match git semantics.
+     *)
+    checkout_options: git_checkout_options;
     (**
      * Optional callback that allows users to override commit
      * creation in `git_rebase_commit`.  If specified, users can
@@ -65,16 +65,16 @@ type
     commit_create_cb: git_commit_create_cb;
 
     (**
-	 * If provided, this will be called with the commit content, allowing
-	 * a signature to be added to the rebase commit. Can be skipped with
-	 * GIT_PASSTHROUGH. If GIT_PASSTHROUGH is returned, a commit will be made
-	 * without a signature.
-	 * This field is only used when performing git_rebase_commit.
-	  *)
+     * If provided, this will be called with the commit content, allowing
+     * a signature to be added to the rebase commit. Can be skipped with
+     * GIT_PASSTHROUGH. If GIT_PASSTHROUGH is returned, a commit will be made
+     * without a signature.
+     * This field is only used when performing git_rebase_commit.
+     *)
 
-{$IFDEF GIT_DEPRECATE_HARD}
+    {$IFDEF GIT_DEPRECATE_HARD}
     reserved: Pointer;
-{$ELSE}
+    {$ELSE}
     (**
      * If provided, this will be called with the commit content, allowing
      * a signature to be added to the rebase commit. Can be skipped with
@@ -90,89 +90,89 @@ type
      * creation callback as `commit_create_cb` that produces a
      * commit buffer, signs it, and commits it.
      *)
-    signing_cb : git_commit_signing_cb;
-{$ENDIF}
-    payload : Pointer;
+    signing_cb: git_commit_signing_cb;
+    {$ENDIF}
+    payload: Pointer;
   end;
   Pgit_rebase_options = ^git_rebase_options;
 
   (**
- * Type of rebase operation in-progress after calling `git_rebase_next`.
-  *)
+   * Type of rebase operation in-progress after calling `git_rebase_next`.
+   *)
 
 const
   (**
-	 * The given commit is to be cherry-picked.  The client should commit
-	 * the changes and continue if there are no conflicts.
-	  *)
-  GIT_REBASE_OPERATION_PICK = 0;
+   * The given commit is to be cherry-picked.  The client should commit
+   * the changes and continue if there are no conflicts.
+   *)
+  GIT_REBASE_OPERATION_PICK   = 0;
   (**
-	 * The given commit is to be cherry-picked, but the client should prompt
-	 * the user to provide an updated commit message.
-	  *)
+   * The given commit is to be cherry-picked, but the client should prompt
+   * the user to provide an updated commit message.
+   *)
   GIT_REBASE_OPERATION_REWORD = 1;
   (**
-	 * The given commit is to be cherry-picked, but the client should stop
-	 * to allow the user to edit the changes before committing them.
-	  *)
-  GIT_REBASE_OPERATION_EDIT = 2;
+   * The given commit is to be cherry-picked, but the client should stop
+   * to allow the user to edit the changes before committing them.
+   *)
+  GIT_REBASE_OPERATION_EDIT   = 2;
   (**
-	 * The given commit is to be squashed into the previous commit.  The
-	 * commit message will be merged with the previous message.
-	  *)
+   * The given commit is to be squashed into the previous commit.  The
+   * commit message will be merged with the previous message.
+   *)
   GIT_REBASE_OPERATION_SQUASH = 3;
   (**
-	 * The given commit is to be squashed into the previous commit.  The
-	 * commit message from this commit will be discarded.
-	  *)
-  GIT_REBASE_OPERATION_FIXUP = 4;
+   * The given commit is to be squashed into the previous commit.  The
+   * commit message from this commit will be discarded.
+   *)
+  GIT_REBASE_OPERATION_FIXUP  = 4;
   (**
-	 * No commit will be cherry-picked.  The client should run the given
-	 * command and (if successful) continue.
-	  *)
-  GIT_REBASE_OPERATION_EXEC = 5;
+   * No commit will be cherry-picked.  The client should run the given
+   * command and (if successful) continue.
+   *)
+  GIT_REBASE_OPERATION_EXEC   = 5;
 type
   git_rebase_operation_t = Integer;
 
 const
-  GIT_REBASE_OPTIONS_VERSION = 1;
+  GIT_REBASE_OPTIONS_VERSION  = 1;
   //GIT_REBASE_OPTIONS_INIT = { GIT_REBASE_OPTIONS_VERSION , 0 , 0 , NULL , GIT_MERGE_OPTIONS_INIT , GIT_CHECKOUT_OPTIONS_INIT , NULL , NULL };
   (** Indicates that a rebase operation is not (yet) in progress.  *)
 
-  GIT_REBASE_NO_OPERATION = SIZE_MAX;
+  GIT_REBASE_NO_OPERATION     = SIZE_MAX;
   (**
- * A rebase operation
- *
- * Describes a single instruction/operation to be performed during the
- * rebase.
-  *)
+   * A rebase operation
+   *
+   * Describes a single instruction/operation to be performed during the
+   * rebase.
+   *)
 
 type
   git_rebase_operation = record
     (** The type of rebase operation.  *)
-    type_ : git_rebase_operation_t;
+    type_: git_rebase_operation_t;
     (**
-	 * The commit ID being cherry-picked.  This will be populated for
-	 * all operations except those of type `GIT_REBASE_OPERATION_EXEC`.
-	  *)
-    id : git_oid;
+     * The commit ID being cherry-picked.  This will be populated for
+     * all operations except those of type `GIT_REBASE_OPERATION_EXEC`.
+     *)
+    id: git_oid;
     (**
-	 * The executable the user has requested be run.  This will only
-	 * be populated for operations of type `GIT_REBASE_OPERATION_EXEC`.
-	  *)
-    exec : PAnsiChar;
+     * The executable the user has requested be run.  This will only
+     * be populated for operations of type `GIT_REBASE_OPERATION_EXEC`.
+     *)
+    exec: PAnsiChar;
   end;
 
   (**
- * Initialize git_rebase_options structure
- *
- * Initializes a `git_rebase_options` with default values. Equivalent to
- * creating an instance with `GIT_REBASE_OPTIONS_INIT`.
- *
- * @param opts The `git_rebase_options` struct to initialize.
- * @param version The struct version; pass `GIT_REBASE_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
-  *)
+   * Initialize git_rebase_options structure
+   *
+   * Initializes a `git_rebase_options` with default values. Equivalent to
+   * creating an instance with `GIT_REBASE_OPTIONS_INIT`.
+   *
+   * @param opts The `git_rebase_options` struct to initialize.
+   * @param version The struct version; pass `GIT_REBASE_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+   *)
 
 function git_rebase_options_init(opts: Pgit_rebase_options; version: Cardinal)
   : Integer; cdecl; external libgit2_dll;
@@ -193,7 +193,7 @@ function git_rebase_options_init(opts: Pgit_rebase_options; version: Cardinal)
  *             upstream
  * @param opts Options to specify how rebase is performed, or NULL
  * @return Zero on success; -1 on failure.
-  *)
+ *)
 
 function git_rebase_init(out_: PPgit_rebase; repo: Pgit_repository;
   branch, upstream, onto: Pgit_annotated_commit; opts: Pgit_rebase_options)
@@ -207,7 +207,7 @@ function git_rebase_init(out_: PPgit_rebase; repo: Pgit_repository;
  * @param repo The repository that has a rebase in-progress
  * @param opts Options to specify how rebase is performed
  * @return Zero on success; -1 on failure.
-  *)
+ *)
 
 function git_rebase_open(out_: PPgit_rebase; repo: Pgit_repository;
   opts: Pgit_rebase_options): Integer; cdecl; external libgit2_dll;
@@ -216,7 +216,7 @@ function git_rebase_open(out_: PPgit_rebase; repo: Pgit_repository;
  * Gets the original `HEAD` ref name for merge rebases.
  *
  * @return The original `HEAD` ref name
-  *)
+ *)
 
 function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -224,7 +224,7 @@ function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; exter
  * Gets the original `HEAD` id for merge rebases.
  *
  * @return The original `HEAD` id
-  *)
+ *)
 
 function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -232,7 +232,7 @@ function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external
  * Gets the `onto` ref name for merge rebases.
  *
  * @return The `onto` ref name
-  *)
+ *)
 
 function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -240,7 +240,7 @@ function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external l
  * Gets the `onto` id for merge rebases.
  *
  * @return The `onto` id
-  *)
+ *)
 
 function git_rebase_onto_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -249,7 +249,7 @@ function git_rebase_onto_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libg
  *
  * @param rebase The in-progress rebase
  * @return The number of rebase operations in total
-  *)
+ *)
 
 function git_rebase_operation_entrycount(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll;
 
@@ -261,7 +261,7 @@ function git_rebase_operation_entrycount(rebase: Pgit_rebase): size_t; cdecl; ex
  *
  * @param rebase The in-progress rebase
  * @return The index of the rebase operation currently being applied.
-  *)
+ *)
 
 function git_rebase_operation_current(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll;
 
@@ -271,12 +271,11 @@ function git_rebase_operation_current(rebase: Pgit_rebase): size_t; cdecl; exter
  * @param rebase The in-progress rebase
  * @param idx The index of the rebase operation to retrieve
  * @return The rebase operation or NULL if `idx` was out of bounds
-  *)
+ *)
 
 type
   Pgit_rebase_operation = ^git_rebase_operation;
-function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t)
-  : Pgit_rebase_operation; cdecl; external libgit2_dll;
+function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t): Pgit_rebase_operation; cdecl; external libgit2_dll;
 
 (**
  * Performs the next rebase operation and returns the information about it.
@@ -288,12 +287,11 @@ function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t)
  * @param operation Pointer to store the rebase operation that is to be performed next
  * @param rebase The rebase in progress
  * @return Zero on success; -1 on failure.
-  *)
+ *)
 
 type
   PPgit_rebase_operation = ^Pgit_rebase_operation;
-function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase)
-  : Integer; cdecl; external libgit2_dll;
+function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
 
 (**
  * Gets the index produced by the last operation, which is the result
@@ -305,10 +303,9 @@ function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase)
  * This is only applicable for in-memory rebases; for rebases within
  * a working directory, the changes were applied to the repository's
  * index.
-  *)
+ *)
 
-function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase)
-  : Integer; cdecl; external libgit2_dll;
+function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
 
 (**
  * Commits the current patch.  You must have resolved any conflicts that
@@ -331,11 +328,10 @@ function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase)
  *        the index, GIT_EAPPLIED if the current commit has already
  *        been applied to the upstream and there is nothing to commit,
  *        -1 on failure.
-  *)
+ *)
 
-function git_rebase_commit(id: Pgit_oid; rebase: Pgit_rebase;
-  author, committer: Pgit_signature; message_encoding, message: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_rebase_commit(id: Pgit_oid; rebase: Pgit_rebase; author, committer: Pgit_signature;
+  message_encoding, message: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Aborts a rebase that is currently in progress, resetting the repository
@@ -344,7 +340,7 @@ function git_rebase_commit(id: Pgit_oid; rebase: Pgit_rebase;
  * @param rebase The rebase that is in-progress
  * @return Zero on success; GIT_ENOTFOUND if a rebase is not in progress,
  *         -1 on other errors.
-  *)
+ *)
 
 function git_rebase_abort(rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
 
@@ -355,18 +351,19 @@ function git_rebase_abort(rebase: Pgit_rebase): Integer; cdecl; external libgit2
  * @param rebase The rebase that is in-progress
  * @param signature The identity that is finishing the rebase (optional)
  * @return Zero on success; -1 on error
-  *)
+ *)
 
-function git_rebase_finish(rebase: Pgit_rebase; signature: Pgit_signature)
-  : Integer; cdecl; external libgit2_dll;
+function git_rebase_finish(rebase: Pgit_rebase; signature: Pgit_signature): Integer; cdecl; external libgit2_dll;
 
 (**
  * Frees the `git_rebase` object.
  *
  * @param rebase The rebase object
-  *)
+ *)
 
 procedure git_rebase_free(rebase: Pgit_rebase); cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

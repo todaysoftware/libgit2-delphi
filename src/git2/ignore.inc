@@ -19,7 +19,7 @@
  *              It is okay to have multiple rules in the text; if so,
  *              each rule should be terminated with a newline.
  * @return 0 on success
-  *)
+ *)
 
 function git_ignore_add_rule(repo: Pgit_repository; rules: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -33,7 +33,7 @@ function git_ignore_add_rule(repo: Pgit_repository; rules: PAnsiChar): Integer; 
  *
  * @param repo The repository to remove ignore rules from.
  * @return 0 on success
-  *)
+ *)
 
 function git_ignore_clear_internal_rules(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -52,7 +52,7 @@ function git_ignore_clear_internal_rules(repo: Pgit_repository): Integer; cdecl;
  * @param path the file to check ignores for, relative to the repo's workdir.
  * @return 0 if ignore rules could be processed for the file (regardless
  *         of whether it exists or not), or an error < 0 if they could not.
-  *)
+ *)
 
 function git_ignore_path_is_ignored(ignored: PInteger; repo: Pgit_repository;
   path: PAnsiChar): Integer; cdecl; external libgit2_dll;

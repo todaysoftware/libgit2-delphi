@@ -3,39 +3,40 @@
  * @brief Patch handling routines.
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * The diff patch is used to store all the text diffs for a delta.
  *
  * You can easily loop over the content of patches and get information about
  * them.
-  *)
+ *)
 
 type
   git_patch = record
   end;
 
-(**
+  (**
    * Get the repository associated with this patch. May be NULL.
    *
    * @param patch the patch
    * @return a pointer to the repository
-    *)
+   *)
 
 type
   PPgit_patch = ^Pgit_patch;
   Pgit_patch = ^git_patch;
 
-(**
- * Get the repository associated with this patch. May be NULL.
- *
- * @param patch the patch
- * @return a pointer to the repository
- *)
+  (**
+   * Get the repository associated with this patch. May be NULL.
+   *
+   * @param patch the patch
+   * @return a pointer to the repository
+   *)
+
 function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external libgit2_dll;
 
-  (**
+(**
  * Return a patch for an entry in the diff list.
  *
  * The `git_patch` is a newly created object contains the text diffs
@@ -54,10 +55,9 @@ function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external li
  * @param diff Diff list object
  * @param idx Index into diff list
  * @return 0 on success, other value < 0 on error
-  *)
+ *)
 
-function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t)
-  : Integer; cdecl; external libgit2_dll;
+function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Directly generate a patch from the difference between two blobs.
@@ -74,11 +74,10 @@ function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t)
  * @param new_as_path Treat new blob as if it had this filename; can be NULL
  * @param opts Options for diff, or NULL for default options
  * @return 0 on success or error code < 0
-  *)
+ *)
 
-function git_patch_from_blobs(out_: PPgit_patch; old_blob: Pgit_blob;
-  old_as_path: PAnsiChar; new_blob: Pgit_blob; new_as_path: PAnsiChar;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+function git_patch_from_blobs(out_: PPgit_patch; old_blob: Pgit_blob; old_as_path: PAnsiChar;
+  new_blob: Pgit_blob; new_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Directly generate a patch from the difference between a blob and a buffer.
@@ -96,11 +95,10 @@ function git_patch_from_blobs(out_: PPgit_patch; old_blob: Pgit_blob;
  * @param buffer_as_path Treat buffer as if it had this filename; can be NULL
  * @param opts Options for diff, or NULL for default options
  * @return 0 on success or error code < 0
-  *)
+ *)
 
-function git_patch_from_blob_and_buffer(out_: PPgit_patch; old_blob: Pgit_blob;
-  old_as_path: PAnsiChar; buffer: Pointer; buffer_len: size_t;
-  buffer_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+function git_patch_from_blob_and_buffer(out_: PPgit_patch; old_blob: Pgit_blob; old_as_path: PAnsiChar;
+  buffer: Pointer; buffer_len: size_t; buffer_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Directly generate a patch from the difference between two buffers.
@@ -119,28 +117,28 @@ function git_patch_from_blob_and_buffer(out_: PPgit_patch; old_blob: Pgit_blob;
  * @param new_as_path Treat buffer as if it had this filename; can be NULL
  * @param opts Options for diff, or NULL for default options
  * @return 0 on success or error code < 0
-  *)
+ *)
 
-function git_patch_from_buffers(out_: PPgit_patch; old_buffer: Pointer;
-  old_len: size_t; old_as_path: PAnsiChar; new_buffer: Pointer; new_len: size_t;
-  new_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+function git_patch_from_buffers(out_: PPgit_patch; old_buffer: Pointer; old_len: size_t;
+  old_as_path: PAnsiChar; new_buffer: Pointer; new_len: size_t; new_as_path: PAnsiChar;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free a git_patch object.
-  *)
+ *)
 
 procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll;
 
 (**
  * Get the delta associated with a patch.  This delta points to internal
  * data and you do not have to release it when you are done with it.
-  *)
+ *)
 
 function git_patch_get_delta(patch: Pgit_patch): Pgit_diff_delta; cdecl; external libgit2_dll;
 
 (**
  * Get the number of hunks in a patch
-  *)
+ *)
 
 function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2_dll;
 
@@ -159,11 +157,10 @@ function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2
  * @param total_deletions Count of deletion lines in output, can be NULL.
  * @param patch The git_patch object
  * @return 0 on success, <0 on error
-  *)
+ *)
 
-function git_patch_line_stats(
-  total_context, total_additions, total_deletions: Psize_t; patch: Pgit_patch)
-  : Integer; cdecl; external libgit2_dll;
+function git_patch_line_stats(total_context, total_additions, total_deletions: Psize_t;
+  patch: Pgit_patch): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the information about a hunk in a patch
@@ -177,12 +174,12 @@ function git_patch_line_stats(
  * @param patch Input pointer to patch object
  * @param hunk_idx Input index of hunk to get information about
  * @return 0 on success, GIT_ENOTFOUND if hunk_idx out of range, <0 on error
-  *)
+ *)
 
 type
   PPgit_diff_hunk = ^Pgit_diff_hunk;
-function git_patch_get_hunk(out_: PPgit_diff_hunk; lines_in_hunk: Psize_t;
-  patch: Pgit_patch; hunk_idx: size_t): Integer; cdecl; external libgit2_dll;
+function git_patch_get_hunk(out_: PPgit_diff_hunk; lines_in_hunk: Psize_t; patch: Pgit_patch;
+  hunk_idx: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the number of lines in a hunk.
@@ -190,10 +187,9 @@ function git_patch_get_hunk(out_: PPgit_diff_hunk; lines_in_hunk: Psize_t;
  * @param patch The git_patch object
  * @param hunk_idx Index of the hunk
  * @return Number of lines in hunk or GIT_ENOTFOUND if invalid hunk index
-  *)
+ *)
 
-function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t)
-  : Integer; cdecl; external libgit2_dll;
+function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get data about a line in a hunk of a patch.
@@ -208,7 +204,7 @@ function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t)
  * @param hunk_idx The index of the hunk
  * @param line_of_hunk The index of the line in the hunk
  * @return 0 on success, <0 on failure
-  *)
+ *)
 
 type
   PPgit_diff_line = ^Pgit_diff_line;
@@ -230,10 +226,10 @@ function git_patch_get_line_in_hunk(out_: PPgit_diff_line; patch: Pgit_patch;
  * @param include_hunk_headers Include hunk header lines if non-zero
  * @param include_file_headers Include file header lines if non-zero
  * @return The number of bytes of data
-  *)
+ *)
 
 function git_patch_size(patch: Pgit_patch;
-  include_context, include_hunk_headers, include_file_headers: Integer): size_t; cdecl; external libgit2_dll;
+include_context, include_hunk_headers, include_file_headers: Integer): size_t; cdecl; external libgit2_dll;
 
 (**
  * Serialize the patch to text via callback.
@@ -246,7 +242,7 @@ function git_patch_size(patch: Pgit_patch;
  *                 called for file headers, hunk headers, and diff lines.
  * @param payload Reference pointer that will be passed to your callbacks.
  * @return 0 on success, non-zero callback return value, or error code
-  *)
+ *)
 
 function git_patch_print(patch: Pgit_patch; print_cb: git_diff_line_cb;
   payload: Pointer): Integer; cdecl; external libgit2_dll;
@@ -257,10 +253,11 @@ function git_patch_print(patch: Pgit_patch; print_cb: git_diff_line_cb;
  * @param out The git_buf to be filled in
  * @param patch A git_patch representing changes to one file
  * @return 0 on success, <0 on failure.
-  *)
+ *)
 
 function git_patch_to_buf(out_: Pgit_buf; patch: Pgit_patch): Integer; cdecl; external libgit2_dll;
 
-
 (**@} *)
+
+
 

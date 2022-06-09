@@ -4,57 +4,57 @@
  * @defgroup git_revwalk Git revision traversal routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Flags to specify the sorting which a revwalk should perform.
-  *)
+ *)
 
 const
   (**
-	 * Sort the output with the same default method from `git`: reverse
-	 * chronological order. This is the default sorting for new walkers.
-	  *)
-  GIT_SORT_NONE = 0;
+   * Sort the output with the same default method from `git`: reverse
+   * chronological order. This is the default sorting for new walkers.
+   *)
+  GIT_SORT_NONE               = 0;
   (**
-	 * Sort the repository contents in topological order (no parents before
-	 * all of its children are shown); this sorting mode can be combined
-	 * with time sorting to produce `git`'s `--date-order``.
-	  *)
-  GIT_SORT_TOPOLOGICAL = 1 shl 0;
+   * Sort the repository contents in topological order (no parents before
+   * all of its children are shown); this sorting mode can be combined
+   * with time sorting to produce `git`'s `--date-order``.
+   *)
+  GIT_SORT_TOPOLOGICAL        = 1 shl 0;
   (**
-	 * Sort the repository contents by commit time;
-	 * this sorting mode can be combined with
-	 * topological sorting.
-	  *)
-  GIT_SORT_TIME = 1 shl 1;
+   * Sort the repository contents by commit time;
+   * this sorting mode can be combined with
+   * topological sorting.
+   *)
+  GIT_SORT_TIME               = 1 shl 1;
   (**
-	 * Iterate through the repository contents in reverse
-	 * order; this sorting mode can be combined with
-	 * any of the above.
-	  *)
-  GIT_SORT_REVERSE = 1 shl 2;
+   * Iterate through the repository contents in reverse
+   * order; this sorting mode can be combined with
+   * any of the above.
+   *)
+  GIT_SORT_REVERSE            = 1 shl 2;
 type
   git_sort_t = Integer;
 
   (**
- * Allocate a new revision walker to iterate through a repo.
- *
- * This revision walker uses a custom memory pool and an internal
- * commit cache, so it is relatively expensive to allocate.
- *
- * For maximum performance, this revision walker should be
- * reused for different walks.
- *
- * This revision walker is *not* thread safe: it may only be
- * used to walk a repository on a single thread; however,
- * it is possible to have several revision walkers in
- * several different threads walking the same repository.
- *
- * @param out pointer to the new revision walker
- * @param repo the repo to walk through
- * @return 0 or an error code
-  *)
+   * Allocate a new revision walker to iterate through a repo.
+   *
+   * This revision walker uses a custom memory pool and an internal
+   * commit cache, so it is relatively expensive to allocate.
+   *
+   * For maximum performance, this revision walker should be
+   * reused for different walks.
+   *
+   * This revision walker is *not* thread safe: it may only be
+   * used to walk a repository on a single thread; however,
+   * it is possible to have several revision walkers in
+   * several different threads walking the same repository.
+   *
+   * @param out pointer to the new revision walker
+   * @param repo the repo to walk through
+   * @return 0 or an error code
+   *)
 
 function git_revwalk_new(out_: PPgit_revwalk; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -71,7 +71,7 @@ function git_revwalk_new(out_: PPgit_revwalk; repo: Pgit_repository): Integer; c
  *
  * @param walker handle to reset.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_reset(walker: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
 
@@ -91,7 +91,7 @@ function git_revwalk_reset(walker: Pgit_revwalk): Integer; cdecl; external libgi
  * @param walk the walker being used for the traversal.
  * @param id the oid of the commit to start from.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_push(walk: Pgit_revwalk; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -110,7 +110,7 @@ function git_revwalk_push(walk: Pgit_revwalk; id: Pgit_oid): Integer; cdecl; ext
  * @param walk the walker being used for the traversal
  * @param glob the glob pattern references should match
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_push_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -119,7 +119,7 @@ function git_revwalk_push_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cd
  *
  * @param walk the walker being used for the traversal
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_push_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
 
@@ -135,7 +135,7 @@ function git_revwalk_push_head(walk: Pgit_revwalk): Integer; cdecl; external lib
  * @param walk the walker being used for the traversal.
  * @param commit_id the oid of commit that will be ignored during the traversal
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_hide(walk: Pgit_revwalk; commit_id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -155,7 +155,7 @@ function git_revwalk_hide(walk: Pgit_revwalk; commit_id: Pgit_oid): Integer; cde
  * @param walk the walker being used for the traversal
  * @param glob the glob pattern references should match
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_hide_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -164,7 +164,7 @@ function git_revwalk_hide_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cd
  *
  * @param walk the walker being used for the traversal
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_hide_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
 
@@ -176,7 +176,7 @@ function git_revwalk_hide_head(walk: Pgit_revwalk): Integer; cdecl; external lib
  * @param walk the walker being used for the traversal
  * @param refname the reference to push
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_push_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -188,7 +188,7 @@ function git_revwalk_push_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; 
  * @param walk the walker being used for the traversal
  * @param refname the reference to hide
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_hide_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -209,7 +209,7 @@ function git_revwalk_hide_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; 
  * @param walk the walker to pop the commit from.
  * @return 0 if the next commit was found;
  *	GIT_ITEROVER if there are no commits left to iterate
-  *)
+ *)
 
 function git_revwalk_next(out_: Pgit_oid; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
 
@@ -222,7 +222,7 @@ function git_revwalk_next(out_: Pgit_oid; walk: Pgit_revwalk): Integer; cdecl; e
  * @param walk the walker being used for the traversal.
  * @param sort_mode combination of GIT_SORT_XXX flags
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_sorting(walk: Pgit_revwalk; sort_mode: Cardinal): Integer; cdecl; external libgit2_dll;
 
@@ -238,7 +238,7 @@ function git_revwalk_sorting(walk: Pgit_revwalk; sort_mode: Cardinal): Integer; 
  * @param range the range
  * @return 0 or an error code
  *
-  *)
+ *)
 
 function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -248,16 +248,15 @@ function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; 
  * No parents other than the first for each commit will be enqueued.
  *
  * @return 0 or an error code
-  *)
+ *)
 
 function git_revwalk_simplify_first_parent(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
-
 
 (**
  * Free a revision walker previously allocated.
  *
  * @param walk traversal handle to close. If NULL nothing occurs.
-  *)
+ *)
 
 procedure git_revwalk_free(walk: Pgit_revwalk); cdecl; external libgit2_dll;
 
@@ -267,7 +266,7 @@ procedure git_revwalk_free(walk: Pgit_revwalk); cdecl; external libgit2_dll;
  *
  * @param walk the revision walker
  * @return the repository being walked
-  *)
+ *)
 
 function git_revwalk_repository(walk: Pgit_revwalk): Pgit_repository; cdecl; external libgit2_dll;
 
@@ -278,21 +277,23 @@ function git_revwalk_repository(walk: Pgit_revwalk): Pgit_repository; cdecl; ext
  *
  * @param commit_id oid of Commit
  * @param payload User-specified pointer to data to be passed as data payload
-  *)
+ *)
 
 type
   git_revwalk_hide_cb = function(commit_id: Pgit_oid; payload: Pointer): Integer; cdecl;
 
   (**
- * Adds, changes or removes a callback function to hide a commit and its parents
- *
- * @param walk the revision walker
- * @param hide_cb  callback function to hide a commit and its parents
- * @param payload  data payload to be passed to callback function
-  *)
+   * Adds, changes or removes a callback function to hide a commit and its parents
+   *
+   * @param walk the revision walker
+   * @param hide_cb  callback function to hide a commit and its parents
+   * @param payload  data payload to be passed to callback function
+   *)
 
-function git_revwalk_add_hide_cb(walk: Pgit_revwalk;
-  hide_cb: git_revwalk_hide_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_revwalk_add_hide_cb(walk: Pgit_revwalk; hide_cb: git_revwalk_hide_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

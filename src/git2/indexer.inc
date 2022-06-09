@@ -7,58 +7,56 @@ type
   Pgit_indexer = ^git_indexer;
 
   (**
- * This structure is used to provide callers information about the
- * progress of indexing a packfile, either directly or part of a
- * fetch or clone that downloads a packfile.
-  *)
+   * This structure is used to provide callers information about the
+   * progress of indexing a packfile, either directly or part of a
+   * fetch or clone that downloads a packfile.
+   *)
 
   git_indexer_progress = record
     (** number of objects in the packfile being indexed  *)
-    total_objects : Cardinal;
+    total_objects: Cardinal;
     (** received objects that have been hashed  *)
-    indexed_objects : Cardinal;
+    indexed_objects: Cardinal;
     (** received_objects: objects which have been downloaded  *)
-    received_objects : Cardinal;
+    received_objects: Cardinal;
     (**
-	 * locally-available objects that have been injected in order
-	 * to fix a thin pack
-	  *)
-    local_objects : Cardinal;
+    * locally-available objects that have been injected in order
+    * to fix a thin pack
+    *)
+    local_objects: Cardinal;
     (** number of deltas in the packfile being indexed  *)
-    total_deltas : Cardinal;
+    total_deltas: Cardinal;
     (** received deltas that have been indexed  *)
-    indexed_deltas : Cardinal;
+    indexed_deltas: Cardinal;
     (** size of the packfile received up to now  *)
-    received_bytes : size_t;
+    received_bytes: size_t;
   end;
   Pgit_indexer_progress = ^git_indexer_progress;
 
   (**
- * Type for progress callbacks during indexing.  Return a value less
- * than zero to cancel the indexing or download.
- *
- * @param stats Structure containing information about the state of the tran    sfer
- * @param payload Payload provided by caller
-  *)
+   * Type for progress callbacks during indexing.  Return a value less
+   * than zero to cancel the indexing or download.
+   *
+   * @param stats Structure containing information about the state of the tran    sfer
+   * @param payload Payload provided by caller
+   *)
 
 type
-  git_indexer_progress_cb = function(stats: Pgit_indexer_progress; payload: Pointer)
-    : Integer; cdecl;
+  git_indexer_progress_cb = function(stats: Pgit_indexer_progress; payload: Pointer): Integer; cdecl;
 
-
-(**
- * Options for indexer configuration
-  *)
+  (**
+   * Options for indexer configuration
+   *)
 
 type
   git_indexer_options = record
-    version : Cardinal;
+    version: Cardinal;
     (** progress_cb function to call with progress information  *)
-    progress_cb : git_indexer_progress_cb;
+    progress_cb: git_indexer_progress_cb;
     (** progress_cb_payload payload for the progress callback  *)
-    progress_cb_payload : Pointer;
+    progress_cb_payload: Pointer;
     (** Do connectivity checks for the received pack  *)
-    verify : Byte;
+    verify: Byte;
   end;
   Pgit_indexer_options = ^git_indexer_options;
 
@@ -66,16 +64,15 @@ const
   GIT_INDEXER_OPTIONS_VERSION = 1;
   //GIT_INDEXER_OPTIONS_INIT = { GIT_INDEXER_OPTIONS_VERSION };
   (**
- * Initializes a `git_indexer_options` with default values. Equivalent to
- * creating an instance with GIT_INDEXER_OPTIONS_INIT.
- *
- * @param opts the `git_indexer_options` struct to initialize.
- * @param version Version of struct; pass `GIT_INDEXER_OPTIONS_VERSION`
- * @return Zero on success; -1 on failure.
-  *)
+   * Initializes a `git_indexer_options` with default values. Equivalent to
+   * creating an instance with GIT_INDEXER_OPTIONS_INIT.
+   *
+   * @param opts the `git_indexer_options` struct to initialize.
+   * @param version Version of struct; pass `GIT_INDEXER_OPTIONS_VERSION`
+   * @return Zero on success; -1 on failure.
+   *)
 
-function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal)
-  : Integer; cdecl; external libgit2_dll;
+function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new indexer instance
@@ -88,10 +85,10 @@ function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal)
  * will be returned if there are bases missing)
  * @param opts Optional structure containing additional options. See
  * `git_indexer_options` above.
-  *)
+ *)
 
-function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal;
-  odb: Pgit_odb; opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
+function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; odb: Pgit_odb;
+  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Add data to the indexer
@@ -101,7 +98,6 @@ function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal;
  * @param size the size of the data in bytes
  * @param stats stat storage
   *)
-
 function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
   stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
 
@@ -111,10 +107,9 @@ function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
  * Resolve any pending deltas and write out the index file
  *
  * @param idx the indexer
-  *)
+ *)
 
-function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress)
-  : Integer; cdecl; external libgit2_dll;
+function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the packfile's hash
@@ -123,7 +118,7 @@ function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress)
  * names. This is only correct after the index has been finalized.
  *
  * @param idx the indexer instance
-  *)
+ *)
 
 function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -131,7 +126,9 @@ function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_
  * Free the indexer and its resources
  *
  * @param idx the indexer to free
-  *)
+ *)
 
 procedure git_indexer_free(idx: Pgit_indexer); cdecl; external libgit2_dll;
+
+
 

@@ -4,7 +4,7 @@
  * @defgroup git_refdb Git custom refs backend API
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Create a new reference database with no backends.
@@ -16,7 +16,7 @@
  *			Set to NULL if the open failed.
  * @param repo the repository
  * @return 0 or an error code
-  *)
+ *)
 
 function git_refdb_new(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -31,7 +31,7 @@ function git_refdb_new(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl
  *			Set to NULL if the open failed.
  * @param repo the repository
  * @return 0 or an error code
-  *)
+ *)
 
 function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -39,7 +39,7 @@ function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdec
  * Suggests that the given refdb compress or optimize its references.
  * This mechanism is implementation specific.  For on-disk reference
  * databases, for example, this may pack all loose references.
-  *)
+ *)
 
 function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2_dll;
 
@@ -47,7 +47,7 @@ function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2
  * Close an open reference database.
  *
  * @param refdb reference database pointer or NULL
-  *)
+ *)
 
 procedure git_refdb_free(refdb: Pgit_refdb); cdecl; external libgit2_dll;
 

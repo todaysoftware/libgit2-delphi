@@ -15,44 +15,44 @@
 
 const
   (**
-	 * Auto-detect (default), libgit2 will bypass the git-aware
-	 * transport for local paths, but use a normal fetch for
-	 * `file://` urls.
-	  *)
-  GIT_CLONE_LOCAL_AUTO = 0;
+   * Auto-detect (default), libgit2 will bypass the git-aware
+   * transport for local paths, but use a normal fetch for
+   * `file://` urls.
+   *)
+  GIT_CLONE_LOCAL_AUTO        = 0;
   (**
-	 * Bypass the git-aware transport even for a `file://` url.
-	  *)
-  GIT_CLONE_LOCAL = 1;
+   * Bypass the git-aware transport even for a `file://` url.
+   *)
+  GIT_CLONE_LOCAL             = 1;
   (**
-	 * Do no bypass the git-aware transport
-	  *)
-  GIT_CLONE_NO_LOCAL = 2;
+   * Do no bypass the git-aware transport
+   *)
+  GIT_CLONE_NO_LOCAL          = 2;
   (**
-	 * Bypass the git-aware transport, but do not try to use
-	 * hardlinks.
-	  *)
-  GIT_CLONE_LOCAL_NO_LINKS = 3;
+   * Bypass the git-aware transport, but do not try to use
+   * hardlinks.
+   *)
+  GIT_CLONE_LOCAL_NO_LINKS    = 3;
 type
   git_clone_local_t = Integer;
 
   (**
- * The signature of a function matching git_remote_create, with an additional
- * void* as a callback payload.
- *
- * Callers of git_clone may provide a function matching this signature to override
- * the remote creation and customization process during a clone operation.
- *
- * @param out the resulting remote
- * @param repo the repository in which to create the remote
- * @param name the remote's name
- * @param url the remote's url
- * @param payload an opaque payload
- * @return 0, GIT_EINVALIDSPEC, GIT_EEXISTS or an error code
-  *)
+   * The signature of a function matching git_remote_create, with an additional
+   * void* as a callback payload.
+   *
+   * Callers of git_clone may provide a function matching this signature to override
+   * the remote creation and customization process during a clone operation.
+   *
+   * @param out the resulting remote
+   * @param repo the repository in which to create the remote
+   * @param name the remote's name
+   * @param url the remote's url
+   * @param payload an opaque payload
+   * @return 0, GIT_EINVALIDSPEC, GIT_EEXISTS or an error code
+   *)
 
-  git_remote_create_cb = function(out_: PPgit_remote; repo: Pgit_repository;
-    name_, url: PAnsiChar; payload: Pointer): Integer; cdecl;
+  git_remote_create_cb = function(out_: PPgit_remote; repo: Pgit_repository; name_, url: PAnsiChar;
+    payload: Pointer): Integer; cdecl;
 
   (**
  * The signature of a function matchin git_repository_init, with an
@@ -69,8 +69,8 @@ type
  * @return 0, or a negative value to indicate error
   *)
 
-  git_repository_create_cb = function(out_: PPgit_repository; path: PAnsiChar;
-    bare: Integer; payload: Pointer): Integer; cdecl;
+  git_repository_create_cb = function(out_: PPgit_repository; path: PAnsiChar; bare: Integer;
+    payload: Pointer): Integer; cdecl;
 
   (**
  * Clone options structure
@@ -81,62 +81,62 @@ type
   *)
 
   git_clone_options = record
-    version : Cardinal;
+    version: Cardinal;
     (**
-	 * These options are passed to the checkout step. To disable
-	 * checkout, set the `checkout_strategy` to
-	 * `GIT_CHECKOUT_NONE`.
-	  *)
-    checkout_opts : git_checkout_options;
+     * These options are passed to the checkout step. To disable
+     * checkout, set the `checkout_strategy` to
+     * `GIT_CHECKOUT_NONE`.
+     *)
+    checkout_opts: git_checkout_options;
     (**
-	 * Options which control the fetch, including callbacks.
-	 *
-	 * The callbacks are used for reporting fetch progress, and for acquiring
-	 * credentials in the event they are needed.
-	  *)
-    fetch_opts : git_fetch_options;
+     * Options which control the fetch, including callbacks.
+     *
+     * The callbacks are used for reporting fetch progress, and for acquiring
+     * credentials in the event they are needed.
+     *)
+    fetch_opts: git_fetch_options;
     (**
-	 * Set to zero (false) to create a standard repo, or non-zero
-	 * for a bare repo
-	  *)
-    bare : Integer;
+     * Set to zero (false) to create a standard repo, or non-zero
+     * for a bare repo
+     *)
+    bare: Integer;
     (**
-	 * Whether to use a fetch or copy the object database.
-	  *)
-    local_ : git_clone_local_t;
+     * Whether to use a fetch or copy the object database.
+     *)
+    local_: git_clone_local_t;
     (**
-	 * The name of the branch to checkout. NULL means use the
-	 * remote's default branch.
-	  *)
-    checkout_branch : PAnsiChar;
+     * The name of the branch to checkout. NULL means use the
+     * remote's default branch.
+     *)
+    checkout_branch: PAnsiChar;
     (**
-	 * A callback used to create the new repository into which to
-	 * clone. If NULL, the 'bare' field will be used to determine
-	 * whether to create a bare repository.
-	  *)
-    repository_cb : git_repository_create_cb;
+     * A callback used to create the new repository into which to
+     * clone. If NULL, the 'bare' field will be used to determine
+     * whether to create a bare repository.
+     *)
+    repository_cb: git_repository_create_cb;
     (**
-	 * An opaque payload to pass to the git_repository creation callback.
-	 * This parameter is ignored unless repository_cb is non-NULL.
-	  *)
-    repository_cb_payload : Pointer;
+     * An opaque payload to pass to the git_repository creation callback.
+     * This parameter is ignored unless repository_cb is non-NULL.
+     *)
+    repository_cb_payload: Pointer;
     (**
-	 * A callback used to create the git_remote, prior to its being
-	 * used to perform the clone operation. See the documentation for
-	 * git_remote_create_cb for details. This parameter may be NULL,
-	 * indicating that git_clone should provide default behavior.
-	  *)
-    remote_cb : git_remote_create_cb;
+     * A callback used to create the git_remote, prior to its being
+     * used to perform the clone operation. See the documentation for
+     * git_remote_create_cb for details. This parameter may be NULL,
+     * indicating that git_clone should provide default behavior.
+     *)
+    remote_cb: git_remote_create_cb;
     (**
-	 * An opaque payload to pass to the git_remote creation callback.
-	 * This parameter is ignored unless remote_cb is non-NULL.
-	  *)
-    remote_cb_payload : Pointer;
+     * An opaque payload to pass to the git_remote creation callback.
+     * This parameter is ignored unless remote_cb is non-NULL.
+     *)
+    remote_cb_payload: Pointer;
   end;
   Pgit_clone_options = ^git_clone_options;
 
 const
-  GIT_CLONE_OPTIONS_VERSION = 1;
+  GIT_CLONE_OPTIONS_VERSION   = 1;
   //GIT_CLONE_OPTIONS_INIT = { GIT_CLONE_OPTIONS_VERSION , { GIT_CHECKOUT_OPTIONS_VERSION , GIT_CHECKOUT_SAFE } , GIT_FETCH_OPTIONS_INIT };
   (**
  * Initialize git_clone_options structure
@@ -149,8 +149,7 @@ const
  * @return Zero on success; -1 on failure.
   *)
 
-function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal)
-  : Integer; cdecl; external libgit2_dll;
+function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * Clone a remote repository.
@@ -173,4 +172,6 @@ function git_clone(out_: PPgit_repository; url, local_path: PAnsiChar;
   options: Pgit_clone_options): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

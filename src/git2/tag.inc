@@ -4,7 +4,7 @@
  * @defgroup git_tag Git tag management
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Lookup a tag object from the repository.
@@ -13,10 +13,9 @@
  * @param repo the repo to use when locating the tag.
  * @param id identity of the tag to locate.
  * @return 0 or an error code
-  *)
+ *)
 
-function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Lookup a tag object from the repository,
@@ -29,10 +28,10 @@ function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid)
  * @param id identity of the tag to locate.
  * @param len the length of the short identifier
  * @return 0 or an error code
-  *)
+ *)
 
-function git_tag_lookup_prefix(out_: PPgit_tag; repo: Pgit_repository;
-  id: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_tag_lookup_prefix(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Close an open tag
@@ -43,7 +42,7 @@ function git_tag_lookup_prefix(out_: PPgit_tag; repo: Pgit_repository;
  * release memory. Failure to do so will cause a memory leak.
  *
  * @param tag the tag to close
-  *)
+ *)
 
 procedure git_tag_free(tag: Pgit_tag); cdecl; external libgit2_dll;
 
@@ -52,7 +51,7 @@ procedure git_tag_free(tag: Pgit_tag); cdecl; external libgit2_dll;
  *
  * @param tag a previously loaded tag.
  * @return object identity for the tag.
-  *)
+ *)
 
 function git_tag_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -61,7 +60,7 @@ function git_tag_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
  *
  * @param tag A previously loaded tag.
  * @return Repository that contains this tag.
-  *)
+ *)
 
 function git_tag_owner(tag: Pgit_tag): Pgit_repository; cdecl; external libgit2_dll;
 
@@ -74,7 +73,7 @@ function git_tag_owner(tag: Pgit_tag): Pgit_repository; cdecl; external libgit2_
  * @param target_out pointer where to store the target
  * @param tag a previously loaded tag.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_tag_target(target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll;
 
@@ -83,7 +82,7 @@ function git_tag_target(target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl
  *
  * @param tag a previously loaded tag.
  * @return pointer to the OID
-  *)
+ *)
 
 function git_tag_target_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -92,7 +91,7 @@ function git_tag_target_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll
  *
  * @param tag a previously loaded tag.
  * @return type of the tagged object
-  *)
+ *)
 
 function git_tag_target_type(tag: Pgit_tag): git_object_t; cdecl; external libgit2_dll;
 
@@ -101,7 +100,7 @@ function git_tag_target_type(tag: Pgit_tag): git_object_t; cdecl; external libgi
  *
  * @param tag a previously loaded tag.
  * @return name of the tag
-  *)
+ *)
 
 function git_tag_name(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -110,7 +109,7 @@ function git_tag_name(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
  *
  * @param tag a previously loaded tag.
  * @return reference to the tag's author or NULL when unspecified
-  *)
+ *)
 
 function git_tag_tagger(tag: Pgit_tag): Pgit_signature; cdecl; external libgit2_dll;
 
@@ -119,10 +118,9 @@ function git_tag_tagger(tag: Pgit_tag): Pgit_signature; cdecl; external libgit2_
  *
  * @param tag a previously loaded tag.
  * @return message of the tag or NULL when unspecified
-  *)
+ *)
 
 function git_tag_message(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
-
 
 (**
  * Create a new tag in the repository from an object
@@ -162,11 +160,10 @@ function git_tag_message(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
  *	A tag object is written to the ODB, and a proper reference
  *	is written in the /refs/tags folder, pointing to it
-  *)
+ *)
 
-function git_tag_create(oid: Pgit_oid; repo: Pgit_repository;
-  tag_name: PAnsiChar; target: Pgit_object; tagger: Pgit_signature;
-  message: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_tag_create(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar; target: Pgit_object;
+  tagger: Pgit_signature; message: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new tag in the object database pointing to a git_object
@@ -190,11 +187,10 @@ function git_tag_create(oid: Pgit_oid; repo: Pgit_repository;
  * @param message Full message for this tag
  *
  * @return 0 on success or an error code
-  *)
+ *)
 
-function git_tag_annotation_create(oid: Pgit_oid; repo: Pgit_repository;
-  tag_name: PAnsiChar; target: Pgit_object; tagger: Pgit_signature;
-  message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_tag_annotation_create(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar;
+  target: Pgit_object; tagger: Pgit_signature; message: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new tag in the repository from a buffer
@@ -204,10 +200,10 @@ function git_tag_annotation_create(oid: Pgit_oid; repo: Pgit_repository;
  * @param buffer Raw tag data
  * @param force Overwrite existing tags
  * @return 0 on success; error code otherwise
-  *)
+ *)
 
-function git_tag_create_from_buffer(oid: Pgit_oid; repo: Pgit_repository;
-  buffer: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_tag_create_from_buffer(oid: Pgit_oid; repo: Pgit_repository; buffer: PAnsiChar;
+  force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new lightweight tag pointing at a target object
@@ -238,10 +234,10 @@ function git_tag_create_from_buffer(oid: Pgit_oid; repo: Pgit_repository;
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
  *	A proper reference is written in the /refs/tags folder,
  * pointing to the provided target object
-  *)
+ *)
 
-function git_tag_create_lightweight(oid: Pgit_oid; repo: Pgit_repository;
-  tag_name: PAnsiChar; target: Pgit_object; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_tag_create_lightweight(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar;
+  target: Pgit_object; force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Delete an existing tag reference.
@@ -255,7 +251,7 @@ function git_tag_create_lightweight(oid: Pgit_oid; repo: Pgit_repository;
  * this name is validated for consistency.
  *
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
-  *)
+ *)
 
 function git_tag_delete(repo: Pgit_repository; tag_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -292,7 +288,7 @@ function git_tag_list(tag_names: Pgit_strarray; repo: Pgit_repository): Integer;
  * @param pattern Standard fnmatch pattern
  * @param repo Repository where to find the tags
  * @return 0 or an error code
-  *)
+ *)
 
 function git_tag_list_match(tag_names: Pgit_strarray; pattern: PAnsiChar;
   repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
@@ -306,11 +302,10 @@ function git_tag_list_match(tag_names: Pgit_strarray; pattern: PAnsiChar;
  * @param oid The tag's OID
  * @param payload Payload passed to git_tag_foreach
  * @return non-zero to terminate the iteration
-  *)
+ *)
 
 type
-  git_tag_foreach_cb = function(name_: PAnsiChar; oid: Pgit_oid;
-    payload: Pointer): Integer; cdecl;
+  git_tag_foreach_cb = function(name_: PAnsiChar; oid: Pgit_oid; payload: Pointer): Integer; cdecl;
 
   (**
  * Call callback `cb' for each tag in the repository
@@ -318,11 +313,10 @@ type
  * @param repo Repository
  * @param callback Callback function
  * @param payload Pointer to callback data (optional)
-  *)
+ *)
 
 function git_tag_foreach(repo: Pgit_repository; callback: git_tag_foreach_cb;
   payload: Pointer): Integer; cdecl; external libgit2_dll;
-
 
 (**
  * Recursively peel a tag until a non tag git_object is found
@@ -333,7 +327,7 @@ function git_tag_foreach(repo: Pgit_repository; callback: git_tag_foreach_cb;
  * @param tag_target_out Pointer to the peeled git_object
  * @param tag The tag to be processed
  * @return 0 or an error code
-  *)
+ *)
 
 function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll;
 
@@ -343,7 +337,7 @@ function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cde
  *
  * @param out Pointer to store the copy of the tag
  * @param source Original tag to copy
-  *)
+ *)
 
 function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; external libgit2_dll;
 
@@ -356,10 +350,11 @@ function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; externa
  * @param valid output pointer to set with validity of given tag name
  * @param name a tag name to test
  * @return 0 on success or an error code
-  *)
+ *)
 
 function git_tag_name_is_valid(valid: PInteger; const name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
-
 (** @}  *)
+
+
 

@@ -1,81 +1,80 @@
 (**
  * Compiled pathspec
-  *)
+ *)
 
 type
   git_pathspec = record
   end;
 
   (**
- * List of filenames matching a pathspec
-  *)
+   * List of filenames matching a pathspec
+   *)
 
   git_pathspec_match_list = record
   end;
 
   (**
- * Options controlling how pathspec match should be executed
-  *)
+   * Options controlling how pathspec match should be executed
+   *)
 
 const
-  GIT_PATHSPEC_DEFAULT = 0;
+  GIT_PATHSPEC_DEFAULT        = 0;
   (**
-	 * GIT_PATHSPEC_IGNORE_CASE forces match to ignore case; otherwise
-	 * match will use native case sensitivity of platform filesystem
-	  *)
-  GIT_PATHSPEC_IGNORE_CASE = ( 1 shl 0 );
+   * GIT_PATHSPEC_IGNORE_CASE forces match to ignore case; otherwise
+   * match will use native case sensitivity of platform filesystem
+   *)
+  GIT_PATHSPEC_IGNORE_CASE    = (1 shl 0);
   (**
-	 * GIT_PATHSPEC_USE_CASE forces case sensitive match; otherwise
-	 * match will use native case sensitivity of platform filesystem
-	  *)
-  GIT_PATHSPEC_USE_CASE = ( 1 shl 1 );
+   * GIT_PATHSPEC_USE_CASE forces case sensitive match; otherwise
+   * match will use native case sensitivity of platform filesystem
+   *)
+  GIT_PATHSPEC_USE_CASE       = (1 shl 1);
   (**
-	 * GIT_PATHSPEC_NO_GLOB disables glob patterns and just uses simple
-	 * string comparison for matching
-	  *)
-  GIT_PATHSPEC_NO_GLOB = ( 1 shl 2 );
+   * GIT_PATHSPEC_NO_GLOB disables glob patterns and just uses simple
+   * string comparison for matching
+   *)
+  GIT_PATHSPEC_NO_GLOB        = (1 shl 2);
   (**
-	 * GIT_PATHSPEC_NO_MATCH_ERROR means the match functions return error
-	 * code GIT_ENOTFOUND if no matches are found; otherwise no matches is
-	 * still success (return 0) but `git_pathspec_match_list_entrycount`
-	 * will indicate 0 matches.
-	  *)
-  GIT_PATHSPEC_NO_MATCH_ERROR = ( 1 shl 3 );
+   * GIT_PATHSPEC_NO_MATCH_ERROR means the match functions return error
+   * code GIT_ENOTFOUND if no matches are found; otherwise no matches is
+   * still success (return 0) but `git_pathspec_match_list_entrycount`
+   * will indicate 0 matches.
+   *)
+  GIT_PATHSPEC_NO_MATCH_ERROR = (1 shl 3);
   (**
-	 * GIT_PATHSPEC_FIND_FAILURES means that the `git_pathspec_match_list`
-	 * should track which patterns matched which files so that at the end of
-	 * the match we can identify patterns that did not match any files.
-	  *)
-  GIT_PATHSPEC_FIND_FAILURES = ( 1 shl 4 );
+   * GIT_PATHSPEC_FIND_FAILURES means that the `git_pathspec_match_list`
+   * should track which patterns matched which files so that at the end of
+   * the match we can identify patterns that did not match any files.
+   *)
+  GIT_PATHSPEC_FIND_FAILURES  = (1 shl 4);
   (**
-	 * GIT_PATHSPEC_FAILURES_ONLY means that the `git_pathspec_match_list`
-	 * does not need to keep the actual matching filenames.  Use this to
-	 * just test if there were any matches at all or in combination with
-	 * GIT_PATHSPEC_FIND_FAILURES to validate a pathspec.
-	  *)
-  GIT_PATHSPEC_FAILURES_ONLY = ( 1 shl 5 );
+   * GIT_PATHSPEC_FAILURES_ONLY means that the `git_pathspec_match_list`
+   * does not need to keep the actual matching filenames.  Use this to
+   * just test if there were any matches at all or in combination with
+   * GIT_PATHSPEC_FIND_FAILURES to validate a pathspec.
+   *)
+  GIT_PATHSPEC_FAILURES_ONLY  = (1 shl 5);
 type
   git_pathspec_flag_t = Integer;
 
   (**
- * Compile a pathspec
- *
- * @param out Output of the compiled pathspec
- * @param pathspec A git_strarray of the paths to match
- * @return 0 on success, <0 on failure
-  *)
+   * Compile a pathspec
+   *
+   * @param out Output of the compiled pathspec
+   * @param pathspec A git_strarray of the paths to match
+   * @return 0 on success, <0 on failure
+   *)
 
 type
   PPgit_pathspec = ^Pgit_pathspec;
   Pgit_pathspec = ^git_pathspec;
-function git_pathspec_new(out_: PPgit_pathspec; pathspec: Pgit_strarray)
-  : Integer; cdecl; external libgit2_dll;
+function git_pathspec_new(out_: PPgit_pathspec; pathspec: Pgit_strarray): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free a pathspec
  *
  * @param ps The compiled pathspec
-  *)
+ *)
 
 procedure git_pathspec_free(ps: Pgit_pathspec); cdecl; external libgit2_dll;
 
@@ -91,7 +90,7 @@ procedure git_pathspec_free(ps: Pgit_pathspec); cdecl; external libgit2_dll;
  * @param flags Combination of git_pathspec_flag_t options to control match
  * @param path The pathname to attempt to match
  * @return 1 is path matches spec, 0 if it does not
-  *)
+ *)
 
 function git_pathspec_matches_path(ps: Pgit_pathspec; flags: uint32_t;
   path: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -117,13 +116,13 @@ function git_pathspec_matches_path(ps: Pgit_pathspec; flags: uint32_t;
  * @param ps Pathspec to be matched
  * @return 0 on success, -1 on error, GIT_ENOTFOUND if no matches and
  *         the GIT_PATHSPEC_NO_MATCH_ERROR flag was given
-  *)
+ *)
 
 type
   PPgit_pathspec_match_list = ^Pgit_pathspec_match_list;
   Pgit_pathspec_match_list = ^git_pathspec_match_list;
-function git_pathspec_match_workdir(out_: PPgit_pathspec_match_list;
-  repo: Pgit_repository; flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+function git_pathspec_match_workdir(out_: PPgit_pathspec_match_list; repo: Pgit_repository;
+  flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
 
 (**
  * Match a pathspec against entries in an index.
@@ -147,10 +146,10 @@ function git_pathspec_match_workdir(out_: PPgit_pathspec_match_list;
  * @param ps Pathspec to be matched
  * @return 0 on success, -1 on error, GIT_ENOTFOUND if no matches and
  *         the GIT_PATHSPEC_NO_MATCH_ERROR flag is used
-  *)
+ *)
 
-function git_pathspec_match_index(out_: PPgit_pathspec_match_list;
-  index_: Pgit_index; flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+function git_pathspec_match_index(out_: PPgit_pathspec_match_list; index_: Pgit_index; flags: uint32_t;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
 
 (**
  * Match a pathspec against files in a tree.
@@ -169,10 +168,10 @@ function git_pathspec_match_index(out_: PPgit_pathspec_match_list;
  * @param ps Pathspec to be matched
  * @return 0 on success, -1 on error, GIT_ENOTFOUND if no matches and
  *         the GIT_PATHSPEC_NO_MATCH_ERROR flag is used
-  *)
+ *)
 
-function git_pathspec_match_tree(out_: PPgit_pathspec_match_list;
-  tree: Pgit_tree; flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+function git_pathspec_match_tree(out_: PPgit_pathspec_match_list; tree: Pgit_tree; flags: uint32_t;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
 
 (**
  * Match a pathspec against files in a diff list.
@@ -191,16 +190,16 @@ function git_pathspec_match_tree(out_: PPgit_pathspec_match_list;
  * @param ps Pathspec to be matched
  * @return 0 on success, -1 on error, GIT_ENOTFOUND if no matches and
  *         the GIT_PATHSPEC_NO_MATCH_ERROR flag is used
-  *)
+ *)
 
-function git_pathspec_match_diff(out_: PPgit_pathspec_match_list;
-  diff: Pgit_diff; flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+function git_pathspec_match_diff(out_: PPgit_pathspec_match_list; diff: Pgit_diff; flags: uint32_t;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free memory associates with a git_pathspec_match_list
  *
  * @param m The git_pathspec_match_list to be freed
-  *)
+ *)
 
 procedure git_pathspec_match_list_free(m: Pgit_pathspec_match_list); cdecl; external libgit2_dll;
 
@@ -209,7 +208,7 @@ procedure git_pathspec_match_list_free(m: Pgit_pathspec_match_list); cdecl; exte
  *
  * @param m The git_pathspec_match_list object
  * @return Number of items in match list
-  *)
+ *)
 
 function git_pathspec_match_list_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll;
 
@@ -222,10 +221,9 @@ function git_pathspec_match_list_entrycount(m: Pgit_pathspec_match_list): size_t
  * @param m The git_pathspec_match_list object
  * @param pos The index into the list
  * @return The filename of the match
-  *)
+ *)
 
-function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t)
-  : PAnsiChar; cdecl; external libgit2_dll;
+function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll;
 
 (**
  * Get a matching diff delta by position.
@@ -236,10 +234,9 @@ function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t)
  * @param m The git_pathspec_match_list object
  * @param pos The index into the list
  * @return The filename of the match
-  *)
+ *)
 
-function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list;
-  pos: size_t): Pgit_diff_delta; cdecl; external libgit2_dll;
+function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list; pos: size_t): Pgit_diff_delta; cdecl; external libgit2_dll;
 
 (**
  * Get the number of pathspec items that did not match.
@@ -249,10 +246,9 @@ function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list;
  *
  * @param m The git_pathspec_match_list object
  * @return Number of items in original pathspec that had no matches
-  *)
+ *)
 
-function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list)
-  : size_t; cdecl; external libgit2_dll;
+function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll;
 
 (**
  * Get an original pathspec string that had no matches.
@@ -262,8 +258,9 @@ function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list)
  * @param m The git_pathspec_match_list object
  * @param pos The index into the failed items
  * @return The pathspec pattern that didn't match anything
-  *)
+ *)
 
-function git_pathspec_match_list_failed_entry(m: Pgit_pathspec_match_list;
-  pos: size_t): PAnsiChar; cdecl; external libgit2_dll;
+function git_pathspec_match_list_failed_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll;
+
+
 

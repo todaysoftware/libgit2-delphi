@@ -4,14 +4,14 @@
  * @defgroup git_strarray Git string array routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (** Array of strings  *)
 
 type
   git_strarray = record
-    strings : PPAnsiChar;
-    count : size_t;
+    strings: PPAnsiChar;
+    Count: size_t;
   end;
   Pgit_strarray = ^git_strarray;
 
@@ -24,7 +24,7 @@ type
  * never allocate that object directly itself.
  *
  * @param array The git_strarray that contains strings to free
-  *)
+ *)
 
 procedure git_strarray_dispose(array_: Pgit_strarray); cdecl; external libgit2_dll;
 
@@ -37,10 +37,10 @@ procedure git_strarray_dispose(array_: Pgit_strarray); cdecl; external libgit2_d
  * @param tgt target
  * @param src source
  * @return 0 on success, < 0 on allocation failure
-  *)
+ *)
 
 function git_strarray_copy(tgt, src: Pgit_strarray): Integer; cdecl; external libgit2_dll;
 
-
 (** @}  *)
+
 

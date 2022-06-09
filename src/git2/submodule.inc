@@ -11,7 +11,7 @@
  * @defgroup git_submodule Git submodule management routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Return codes for submodule status.
@@ -54,23 +54,23 @@
  * Lastly, the following will only be returned for ignore "NONE".
  *
  * * WD_UNTRACKED      - wd contains untracked files
-  *)
+ *)
 
 const
-  GIT_SUBMODULE_STATUS_IN_HEAD = ( 1 shl 0 );
-  GIT_SUBMODULE_STATUS_IN_INDEX = ( 1 shl 1 );
-  GIT_SUBMODULE_STATUS_IN_CONFIG = ( 1 shl 2 );
-  GIT_SUBMODULE_STATUS_IN_WD = ( 1 shl 3 );
-  GIT_SUBMODULE_STATUS_INDEX_ADDED = ( 1 shl 4 );
-  GIT_SUBMODULE_STATUS_INDEX_DELETED = ( 1 shl 5 );
-  GIT_SUBMODULE_STATUS_INDEX_MODIFIED = ( 1 shl 6 );
-  GIT_SUBMODULE_STATUS_WD_UNINITIALIZED = ( 1 shl 7 );
-  GIT_SUBMODULE_STATUS_WD_ADDED = ( 1 shl 8 );
-  GIT_SUBMODULE_STATUS_WD_DELETED = ( 1 shl 9 );
-  GIT_SUBMODULE_STATUS_WD_MODIFIED = ( 1 shl 10 );
-  GIT_SUBMODULE_STATUS_WD_INDEX_MODIFIED = ( 1 shl 11 );
-  GIT_SUBMODULE_STATUS_WD_WD_MODIFIED = ( 1 shl 12 );
-  GIT_SUBMODULE_STATUS_WD_UNTRACKED = ( 1 shl 13 );
+  GIT_SUBMODULE_STATUS_IN_HEAD = (1 shl 0);
+  GIT_SUBMODULE_STATUS_IN_INDEX = (1 shl 1);
+  GIT_SUBMODULE_STATUS_IN_CONFIG = (1 shl 2);
+  GIT_SUBMODULE_STATUS_IN_WD  = (1 shl 3);
+  GIT_SUBMODULE_STATUS_INDEX_ADDED = (1 shl 4);
+  GIT_SUBMODULE_STATUS_INDEX_DELETED = (1 shl 5);
+  GIT_SUBMODULE_STATUS_INDEX_MODIFIED = (1 shl 6);
+  GIT_SUBMODULE_STATUS_WD_UNINITIALIZED = (1 shl 7);
+  GIT_SUBMODULE_STATUS_WD_ADDED = (1 shl 8);
+  GIT_SUBMODULE_STATUS_WD_DELETED = (1 shl 9);
+  GIT_SUBMODULE_STATUS_WD_MODIFIED = (1 shl 10);
+  GIT_SUBMODULE_STATUS_WD_INDEX_MODIFIED = (1 shl 11);
+  GIT_SUBMODULE_STATUS_WD_WD_MODIFIED = (1 shl 12);
+  GIT_SUBMODULE_STATUS_WD_UNTRACKED = (1 shl 13);
 type
   git_submodule_status_t = Integer;
 
@@ -83,49 +83,48 @@ function GIT_SUBMODULE_STATUS_IS_UNMODIFIED(S: Integer): Boolean;
 function GIT_SUBMODULE_STATUS_IS_INDEX_UNMODIFIED(S: Integer): Boolean;
 function GIT_SUBMODULE_STATUS_IS_WD_UNMODIFIED(S: Integer): Boolean;
 function GIT_SUBMODULE_STATUS_IS_WD_DIRTY(S: Integer): Boolean;
-  (**
+(**
  * Function pointer to receive each submodule
  *
  * @param sm git_submodule currently being visited
  * @param name name of the submodule
  * @param payload value you passed to the foreach function as payload
  * @return 0 on success or error code
-  *)
+ *)
 
 type
-  git_submodule_cb = function(sm: Pgit_submodule; name_: PAnsiChar;
-    payload: Pointer): Integer; cdecl;
+  git_submodule_cb = function(sm: Pgit_submodule; name_: PAnsiChar; payload: Pointer): Integer; cdecl;
 
   (**
- * Submodule update options structure
- *
- * Initialize with `GIT_SUBMODULE_UPDATE_OPTIONS_INIT`. Alternatively, you can
- * use `git_submodule_update_options_init`.
- *
-  *)
+   * Submodule update options structure
+   *
+   * Initialize with `GIT_SUBMODULE_UPDATE_OPTIONS_INIT`. Alternatively, you can
+   * use `git_submodule_update_options_init`.
+   *
+   *)
 
   git_submodule_update_options = record
-    version : Cardinal;
+    version: Cardinal;
     (**
-	 * These options are passed to the checkout step. To disable
-	 * checkout, set the `checkout_strategy` to
-	 * `GIT_CHECKOUT_NONE`. Generally you will want the use
-	 * GIT_CHECKOUT_SAFE to update files in the working
-	 * directory.
-	  *)
-    checkout_opts : git_checkout_options;
+     * These options are passed to the checkout step. To disable
+     * checkout, set the `checkout_strategy` to
+     * `GIT_CHECKOUT_NONE`. Generally you will want the use
+     * GIT_CHECKOUT_SAFE to update files in the working
+     * directory.
+     *)
+    checkout_opts: git_checkout_options;
     (**
-	 * Options which control the fetch, including callbacks.
-	 *
-	 * The callbacks to use for reporting fetch progress, and for acquiring
-	 * credentials in the event they are needed.
-	  *)
-    fetch_opts : git_fetch_options;
+     * Options which control the fetch, including callbacks.
+     *
+     * The callbacks to use for reporting fetch progress, and for acquiring
+     * credentials in the event they are needed.
+     *)
+    fetch_opts: git_fetch_options;
     (**
-	 * Allow fetching from the submodule's default remote if the target
-	 * commit isn't found. Enabled by default.
-	  *)
-    allow_fetch : Integer;
+     * Allow fetching from the submodule's default remote if the target
+     * commit isn't found. Enabled by default.
+     *)
+    allow_fetch: Integer;
   end;
   Pgit_submodule_update_options = ^git_submodule_update_options;
 
@@ -133,15 +132,15 @@ const
   GIT_SUBMODULE_UPDATE_OPTIONS_VERSION = 1;
   //GIT_SUBMODULE_UPDATE_OPTIONS_INIT = { GIT_SUBMODULE_UPDATE_OPTIONS_VERSION , { GIT_CHECKOUT_OPTIONS_VERSION , GIT_CHECKOUT_SAFE } , GIT_FETCH_OPTIONS_INIT , 1 };
   (**
- * Initialize git_submodule_update_options structure
- *
- * Initializes a `git_submodule_update_options` with default values. Equivalent to
- * creating an instance with `GIT_SUBMODULE_UPDATE_OPTIONS_INIT`.
- *
- * @param opts The `git_submodule_update_options` struct to initialize.
- * @param version The struct version; pass `GIT_SUBMODULE_UPDATE_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
-  *)
+   * Initialize git_submodule_update_options structure
+   *
+   * Initializes a `git_submodule_update_options` with default values. Equivalent to
+   * creating an instance with `GIT_SUBMODULE_UPDATE_OPTIONS_INIT`.
+   *
+   * @param opts The `git_submodule_update_options` struct to initialize.
+   * @param version The struct version; pass `GIT_SUBMODULE_UPDATE_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+   *)
 
 function git_submodule_update_options_init(opts: Pgit_submodule_update_options;
   version: Cardinal): Integer; cdecl; external libgit2_dll;
@@ -163,7 +162,7 @@ function git_submodule_update_options_init(opts: Pgit_submodule_update_options;
  * @return 0 on success, any non-zero return value from a callback
  *         function, or a negative value to indicate an error (use
  *         `git_error_last` for a detailed error message).
-  *)
+ *)
 
 function git_submodule_update(submodule: Pgit_submodule; init: Integer;
   options: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll;
@@ -194,7 +193,7 @@ function git_submodule_update(submodule: Pgit_submodule; init: Integer;
  * @return 0 on success, GIT_ENOTFOUND if submodule does not exist,
  *         GIT_EEXISTS if a repository is found in working directory only,
  *         -1 on other errors.
-  *)
+ *)
 
 function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
   name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -206,14 +205,14 @@ function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
  * @param out Pointer to store the copy of the submodule.
  * @param source Original submodule to copy.
  *)
-function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule)
-  :Integer; cdecl; external libgit2_dll;
+
+function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule): Integer; cdecl; external libgit2_dll;
 
 (**
  * Release a submodule
  *
  * @param submodule Submodule object
-  *)
+ *)
 
 procedure git_submodule_free(submodule: Pgit_submodule); cdecl; external libgit2_dll;
 
@@ -236,8 +235,8 @@ procedure git_submodule_free(submodule: Pgit_submodule); cdecl; external libgit2
  * @return 0 on success, -1 on error, or non-zero return value of callback
   *)
 
-function git_submodule_foreach(repo: Pgit_repository;
-  callback: git_submodule_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_submodule_foreach(repo: Pgit_repository; callback: git_submodule_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set up a new git submodule for checkout.
@@ -264,10 +263,10 @@ function git_submodule_foreach(repo: Pgit_repository;
  *        .git/modules vs. repo directly in workdir.
  * @return 0 on success, GIT_EEXISTS if submodule already exists,
  *         -1 on other errors.
-  *)
+ *)
 
-function git_submodule_add_setup(out_: PPgit_submodule; repo: Pgit_repository;
-  url, path: PAnsiChar; use_gitlink: Integer): Integer; cdecl; external libgit2_dll;
+function git_submodule_add_setup(out_: PPgit_submodule; repo: Pgit_repository; url, path: PAnsiChar;
+  use_gitlink: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Perform the clone step for a newly created submodule.
@@ -279,7 +278,7 @@ function git_submodule_add_setup(out_: PPgit_submodule; repo: Pgit_repository;
  * @param opts The options to use.
  *
  * @return 0 on success, -1 on other errors (see git_clone).
-  *)
+ *)
 
 function git_submodule_clone(out_: PPgit_repository; submodule: Pgit_submodule;
   opts: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll;
@@ -293,7 +292,7 @@ function git_submodule_clone(out_: PPgit_repository; submodule: Pgit_submodule;
  * (but doesn't actually do the commit).
  *
  * @param submodule The submodule to finish adding.
-  *)
+ *)
 
 function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
 
@@ -306,10 +305,9 @@ function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; 
  *            git_index and explicitly call `git_index_write()` on it to
  *            save the change.
  * @return 0 on success, <0 on failure
-  *)
+ *)
 
-function git_submodule_add_to_index(submodule: Pgit_submodule;
-  write_index: Integer): Integer; cdecl; external libgit2_dll;
+function git_submodule_add_to_index(submodule: Pgit_submodule; write_index: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the containing repository for a submodule.
@@ -321,7 +319,7 @@ function git_submodule_add_to_index(submodule: Pgit_submodule;
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to `git_repository`
-  *)
+ *)
 
 function git_submodule_owner(submodule: Pgit_submodule): Pgit_repository; cdecl; external libgit2_dll;
 
@@ -342,7 +340,7 @@ function git_submodule_name(submodule: Pgit_submodule): PAnsiChar; cdecl; extern
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to the submodule path
-  *)
+ *)
 
 function git_submodule_path(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -351,7 +349,7 @@ function git_submodule_path(submodule: Pgit_submodule): PAnsiChar; cdecl; extern
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to the submodule url
-  *)
+ *)
 
 function git_submodule_url(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -362,16 +360,15 @@ function git_submodule_url(submodule: Pgit_submodule): PAnsiChar; cdecl; externa
  * @param repo Pointer to repository object
  * @param url Relative url
  * @return 0 or an error code
-  *)
+ *)
 
-function git_submodule_resolve_url(out_: Pgit_buf; repo: Pgit_repository;
-  url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_submodule_resolve_url(out_: Pgit_buf; repo: Pgit_repository; url: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
-* Get the branch for the submodule.
-*
-* @param submodule Pointer to submodule object
-* @return Pointer to the submodule branch
+ * Get the branch for the submodule.
+ *
+ * @param submodule Pointer to submodule object
+ * @return Pointer to the submodule branch
  *)
 
 function git_submodule_branch(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
@@ -386,10 +383,9 @@ function git_submodule_branch(submodule: Pgit_submodule): PAnsiChar; cdecl; exte
  * @param name the name of the submodule to configure
  * @param branch Branch that should be used for the submodule
  * @return 0 on success, <0 on failure
-  *)
+ *)
 
-function git_submodule_set_branch(repo: Pgit_repository;
-  name_, branch: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_submodule_set_branch(repo: Pgit_repository; name_, branch: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set the URL for the submodule in the configuration
@@ -402,17 +398,16 @@ function git_submodule_set_branch(repo: Pgit_repository;
  * @param name the name of the submodule to configure
  * @param url URL that should be used for the submodule
  * @return 0 on success, <0 on failure
-  *)
+ *)
 
-function git_submodule_set_url(repo: Pgit_repository; name_, url: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_submodule_set_url(repo: Pgit_repository; name_, url: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the OID for the submodule in the index.
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to git_oid or NULL if submodule is not in index.
-  *)
+ *)
 
 function git_submodule_index_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -421,7 +416,7 @@ function git_submodule_index_id(submodule: Pgit_submodule): Pgit_oid; cdecl; ext
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to git_oid or NULL if submodule is not in the HEAD.
-  *)
+ *)
 
 function git_submodule_head_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -435,7 +430,7 @@ function git_submodule_head_id(submodule: Pgit_submodule): Pgit_oid; cdecl; exte
  *
  * @param submodule Pointer to submodule object
  * @return Pointer to git_oid or NULL if submodule is not checked out.
-  *)
+ *)
 
 function git_submodule_wd_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -461,7 +456,7 @@ function git_submodule_wd_id(submodule: Pgit_submodule): Pgit_oid; cdecl; extern
  * @param submodule The submodule to check
  * @return The current git_submodule_ignore_t valyue what will be used for
  *         this submodule.
-  *)
+ *)
 
 function git_submodule_ignore(submodule: Pgit_submodule): git_submodule_ignore_t; cdecl; external libgit2_dll;
 
@@ -474,7 +469,7 @@ function git_submodule_ignore(submodule: Pgit_submodule): git_submodule_ignore_t
  * @param name the name of the submdule
  * @param ignore The new value for the ignore rule
  * @return 0 or an error code
-  *)
+ *)
 
 function git_submodule_set_ignore(repo: Pgit_repository; name_: PAnsiChar;
   ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll;
@@ -490,8 +485,7 @@ function git_submodule_set_ignore(repo: Pgit_repository; name_: PAnsiChar;
  *         for this submodule.
   *)
 
-function git_submodule_update_strategy(submodule: Pgit_submodule)
-  : git_submodule_update_t; cdecl; external libgit2_dll;
+function git_submodule_update_strategy(submodule: Pgit_submodule): git_submodule_update_t; cdecl; external libgit2_dll;
 
 (**
  * Set the update rule for the submodule in the configuration
@@ -502,7 +496,7 @@ function git_submodule_update_strategy(submodule: Pgit_submodule)
  * @param name the name of the submodule to configure
  * @param update The new value to use
  * @return 0 or an error code
-  *)
+ *)
 
 function git_submodule_set_update(repo: Pgit_repository; name_: PAnsiChar;
   update: git_submodule_update_t): Integer; cdecl; external libgit2_dll;
@@ -517,10 +511,9 @@ function git_submodule_set_update(repo: Pgit_repository; name_: PAnsiChar;
  * fetch functionality current ignores submodules.
  *
  * @return 0 if fetchRecurseSubmodules is false, 1 if true
-  *)
+ *)
 
-function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule)
-  : git_submodule_recurse_t; cdecl; external libgit2_dll;
+function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_submodule_recurse_t; cdecl; external libgit2_dll;
 
 (**
  * Set the fetchRecurseSubmodules rule for a submodule in the configuration
@@ -531,10 +524,10 @@ function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule)
  * @param name the submodule to configure
  * @param fetch_recurse_submodules Boolean value
  * @return old value for fetchRecurseSubmodules
-  *)
+ *)
 
-function git_submodule_set_fetch_recurse_submodules(repo: Pgit_repository;
-  name_: PAnsiChar; fetch_recurse_submodules: git_submodule_recurse_t): Integer; cdecl; external libgit2_dll;
+function git_submodule_set_fetch_recurse_submodules(repo: Pgit_repository; name_: PAnsiChar;
+  fetch_recurse_submodules: git_submodule_recurse_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Copy submodule info into ".git/config" file.
@@ -548,10 +541,9 @@ function git_submodule_set_fetch_recurse_submodules(repo: Pgit_repository;
  * @param overwrite By default, existing entries will not be overwritten,
  *                  but setting this to true forces them to be updated.
  * @return 0 on success, <0 on failure.
-  *)
+ *)
 
-function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer)
-  : Integer; cdecl; external libgit2_dll;
+function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set up the subrepository for a submodule in preparation for clone.
@@ -565,7 +557,7 @@ function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer)
  * @param use_gitlink Should the workdir contain a gitlink to
  *        the repo in .git/modules vs. repo directly in workdir.
  * @return 0 on success, <0 on failure.
-  *)
+ *)
 
 function git_submodule_repo_init(out_: PPgit_repository; sm: Pgit_submodule;
   use_gitlink: Integer): Integer; cdecl; external libgit2_dll;
@@ -577,7 +569,7 @@ function git_submodule_repo_init(out_: PPgit_repository; sm: Pgit_submodule;
  * submodule config, acting like "git submodule sync".  This is useful if
  * you have altered the URL for the submodule (or it has been altered by a
  * fetch of upstream changes) and you need to update your local repo.
-  *)
+ *)
 
 function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
 
@@ -592,10 +584,9 @@ function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external
  * @param repo Pointer to the submodule repo which was opened
  * @param submodule Submodule to be opened
  * @return 0 on success, <0 if submodule repo could not be opened.
-  *)
+ *)
 
-function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule)
-  : Integer; cdecl; external libgit2_dll;
+function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
 
 (**
  * Reread submodule info from config, index, and HEAD.
@@ -606,10 +597,9 @@ function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule)
  * @param submodule The submodule to reload
  * @param force Force reload even if the data doesn't seem out of date
  * @return 0 on success, <0 on error
-  *)
+ *)
 
-function git_submodule_reload(submodule: Pgit_submodule; force: Integer)
-  : Integer; cdecl; external libgit2_dll;
+function git_submodule_reload(submodule: Pgit_submodule; force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the status for a submodule.
@@ -624,10 +614,10 @@ function git_submodule_reload(submodule: Pgit_submodule; force: Integer)
  * @param name name of the submodule
  * @param ignore the ignore rules to follow
  * @return 0 on success, <0 on error
-  *)
+ *)
 
-function git_submodule_status(status: PCardinal; repo: Pgit_repository;
-  name_: PAnsiChar; ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll;
+function git_submodule_status(status: PCardinal; repo: Pgit_repository; name_: PAnsiChar;
+  ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the locations of submodule information.
@@ -642,10 +632,11 @@ function git_submodule_status(status: PCardinal; repo: Pgit_repository;
  * @param location_status Combination of first four `GIT_SUBMODULE_STATUS` flags
  * @param submodule Submodule for which to get status
  * @return 0 on success, <0 on error
-  *)
+ *)
 
-function git_submodule_location(location_status: PCardinal;
-  submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_location(location_status: PCardinal; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

@@ -6,8 +6,10 @@
 unit LibGit2;
 
 {$IFDEF FPC}
-{$mode objfpc}{$H+}
+{$MODE objfpc}{$H+}
 {$ENDIF}
+
+{$DEFINE GIT_DEPRECATE_HARD}
 
 interface
 
@@ -16,19 +18,19 @@ uses
 
 const
   {$IFDEF MSWINDOWS}
-  libgit2_dll = 'git2.dll';
+  libgit2_dll                 = 'git2.dll';
   {$ELSE}
-  libgit2_dll = 'libgit2.so';
+  libgit2_dll                 = 'libgit2.so';
   {$ENDIF}
 
 type
   PPByte = ^PByte;
 
-{$I git2/stdint.inc}
-{$IFNDEF FPC}
+  {$I git2/stdint.inc}
+  {$IFNDEF FPC}
 type
   size_t = uintptr_t;
-{$ENDIF}
+  {$ENDIF}
 
 procedure InitLibgit2;
 procedure ShutdownLibgit2;
@@ -187,3 +189,5 @@ begin
 end;
 
 end.
+
+

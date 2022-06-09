@@ -30,12 +30,11 @@
  *
  * @ingroup Git
  * @{
-  *)
-
+ *)
 
 (**
  * Stages that are reported by the packbuilder progress callback.
-  *)
+ *)
 
 const
   GIT_PACKBUILDER_ADDING_OBJECTS = 0;
@@ -44,16 +43,15 @@ type
   git_packbuilder_stage_t = Integer;
 
   (**
- * Initialize a new packbuilder
- *
- * @param out The new packbuilder object
- * @param repo The repository
- *
- * @return 0 or an error code
-  *)
+   * Initialize a new packbuilder
+   *
+   * @param out The new packbuilder object
+   * @param repo The repository
+   *
+   * @return 0 or an error code
+   *)
 
-function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set number of threads to spawn
@@ -65,10 +63,9 @@ function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository)
  * @param pb The packbuilder
  * @param n Number of threads to spawn
  * @return number of actual threads to be used
-  *)
+ *)
 
-function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal)
-  : Cardinal; cdecl; external libgit2_dll;
+function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal): Cardinal; cdecl; external libgit2_dll;
 
 (**
  * Insert a single object
@@ -81,10 +78,9 @@ function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal)
  * @param name The name; might be NULL
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Insert a root tree object
@@ -95,10 +91,9 @@ function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid;
  * @param id The oid of the root tree
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Insert a commit object
@@ -109,10 +104,9 @@ function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid)
  * @param id The oid of the commit
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Insert objects as given by the walk
@@ -124,10 +118,9 @@ function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid)
  * @param walk the revwalk to use to fill the packbuilder
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk)
-  : Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
 
 (**
  * Recursively insert an object and its referenced objects
@@ -138,10 +131,9 @@ function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk)
  * @param id the id of the root object to insert
  * @param name optional name for the object
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write the contents of the packfile to an in-memory buffer
@@ -151,7 +143,7 @@ function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid;
  *
  * @param buf Buffer where to write the packfile
  * @param pb The packbuilder
-  *)
+ *)
 
 function git_packbuilder_write_buf(buf: Pgit_buf; pb: Pgit_packbuilder): Integer; cdecl; external libgit2_dll;
 
@@ -165,11 +157,10 @@ function git_packbuilder_write_buf(buf: Pgit_buf; pb: Pgit_packbuilder): Integer
  * @param progress_cb_payload payload for the progress callback (optional)
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_packbuilder_write(pb: Pgit_packbuilder; path: PAnsiChar;
-  mode: Cardinal; progress_cb: git_indexer_progress_cb;
-  progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_write(pb: Pgit_packbuilder; path: PAnsiChar; mode: Cardinal;
+  progress_cb: git_indexer_progress_cb; progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
 * Get the packfile's hash
@@ -178,7 +169,7 @@ function git_packbuilder_write(pb: Pgit_packbuilder; path: PAnsiChar;
 * names. This is only correct after the packfile has been written.
 *
 * @param pb The packbuilder object
- *)
+*)
 
 function git_packbuilder_hash(pb: Pgit_packbuilder): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -191,30 +182,30 @@ function git_packbuilder_hash(pb: Pgit_packbuilder): Pgit_oid; cdecl; external l
  * @param size The size of the underlying object
  * @param payload Payload passed to git_packbuilder_foreach
  * @return non-zero to terminate the iteration
-  *)
+ *)
 
 type
   git_packbuilder_foreach_cb = function(buf: Pointer; size: size_t;
     payload: Pointer): Integer; cdecl;
 
   (**
- * Create the new pack and pass each object to the callback
- *
- * @param pb the packbuilder
- * @param cb the callback to call with each packed object's buffer
- * @param payload the callback's data
- * @return 0 or an error code
-  *)
+   * Create the new pack and pass each object to the callback
+   *
+   * @param pb the packbuilder
+   * @param cb the callback to call with each packed object's buffer
+   * @param payload the callback's data
+   * @return 0 or an error code
+   *)
 
-function git_packbuilder_foreach(pb: Pgit_packbuilder;
-  cb: git_packbuilder_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_foreach(pb: Pgit_packbuilder; cb: git_packbuilder_foreach_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the total number of objects the packbuilder will write out
  *
  * @param pb the packbuilder
  * @return the number of objects in the packfile
-  *)
+ *)
 
 function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll;
 
@@ -223,37 +214,38 @@ function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; exte
  *
  * @param pb the packbuilder
  * @return the number of objects which have already been written
-  *)
+ *)
 
 function git_packbuilder_written(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll;
 
 (** Packbuilder progress notification function  *)
 
 type
-  git_packbuilder_progress = function(stage: Integer; current, total: uint32_t;
-    payload: Pointer): Integer; cdecl;
+  git_packbuilder_progress = function(stage: Integer; current, total: uint32_t; payload: Pointer): Integer; cdecl;
 
   (**
- * Set the callbacks for a packbuilder
- *
- * @param pb The packbuilder object
- * @param progress_cb Function to call with progress information during
- * pack building. Be aware that this is called inline with pack building
- * operations, so performance may be affected.
- * @param progress_cb_payload Payload for progress callback.
- * @return 0 or an error code
-  *)
+   * Set the callbacks for a packbuilder
+   *
+   * @param pb The packbuilder object
+   * @param progress_cb Function to call with progress information during
+   * pack building. Be aware that this is called inline with pack building
+   * operations, so performance may be affected.
+   * @param progress_cb_payload Payload for progress callback.
+   * @return 0 or an error code
+   *)
 
-function git_packbuilder_set_callbacks(pb: Pgit_packbuilder;
-  progress_cb: git_packbuilder_progress; progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_set_callbacks(pb: Pgit_packbuilder; progress_cb: git_packbuilder_progress;
+  progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free the packbuilder and all associated data
  *
  * @param pb The packbuilder
-  *)
+ *)
 
 procedure git_packbuilder_free(pb: Pgit_packbuilder); cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

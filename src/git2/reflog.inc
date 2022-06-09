@@ -4,7 +4,7 @@
  * @defgroup git_reflog Git reflog management routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Read the reflog for the given reference
@@ -20,10 +20,9 @@
  * @param repo the repostiory
  * @param name reference to look up
  * @return 0 or an error code
-  *)
+ *)
 
-function git_reflog_read(out_: PPgit_reflog; repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reflog_read(out_: PPgit_reflog; repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write an existing in-memory reflog object back to disk
@@ -31,7 +30,7 @@ function git_reflog_read(out_: PPgit_reflog; repo: Pgit_repository;
  *
  * @param reflog an existing reflog object
  * @return 0 or an error code
-  *)
+ *)
 
 function git_reflog_write(reflog: Pgit_reflog): Integer; cdecl; external libgit2_dll;
 
@@ -45,10 +44,10 @@ function git_reflog_write(reflog: Pgit_reflog): Integer; cdecl; external libgit2
  * @param committer the signature of the committer
  * @param msg the reflog message
  * @return 0 or an error code
-  *)
+ *)
 
-function git_reflog_append(reflog: Pgit_reflog; id: Pgit_oid;
-  committer: Pgit_signature; msg: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reflog_append(reflog: Pgit_reflog; id: Pgit_oid; committer: Pgit_signature;
+  msg: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Rename a reflog
@@ -62,10 +61,9 @@ function git_reflog_append(reflog: Pgit_reflog; id: Pgit_oid;
  * @param old_name the old name of the reference
  * @param name the new name of the reference
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
-  *)
+ *)
 
-function git_reflog_rename(repo: Pgit_repository; old_name, name_: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_reflog_rename(repo: Pgit_repository; old_name, name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Delete the reflog for the given reference
@@ -73,7 +71,7 @@ function git_reflog_rename(repo: Pgit_repository; old_name, name_: PAnsiChar)
  * @param repo the repository
  * @param name the reflog to delete
  * @return 0 or an error code
-  *)
+ *)
 
 function git_reflog_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -82,7 +80,7 @@ function git_reflog_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cd
  *
  * @param reflog the previously loaded reflog
  * @return the number of log entries
-  *)
+ *)
 
 function git_reflog_entrycount(reflog: Pgit_reflog): size_t; cdecl; external libgit2_dll;
 
@@ -96,10 +94,9 @@ function git_reflog_entrycount(reflog: Pgit_reflog): size_t; cdecl; external lib
  * @param idx the position of the entry to lookup. Should be greater than or
  * equal to 0 (zero) and less than `git_reflog_entrycount()`.
  * @return the entry; NULL if not found
-  *)
+ *)
 
-function git_reflog_entry_byindex(reflog: Pgit_reflog; idx: size_t)
-  : Pgit_reflog_entry; cdecl; external libgit2_dll;
+function git_reflog_entry_byindex(reflog: Pgit_reflog; idx: size_t): Pgit_reflog_entry; cdecl; external libgit2_dll;
 
 (**
  * Remove an entry from the reflog by its index
@@ -117,17 +114,16 @@ function git_reflog_entry_byindex(reflog: Pgit_reflog; idx: size_t)
  *
  * @return 0 on success, GIT_ENOTFOUND if the entry doesn't exist
  * or an error code.
-  *)
+ *)
 
-function git_reflog_drop(reflog: Pgit_reflog; idx: size_t;
-  rewrite_previous_entry: Integer): Integer; cdecl; external libgit2_dll;
+function git_reflog_drop(reflog: Pgit_reflog; idx: size_t; rewrite_previous_entry: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the old oid
  *
  * @param entry a reflog entry
  * @return the old oid
-  *)
+ *)
 
 function git_reflog_entry_id_old(entry: Pgit_reflog_entry): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -136,7 +132,7 @@ function git_reflog_entry_id_old(entry: Pgit_reflog_entry): Pgit_oid; cdecl; ext
  *
  * @param entry a reflog entry
  * @return the new oid at this time
-  *)
+ *)
 
 function git_reflog_entry_id_new(entry: Pgit_reflog_entry): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -145,7 +141,7 @@ function git_reflog_entry_id_new(entry: Pgit_reflog_entry): Pgit_oid; cdecl; ext
  *
  * @param entry a reflog entry
  * @return the committer
-  *)
+ *)
 
 function git_reflog_entry_committer(entry: Pgit_reflog_entry): Pgit_signature; cdecl; external libgit2_dll;
 
@@ -154,7 +150,7 @@ function git_reflog_entry_committer(entry: Pgit_reflog_entry): Pgit_signature; c
  *
  * @param entry a reflog entry
  * @return the log msg
-  *)
+ *)
 
 function git_reflog_entry_message(entry: Pgit_reflog_entry): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -162,9 +158,10 @@ function git_reflog_entry_message(entry: Pgit_reflog_entry): PAnsiChar; cdecl; e
  * Free the reflog
  *
  * @param reflog reflog to free
-  *)
+ *)
 
 procedure git_reflog_free(reflog: Pgit_reflog); cdecl; external libgit2_dll;
 
 (** @}  *)
+
 

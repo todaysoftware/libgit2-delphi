@@ -15,8 +15,7 @@
  * @return 0 or an error code
   *)
 
-function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Lookup a blob object from a repository,
@@ -31,8 +30,8 @@ function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid)
  * @return 0 or an error code
   *)
 
-function git_blob_lookup_prefix(blob: PPgit_blob; repo: Pgit_repository;
-  id: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_blob_lookup_prefix(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Close an open blob
@@ -95,17 +94,17 @@ function git_blob_rawsize(blob: Pgit_blob): git_object_size_t; cdecl; external l
 
 const
   (** When set, filters will not be applied to binary files.  *)
-  GIT_BLOB_FILTER_CHECK_FOR_BINARY = ( 1 shl 0 );
+  GIT_BLOB_FILTER_CHECK_FOR_BINARY = (1 shl 0);
   (**
    * When set, filters will not load configuration from the
    * system-wide `gitattributes` in `/etc` (or system equivalent).
     *)
-  GIT_BLOB_FILTER_NO_SYSTEM_ATTRIBUTES = ( 1 shl 1 );
+  GIT_BLOB_FILTER_NO_SYSTEM_ATTRIBUTES = (1 shl 1);
   (**
    * When set, filters will be loaded from a `.gitattributes` file
    * in the HEAD commit.
     *)
-  GIT_BLOB_FILTER_ATTRIBUTES_FROM_HEAD = ( 1 shl 2 );
+  GIT_BLOB_FILTER_ATTRIBUTES_FROM_HEAD = (1 shl 2);
   (**
    * When set, filters will be loaded from a `.gitattributes` file
    * in the specified commit.
@@ -123,9 +122,9 @@ type
   *)
 
   git_blob_filter_options = record
-    version : Integer;
+    version: Integer;
     (** Flags to control the filtering process, see `git_blob_filter_flag_t` above  *)
-    flags : uint32_t;
+    flags: uint32_t;
     (**
      * The commit to load attributes from, when
      * `GIT_BLOB_FILTER_ATTRIBUTES_FROM_COMMIT` is specified.
@@ -149,31 +148,31 @@ const
    * @return Zero on success; -1 on failure.
     *)
 
-function git_blob_filter_options_init(opts: Pgit_blob_filter_options; version: Cardinal):
-  Integer; cdecl; external libgit2_dll;
+function git_blob_filter_options_init(opts: Pgit_blob_filter_options;
+  version: Cardinal): Integer; cdecl; external libgit2_dll;
 
-  (**
- * Get a buffer with the filtered content of a blob.
- *
- * This applies filters as if the blob was being checked out to the
- * working directory under the specified filename.  This may apply
- * CRLF filtering or other types of changes depending on the file
- * attributes set for the blob and the content detected in it.
- *
- * The output is written into a `git_buf` which the caller must free
- * when done (via `git_buf_dispose`).
- *
- * If no filters need to be applied, then the `out` buffer will just
- * be populated with a pointer to the raw content of the blob.  In
- * that case, be careful to *not* free the blob until done with the
- * buffer or copy it into memory you own.
- *
- * @param out The git_buf to be filled in
- * @param blob Pointer to the blob
- * @param as_path Path used for file attribute lookups, etc.
- * @param opts Options to use for filtering the blob
- * @return 0 on success or an error code
-  *)
+(**
+* Get a buffer with the filtered content of a blob.
+*
+* This applies filters as if the blob was being checked out to the
+* working directory under the specified filename.  This may apply
+* CRLF filtering or other types of changes depending on the file
+* attributes set for the blob and the content detected in it.
+*
+* The output is written into a `git_buf` which the caller must free
+* when done (via `git_buf_dispose`).
+*
+* If no filters need to be applied, then the `out` buffer will just
+* be populated with a pointer to the raw content of the blob.  In
+* that case, be careful to *not* free the blob until done with the
+* buffer or copy it into memory you own.
+*
+* @param out The git_buf to be filled in
+* @param blob Pointer to the blob
+* @param as_path Path used for file attribute lookups, etc.
+* @param opts Options to use for filtering the blob
+* @return 0 on success or an error code
+*)
 
 function git_blob_filter(out_: Pgit_buf; blob: Pgit_blob; as_path: PAnsiChar;
   opts: Pgit_blob_filter_options): Integer; cdecl; external libgit2_dll;
@@ -233,8 +232,8 @@ function git_blob_create_from_disk(id: Pgit_oid; repo: Pgit_repository;
  * @return 0 or error code
   *)
 
-function git_blob_create_from_stream(out_: PPgit_writestream;
-  repo: Pgit_repository; hintpath: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_blob_create_from_stream(out_: PPgit_writestream; repo: Pgit_repository;
+  hintpath: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Close the stream and write the blob to the object db
@@ -246,8 +245,7 @@ function git_blob_create_from_stream(out_: PPgit_writestream;
  * @return 0 or an error code
   *)
 
-function git_blob_create_from_stream_commit(out_: Pgit_oid;
-  stream: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+function git_blob_create_from_stream_commit(out_: Pgit_oid; stream: Pgit_writestream): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write an in-memory buffer to the ODB as a blob
@@ -259,8 +257,8 @@ function git_blob_create_from_stream_commit(out_: Pgit_oid;
  * @return 0 or an error code
   *)
 
-function git_blob_create_from_buffer(id: Pgit_oid; repo: Pgit_repository;
-  buffer: Pointer; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_blob_create_from_buffer(id: Pgit_oid; repo: Pgit_repository; buffer: Pointer;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Determine if the blob content is most certainly binary or not.
@@ -287,4 +285,6 @@ function git_blob_is_binary(blob: Pgit_blob): Integer; cdecl; external libgit2_d
 function git_blob_dup(out_: PPgit_blob; source: Pgit_blob): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

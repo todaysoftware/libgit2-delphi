@@ -1,31 +1,31 @@
 (** Size (in bytes) of a raw/binary oid  *)
 
 const
-  GIT_OID_RAWSZ = 20;
+  GIT_OID_RAWSZ               = 20;
   (** Size (in bytes) of a hex formatted oid  *)
 
-  GIT_OID_HEXSZ = ( GIT_OID_RAWSZ * 2 );
+  GIT_OID_HEXSZ               = (GIT_OID_RAWSZ * 2);
   (** Minimum length (in number of hex characters,
  * i.e. packets of 4 bits) of an oid prefix  *)
 
-  GIT_OID_MINPREFIXLEN = 4;
+  GIT_OID_MINPREFIXLEN        = 4;
   (** Unique identity of any object (commit, tree, blob, tag).  *)
 
 type
   git_oid = record
     (** raw binary formatted id  *)
-    id : array [0..GIT_OID_RAWSZ-1] of Byte;
+    id: array[0..GIT_OID_RAWSZ - 1] of Byte;
   end;
 
   (**
- * Parse a hex formatted object id into a git_oid.
- *
- * @param out oid structure the result is written into.
- * @param str input hex string; must be pointing at the start of
- *		the hex sequence and have at least the number of bytes
- *		needed for an oid encoded in hex (40 bytes).
- * @return 0 or an error code
-  *)
+   * Parse a hex formatted object id into a git_oid.
+   *
+   * @param out oid structure the result is written into.
+   * @param str input hex string; must be pointing at the start of
+   *		the hex sequence and have at least the number of bytes
+   *		needed for an oid encoded in hex (40 bytes).
+   * @return 0 or an error code
+   *)
 
 type
   Pgit_oid = ^git_oid;
@@ -37,7 +37,7 @@ function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; extern
  * @param out oid structure the result is written into.
  * @param str input hex string; must be null-terminated.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -51,10 +51,9 @@ function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; exter
  * @param str input hex string of at least size `length`
  * @param length length of the input string
  * @return 0 or an error code
-  *)
+ *)
 
-function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; length: size_t)
-  : Integer; cdecl; external libgit2_dll;
+function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Copy an already raw oid into a git_oid structure.
@@ -62,7 +61,7 @@ function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; length: size_t)
  * @param out oid structure the result is written into.
  * @param raw the raw input bytes to be copied.
  * @return 0 on success or error code
-  *)
+ *)
 
 function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external libgit2_dll;
 
@@ -76,7 +75,7 @@ function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external l
  *		by the caller if it is required.
  * @param id oid structure to format.
  * @return 0 on success or error code
-  *)
+ *)
 
 function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -89,7 +88,7 @@ function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external li
  * @param n number of characters to write into out string
  * @param id oid structure to format.
  * @return 0 on success or error code
-  *)
+ *)
 
 function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -106,7 +105,7 @@ function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl;
  *		by the caller if it is required.
  * @param id oid structure to format.
  * @return 0 on success, non-zero callback return value, or error code
-  *)
+ *)
 
 function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -120,7 +119,7 @@ function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; externa
  *
  * @param oid The oid structure to format
  * @return the c-string
-  *)
+ *)
 
 function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -140,7 +139,7 @@ function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
  * @param id the oid structure to format.
  * @return the out buffer pointer, assuming no input parameter
  *			errors, otherwise a pointer to an empty string.
-  *)
+ *)
 
 function git_oid_tostr(out_: PAnsiChar; n: size_t; id: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -150,7 +149,7 @@ function git_oid_tostr(out_: PAnsiChar; n: size_t; id: Pgit_oid): PAnsiChar; cde
  * @param out oid structure the result is written into.
  * @param src oid structure to copy from.
  * @return 0 on success or error code
-  *)
+ *)
 
 function git_oid_cpy(out_, src: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -160,7 +159,7 @@ function git_oid_cpy(out_, src: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @param a first oid structure.
  * @param b second oid structure.
  * @return <0, 0, >0 if a < b, a == b, a > b.
-  *)
+ *)
 
 function git_oid_cmp(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -170,7 +169,7 @@ function git_oid_cmp(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @param a first oid structure.
  * @param b second oid structure.
  * @return true if equal, false otherwise
-  *)
+ *)
 
 function git_oid_equal(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -182,7 +181,7 @@ function git_oid_equal(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @param b second oid structure.
  * @param len the number of hex chars to compare
  * @return 0 in case of a match
-  *)
+ *)
 
 function git_oid_ncmp(a, b: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
 
@@ -192,7 +191,7 @@ function git_oid_ncmp(a, b: Pgit_oid; len: size_t): Integer; cdecl; external lib
  * @param id oid structure.
  * @param str input hex string of an object id.
  * @return 0 in case of a match, -1 otherwise.
-  *)
+ *)
 
 function git_oid_streq(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -203,7 +202,7 @@ function git_oid_streq(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external l
  * @param str input hex string of an object id.
  * @return -1 if str is not valid, <0 if id sorts before str,
  *         0 if id matches str, >0 if id sorts after str.
-  *)
+ *)
 
 function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -211,32 +210,32 @@ function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external 
  * Check is an oid is all zeros.
  *
  * @return 1 if all zeros, 0 otherwise.
-  *)
+ *)
 
 function git_oid_is_zero(id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * OID Shortener object
-  *)
+ *)
 
 type
   git_oid_shorten = record
   end;
 
   (**
- * Create a new OID shortener.
- *
- * The OID shortener is used to process a list of OIDs
- * in text form and return the shortest length that would
- * uniquely identify all of them.
- *
- * E.g. look at the result of `git log --abbrev`.
- *
- * @param min_length The minimal length for all identifiers,
- *		which will be used even if shorter OIDs would still
- *		be unique.
- *	@return a `git_oid_shorten` instance, NULL if OOM
-  *)
+   * Create a new OID shortener.
+   *
+   * The OID shortener is used to process a list of OIDs
+   * in text form and return the shortest length that would
+   * uniquely identify all of them.
+   *
+   * E.g. look at the result of `git log --abbrev`.
+   *
+   * @param min_length The minimal length for all identifiers,
+   *		which will be used even if shorter OIDs would still
+   *		be unique.
+   *	@return a `git_oid_shorten` instance, NULL if OOM
+   *)
 
 type
   Pgit_oid_shorten = ^git_oid_shorten;
@@ -265,7 +264,7 @@ function git_oid_shorten_new(min_length: size_t): Pgit_oid_shorten; cdecl; exter
  * @return the minimal length to uniquely identify all OIDs
  *		added so far to the set; or an error code (<0) if an
  *		error occurs.
-  *)
+ *)
 
 function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -273,7 +272,9 @@ function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer;
  * Free an OID shortener instance
  *
  * @param os a `git_oid_shorten` instance
-  *)
+ *)
 
 procedure git_oid_shorten_free(os: Pgit_oid_shorten); cdecl; external libgit2_dll;
+
+
 

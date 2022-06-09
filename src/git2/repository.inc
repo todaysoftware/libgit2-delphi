@@ -4,7 +4,7 @@
  * @defgroup git_repository Git repository management routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Open a git repository.
@@ -18,7 +18,7 @@
  * @param out pointer to the repo which will be opened
  * @param path the path to the repository
  * @return 0 or an error code
-  *)
+ *)
 
 function git_repository_open(out_: PPgit_repository; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -31,10 +31,9 @@ function git_repository_open(out_: PPgit_repository; path: PAnsiChar): Integer; 
  * @param out Output pointer containing opened repository
  * @param wt Working tree to open
  * @return 0 or an error code
-  *)
+ *)
 
-function git_repository_open_from_worktree(out_: PPgit_repository;
-  wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
+function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a "fake" repository to wrap an object database
@@ -46,7 +45,7 @@ function git_repository_open_from_worktree(out_: PPgit_repository;
  * @param out pointer to the repo
  * @param odb the object database to wrap
  * @return 0 or an error code
-  *)
+ *)
 
 function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer; cdecl; external libgit2_dll;
 
@@ -75,82 +74,82 @@ function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer
  * might be NULL (which is equivalent to an empty string)
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_repository_discover(out_: Pgit_buf; start_path: PAnsiChar;
-  across_fs: Integer; ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_discover(out_: Pgit_buf; start_path: PAnsiChar; across_fs: Integer;
+  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Option flags for `git_repository_open_ext`.
-  *)
+ *)
 
 const
   (**
-	 * Only open the repository if it can be immediately found in the
-	 * start_path. Do not walk up from the start_path looking at parent
-	 * directories.
-	  *)
-  GIT_REPOSITORY_OPEN_NO_SEARCH = ( 1 shl 0 );
+   * Only open the repository if it can be immediately found in the
+   * start_path. Do not walk up from the start_path looking at parent
+   * directories.
+   *)
+  GIT_REPOSITORY_OPEN_NO_SEARCH = (1 shl 0);
   (**
-	 * Unless this flag is set, open will not continue searching across
-	 * filesystem boundaries (i.e. when `st_dev` changes from the `stat`
-	 * system call).  For example, searching in a user's home directory at
-	 * "/home/user/source/" will not return "/.git/" as the found repo if
-	 * "/" is a different filesystem than "/home".
-	  *)
-  GIT_REPOSITORY_OPEN_CROSS_FS = ( 1 shl 1 );
+   * Unless this flag is set, open will not continue searching across
+   * filesystem boundaries (i.e. when `st_dev` changes from the `stat`
+   * system call).  For example, searching in a user's home directory at
+   * "/home/user/source/" will not return "/.git/" as the found repo if
+   * "/" is a different filesystem than "/home".
+   *)
+  GIT_REPOSITORY_OPEN_CROSS_FS = (1 shl 1);
   (**
-	 * Open repository as a bare repo regardless of core.bare config, and
-	 * defer loading config file for faster setup.
-	 * Unlike `git_repository_open_bare`, this can follow gitlinks.
-	  *)
-  GIT_REPOSITORY_OPEN_BARE_ = ( 1 shl 2 );
+   * Open repository as a bare repo regardless of core.bare config, and
+   * defer loading config file for faster setup.
+   * Unlike `git_repository_open_bare`, this can follow gitlinks.
+   *)
+  GIT_REPOSITORY_OPEN_BARE_   = (1 shl 2);
   (**
-	 * Do not check for a repository by appending /.git to the start_path;
-	 * only open the repository if start_path itself points to the git
-	 * directory.
-	  *)
-  GIT_REPOSITORY_OPEN_NO_DOTGIT = ( 1 shl 3 );
+   * Do not check for a repository by appending /.git to the start_path;
+   * only open the repository if start_path itself points to the git
+   * directory.
+   *)
+  GIT_REPOSITORY_OPEN_NO_DOTGIT = (1 shl 3);
   (**
-	 * Find and open a git repository, respecting the environment variables
-	 * used by the git command-line tools.
-	 * If set, `git_repository_open_ext` will ignore the other flags and
-	 * the `ceiling_dirs` argument, and will allow a NULL `path` to use
-	 * `GIT_DIR` or search from the current directory.
-	 * The search for a repository will respect $GIT_CEILING_DIRECTORIES and
-	 * $GIT_DISCOVERY_ACROSS_FILESYSTEM.  The opened repository will
-	 * respect $GIT_INDEX_FILE, $GIT_NAMESPACE, $GIT_OBJECT_DIRECTORY, and
-	 * $GIT_ALTERNATE_OBJECT_DIRECTORIES.
-	 * In the future, this flag will also cause `git_repository_open_ext`
-	 * to respect $GIT_WORK_TREE and $GIT_COMMON_DIR; currently,
-	 * `git_repository_open_ext` with this flag will error out if either
-	 * $GIT_WORK_TREE or $GIT_COMMON_DIR is set.
-	  *)
-  GIT_REPOSITORY_OPEN_FROM_ENV = ( 1 shl 4 );
+   * Find and open a git repository, respecting the environment variables
+   * used by the git command-line tools.
+   * If set, `git_repository_open_ext` will ignore the other flags and
+   * the `ceiling_dirs` argument, and will allow a NULL `path` to use
+   * `GIT_DIR` or search from the current directory.
+   * The search for a repository will respect $GIT_CEILING_DIRECTORIES and
+   * $GIT_DISCOVERY_ACROSS_FILESYSTEM.  The opened repository will
+   * respect $GIT_INDEX_FILE, $GIT_NAMESPACE, $GIT_OBJECT_DIRECTORY, and
+   * $GIT_ALTERNATE_OBJECT_DIRECTORIES.
+   * In the future, this flag will also cause `git_repository_open_ext`
+   * to respect $GIT_WORK_TREE and $GIT_COMMON_DIR; currently,
+   * `git_repository_open_ext` with this flag will error out if either
+   * $GIT_WORK_TREE or $GIT_COMMON_DIR is set.
+   *)
+  GIT_REPOSITORY_OPEN_FROM_ENV = (1 shl 4);
 type
   git_repository_open_flag_t = Integer;
 
   (**
- * Find and open a repository with extended controls.
- *
- * @param out Pointer to the repo which will be opened.  This can
- *        actually be NULL if you only want to use the error code to
- *        see if a repo at this path could be opened.
- * @param path Path to open as git repository.  If the flags
- *        permit "searching", then this can be a path to a subdirectory
- *        inside the working directory of the repository. May be NULL if
- *        flags is GIT_REPOSITORY_OPEN_FROM_ENV.
- * @param flags A combination of the GIT_REPOSITORY_OPEN flags above.
- * @param ceiling_dirs A GIT_PATH_LIST_SEPARATOR delimited list of path
- *        prefixes at which the search for a containing repository should
- *        terminate.
- * @return 0 on success, GIT_ENOTFOUND if no repository could be found,
- *        or -1 if there was a repository but open failed for some reason
- *        (such as repo corruption or system errors).
-  *)
+   * Find and open a repository with extended controls.
+   *
+   * @param out Pointer to the repo which will be opened.  This can
+   *        actually be NULL if you only want to use the error code to
+   *        see if a repo at this path could be opened.
+   * @param path Path to open as git repository.  If the flags
+   *        permit "searching", then this can be a path to a subdirectory
+   *        inside the working directory of the repository. May be NULL if
+   *        flags is GIT_REPOSITORY_OPEN_FROM_ENV.
+   * @param flags A combination of the GIT_REPOSITORY_OPEN flags above.
+   * @param ceiling_dirs A GIT_PATH_LIST_SEPARATOR delimited list of path
+   *        prefixes at which the search for a containing repository should
+   *        terminate.
+   * @return 0 on success, GIT_ENOTFOUND if no repository could be found,
+   *        or -1 if there was a repository but open failed for some reason
+   *        (such as repo corruption or system errors).
+   *)
 
-function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar;
-  flags: Cardinal; ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar; flags: Cardinal;
+  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Open a bare repository on the serverside.
@@ -162,10 +161,9 @@ function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar;
  * @param out Pointer to the repo which will be opened.
  * @param bare_path Direct path to the bare repository
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free a previously allocated repository
@@ -177,7 +175,7 @@ function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar)
  * behavior
  *
  * @param repo repository handle to close. If NULL nothing occurs.
-  *)
+ *)
 
 procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dll;
 
@@ -195,7 +193,7 @@ procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dl
  *		will be created.
  *
  * @return 0 or an error code
-  *)
+ *)
 
 function git_repository_init(out_: PPgit_repository; path: PAnsiChar;
   is_bare: Cardinal): Integer; cdecl; external libgit2_dll;
@@ -207,57 +205,57 @@ function git_repository_init(out_: PPgit_repository; path: PAnsiChar;
  * In every case, the default behavior is the zero value (i.e. flag is
  * not set).  Just OR the flag values together for the `flags` parameter
  * when initializing a new repo.
-  *)
+ *)
 
 const
   (**
    * Create a bare repository with no working directory.
    *)
-  GIT_REPOSITORY_INIT_BARE = ( 1 shl 0 );
+  GIT_REPOSITORY_INIT_BARE    = (1 shl 0);
   (**
    * Return an GIT_EEXISTS error if the repo_path appears to already be
    * an git repository.
    *)
-  GIT_REPOSITORY_INIT_NO_REINIT = ( 1 shl 1 );
+  GIT_REPOSITORY_INIT_NO_REINIT = (1 shl 1);
   (**
    * Normally a "/.git/" will be appended to the repo path for
    * non-bare repos (if it is not already there), but passing this flag
    * prevents that behavior.
    *)
-  GIT_REPOSITORY_INIT_NO_DOTGIT_DIR = ( 1 shl 2 );
+  GIT_REPOSITORY_INIT_NO_DOTGIT_DIR = (1 shl 2);
   (**
    * Make the repo_path (and workdir_path) as needed. Init is always willing
    * to create the ".git" directory even without this flag. This flag tells
    * init to create the trailing component of the repo and workdir paths
    * as needed.
    *)
-  GIT_REPOSITORY_INIT_MKDIR = ( 1 shl 3 );
+  GIT_REPOSITORY_INIT_MKDIR   = (1 shl 3);
   (**
    * Recursively make all components of the repo and workdir paths as
    * necessary.
    *)
-  GIT_REPOSITORY_INIT_MKPATH = ( 1 shl 4 );
+  GIT_REPOSITORY_INIT_MKPATH  = (1 shl 4);
   (**
    * libgit2 normally uses internal templates to initialize a new repo.
    * This flags enables external templates, looking the "template_path" from
    * the options if set, or the `init.templatedir` global config if not,
    * or falling back on "/usr/share/git-core/templates" if it exists.
    *)
-  GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE = ( 1 shl 5 );
+  GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE = (1 shl 5);
   (**
    * If an alternate workdir is specified, use relative paths for the gitdir
    * and core.worktree.
    *)
-  GIT_REPOSITORY_INIT_RELATIVE_GITLINK = ( 1 shl 6 );
+  GIT_REPOSITORY_INIT_RELATIVE_GITLINK = (1 shl 6);
 type
   git_repository_init_flag_t = Integer;
 
   (**
- * Mode options for `git_repository_init_ext`.
- *
- * Set the mode field of the `git_repository_init_options` structure
- * either to the custom mode that you would like, or to one of the
- * defined modes.
+   * Mode options for `git_repository_init_ext`.
+   *
+   * Set the mode field of the `git_repository_init_options` structure
+   * either to the custom mode that you would like, or to one of the
+   * defined modes.
   *)
 
 const
@@ -278,23 +276,23 @@ type
   git_repository_init_mode_t = Integer;
 
   (**
- * Extended options structure for `git_repository_init_ext`.
- *
- * This contains extra options for `git_repository_init_ext` that enable
- * additional initialization features.
-  *)
+   * Extended options structure for `git_repository_init_ext`.
+   *
+   * This contains extra options for `git_repository_init_ext` that enable
+   * additional initialization features.
+   *)
 
   git_repository_init_options = record
-    version : Cardinal;
+    version: Cardinal;
     (**
      * Combination of GIT_REPOSITORY_INIT flags above.
      *)
-    flags : uint32_t;
+    flags: uint32_t;
     (**
      * Set to one of the standard GIT_REPOSITORY_INIT_SHARED_... constants
      * above, or to a custom value that you would like.
      *)
-    mode : uint32_t;
+    mode: uint32_t;
     (**
      * The path to the working dir or NULL for default (i.e. repo_path parent
      * on non-bare repos). IF THIS IS RELATIVE PATH, IT WILL BE EVALUATED
@@ -302,31 +300,31 @@ type
      * directory, a .git gitlink file will be created here linking to the
      * repo_path.
      *)
-    workdir_path : PAnsiChar;
+    workdir_path: PAnsiChar;
     (**
      * If set, this will be used to initialize the "description" file in the
      * repository, instead of using the template content.
      *)
-    description : PAnsiChar;
+    description: PAnsiChar;
     (**
      * When GIT_REPOSITORY_INIT_EXTERNAL_TEMPLATE is set, this contains
      * the path to use for the template directory. If this is NULL, the config
      * or default directory options will be used instead.
      *)
-    template_path : PAnsiChar;
+    template_path: PAnsiChar;
     (**
      * The name of the head to point HEAD at. If NULL, then this will be
      * treated as "master" and the HEAD ref will be set to "refs/heads/master".
      * If this begins with "refs/" it will be used verbatim;
      * otherwise "refs/heads/" will be prefixed.
      *)
-    initial_head : PAnsiChar;
+    initial_head: PAnsiChar;
     (**
      * If this is non-NULL, then after the rest of the repository
      * initialization is completed, an "origin" remote will be added
      * pointing to this URL.
      *)
-    origin_url : PAnsiChar;
+    origin_url: PAnsiChar;
   end;
   Pgit_repository_init_options = ^git_repository_init_options;
 
@@ -359,7 +357,7 @@ function git_repository_init_options_init(opts: Pgit_repository_init_options;
  * @param repo_path The path to the repository.
  * @param opts Pointer to git_repository_init_options struct.
  * @return 0 or an error code on failure.
-  *)
+ *)
 
 function git_repository_init_ext(out_: PPgit_repository; repo_path: PAnsiChar;
   opts: Pgit_repository_init_options): Integer; cdecl; external libgit2_dll;
@@ -376,10 +374,9 @@ function git_repository_init_ext(out_: PPgit_repository; repo_path: PAnsiChar;
  *
  * @return 0 on success, GIT_EUNBORNBRANCH when HEAD points to a non existing
  * branch, GIT_ENOTFOUND when HEAD is missing; an error code otherwise
-  *)
+ *)
 
-function git_repository_head(out_: PPgit_reference; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_head(out_: PPgit_reference; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Retrieve the referenced HEAD for the worktree
@@ -388,10 +385,10 @@ function git_repository_head(out_: PPgit_reference; repo: Pgit_repository)
  * @param repo a repository object
  * @param name name of the worktree to retrieve HEAD for
  * @return 0 when successful, error-code otherwise
-  *)
+ *)
 
-function git_repository_head_for_worktree(out_: PPgit_reference;
-  repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_head_for_worktree(out_: PPgit_reference; repo: Pgit_repository;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Check if a repository's HEAD is detached
@@ -402,7 +399,7 @@ function git_repository_head_for_worktree(out_: PPgit_reference;
  * @param repo Repo to test
  * @return 1 if HEAD is detached, 0 if it's not; error code if there
  * was an error.
-  *)
+ *)
 
 function git_repository_head_detached(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -416,10 +413,9 @@ function git_repository_head_detached(repo: Pgit_repository): Integer; cdecl; ex
  * @param name name of the worktree to retrieve HEAD for
  * @return 1 if HEAD is detached, 0 if its not; error code if
  *  there was an error
-  *)
+ *)
 
-function git_repository_head_detached_for_worktree(repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_head_detached_for_worktree(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Check if the current branch is unborn
@@ -430,7 +426,7 @@ function git_repository_head_detached_for_worktree(repo: Pgit_repository;
  * @param repo Repo to test
  * @return 1 if the current branch is unborn, 0 if it's not; error
  * code if there was an error
-  *)
+ *)
 
 function git_repository_head_unborn(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -449,41 +445,41 @@ function git_repository_is_empty(repo: Pgit_repository): Integer; cdecl; externa
 
 (**
  * List of items which belong to the git repository layout
-  *)
+ *)
 
 const
-  GIT_REPOSITORY_ITEM_GITDIR = 0;
+  GIT_REPOSITORY_ITEM_GITDIR  = 0;
   GIT_REPOSITORY_ITEM_WORKDIR = 1;
   GIT_REPOSITORY_ITEM_COMMONDIR = 2;
-  GIT_REPOSITORY_ITEM_INDEX = 3;
+  GIT_REPOSITORY_ITEM_INDEX   = 3;
   GIT_REPOSITORY_ITEM_OBJECTS = 4;
-  GIT_REPOSITORY_ITEM_REFS = 5;
+  GIT_REPOSITORY_ITEM_REFS    = 5;
   GIT_REPOSITORY_ITEM_PACKED_REFS = 6;
   GIT_REPOSITORY_ITEM_REMOTES = 7;
-  GIT_REPOSITORY_ITEM_CONFIG = 8;
-  GIT_REPOSITORY_ITEM_INFO = 9;
-  GIT_REPOSITORY_ITEM_HOOKS = 10;
-  GIT_REPOSITORY_ITEM_LOGS = 11;
+  GIT_REPOSITORY_ITEM_CONFIG  = 8;
+  GIT_REPOSITORY_ITEM_INFO    = 9;
+  GIT_REPOSITORY_ITEM_HOOKS   = 10;
+  GIT_REPOSITORY_ITEM_LOGS    = 11;
   GIT_REPOSITORY_ITEM_MODULES = 12;
   GIT_REPOSITORY_ITEM_WORKTREES = 13;
-  GIT_REPOSITORY_ITEM__LAST = 14;
+  GIT_REPOSITORY_ITEM__LAST   = 14;
 type
   git_repository_item_t = Integer;
 
   (**
- * Get the location of a specific repository file or directory
- *
- * This function will retrieve the path of a specific repository
- * item. It will thereby honor things like the repository's
- * common directory, gitdir, etc. In case a file path cannot
- * exist for a given item (e.g. the working directory of a bare
- * repository), GIT_ENOTFOUND is returned.
- *
- * @param out Buffer to store the path at
- * @param repo Repository to get path for
- * @param item The repository item for which to retrieve the path
- * @return 0, GIT_ENOTFOUND if the path cannot exist or an error code
-  *)
+   * Get the location of a specific repository file or directory
+   *
+   * This function will retrieve the path of a specific repository
+   * item. It will thereby honor things like the repository's
+   * common directory, gitdir, etc. In case a file path cannot
+   * exist for a given item (e.g. the working directory of a bare
+   * repository), GIT_ENOTFOUND is returned.
+   *
+   * @param out Buffer to store the path at
+   * @param repo Repository to get path for
+   * @param item The repository item for which to retrieve the path
+   * @return 0, GIT_ENOTFOUND if the path cannot exist or an error code
+   *)
 
 function git_repository_item_path(out_: Pgit_buf; repo: Pgit_repository;
   item: git_repository_item_t): Integer; cdecl; external libgit2_dll;
@@ -496,7 +492,7 @@ function git_repository_item_path(out_: Pgit_buf; repo: Pgit_repository;
  *
  * @param repo A repository object
  * @return the path to the repository
-  *)
+ *)
 
 function git_repository_path(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -508,7 +504,7 @@ function git_repository_path(repo: Pgit_repository): PAnsiChar; cdecl; external 
  *
  * @param repo A repository object
  * @return the path to the working dir, if it exists
-  *)
+ *)
 
 function git_repository_workdir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -521,7 +517,7 @@ function git_repository_workdir(repo: Pgit_repository): PAnsiChar; cdecl; extern
  *
  * @param repo A repository object
  * @return the path to the common dir
-  *)
+ *)
 
 function git_repository_commondir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
 
@@ -541,7 +537,7 @@ function git_repository_commondir(repo: Pgit_repository): PAnsiChar; cdecl; exte
  * @param update_gitlink Create/update gitlink in workdir and set config
  *        "core.worktree" (if workdir is not the parent of the .git directory)
  * @return 0, or an error code
-  *)
+ *)
 
 function git_repository_set_workdir(repo: Pgit_repository; workdir: PAnsiChar;
   update_gitlink: Integer): Integer; cdecl; external libgit2_dll;
@@ -551,7 +547,7 @@ function git_repository_set_workdir(repo: Pgit_repository; workdir: PAnsiChar;
  *
  * @param repo Repo to test
  * @return 1 if the repository is bare, 0 otherwise.
-  *)
+ *)
 
 function git_repository_is_bare(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -560,7 +556,7 @@ function git_repository_is_bare(repo: Pgit_repository): Integer; cdecl; external
  *
  * @param repo Repo to test
  * @return 1 if the repository is a linked work tree, 0 otherwise.
-  *)
+ *)
 
 function git_repository_is_worktree(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -577,10 +573,9 @@ function git_repository_is_worktree(repo: Pgit_repository): Integer; cdecl; exte
  * @param out Pointer to store the loaded configuration
  * @param repo A repository object
  * @return 0, or an error code
-  *)
+ *)
 
-function git_repository_config(out_: PPgit_config; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_config(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get a snapshot of the repository's configuration
@@ -595,10 +590,9 @@ function git_repository_config(out_: PPgit_config; repo: Pgit_repository)
  * @param out Pointer to store the loaded configuration
  * @param repo the repository
  * @return 0, or an error code
-  *)
+ *)
 
-function git_repository_config_snapshot(out_: PPgit_config;
-  repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_config_snapshot(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the Object Database for this repository.
@@ -613,7 +607,7 @@ function git_repository_config_snapshot(out_: PPgit_config;
  * @param out Pointer to store the loaded ODB
  * @param repo A repository object
  * @return 0, or an error code
-  *)
+ *)
 
 function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -630,7 +624,7 @@ function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cd
  * @param out Pointer to store the loaded refdb
  * @param repo A repository object
  * @return 0, or an error code
-  *)
+ *)
 
 function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -647,7 +641,7 @@ function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer
  * @param out Pointer to store the loaded index
  * @param repo A repository object
  * @return 0, or an error code
-  *)
+ *)
 
 function git_repository_index(out_: PPgit_index; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -666,7 +660,7 @@ function git_repository_index(out_: PPgit_index; repo: Pgit_repository): Integer
  * @param out git_buf to write data into
  * @param repo Repository to read prepared message from
  * @return 0, GIT_ENOTFOUND if no message exists or an error code
-  *)
+ *)
 
 function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -674,7 +668,7 @@ function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer;
  * Remove git's prepared message.
  *
  * Remove the message that `git_repository_message` retrieves.
-  *)
+ *)
 
 function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -684,7 +678,7 @@ function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; e
  *
  * @param repo A repository object
  * @return 0 on success, or error
-  *)
+ *)
 
 function git_repository_state_cleanup(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -699,27 +693,26 @@ function git_repository_state_cleanup(repo: Pgit_repository): Integer; cdecl; ex
  * @param is_merge Was the reference the result of a merge
  * @param payload Payload passed to git_repository_fetchhead_foreach
  * @return non-zero to terminate the iteration
-  *)
+ *)
 
 type
-  git_repository_fetchhead_foreach_cb = function(ref_name, remote_url: PAnsiChar;
-    oid: Pgit_oid; is_merge: Cardinal; payload: Pointer): Integer; cdecl;
+  git_repository_fetchhead_foreach_cb = function(ref_name, remote_url: PAnsiChar; oid: Pgit_oid;
+    is_merge: Cardinal; payload: Pointer): Integer; cdecl;
 
+  (**
+   * Invoke 'callback' for each entry in the given FETCH_HEAD file.
+   *
+   * Return a non-zero value from the callback to stop the loop.
+   *
+   * @param repo A repository object
+   * @param callback Callback function
+   * @param payload Pointer to callback data (optional)
+   * @return 0 on success, non-zero callback return value, GIT_ENOTFOUND if
+   *         there is no FETCH_HEAD file, or other error code.
+   *)
 
-(**
- * Invoke 'callback' for each entry in the given FETCH_HEAD file.
- *
- * Return a non-zero value from the callback to stop the loop.
- *
- * @param repo A repository object
- * @param callback Callback function
- * @param payload Pointer to callback data (optional)
- * @return 0 on success, non-zero callback return value, GIT_ENOTFOUND if
- *         there is no FETCH_HEAD file, or other error code.
-  *)
-
-function git_repository_fetchhead_foreach(repo: Pgit_repository;
-  callback: git_repository_fetchhead_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_repository_fetchhead_foreach(repo: Pgit_repository; callback: git_repository_fetchhead_foreach_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Callback used to iterate over each MERGE_HEAD entry
@@ -729,27 +722,26 @@ function git_repository_fetchhead_foreach(repo: Pgit_repository;
  * @param oid The merge OID
  * @param payload Payload passed to git_repository_mergehead_foreach
  * @return non-zero to terminate the iteration
-  *)
+ *)
 
 type
-  git_repository_mergehead_foreach_cb = function(oid: Pgit_oid; payload: Pointer)
-    : Integer; cdecl;
+  git_repository_mergehead_foreach_cb = function(oid: Pgit_oid; payload: Pointer): Integer; cdecl;
 
-(**
- * If a merge is in progress, invoke 'callback' for each commit ID in the
- * MERGE_HEAD file.
- *
- * Return a non-zero value from the callback to stop the loop.
- *
- * @param repo A repository object
- * @param callback Callback function
- * @param payload Pointer to callback data (optional)
- * @return 0 on success, non-zero callback return value, GIT_ENOTFOUND if
- *         there is no MERGE_HEAD file, or other error code.
-  *)
+  (**
+   * If a merge is in progress, invoke 'callback' for each commit ID in the
+   * MERGE_HEAD file.
+   *
+   * Return a non-zero value from the callback to stop the loop.
+   *
+   * @param repo A repository object
+   * @param callback Callback function
+   * @param payload Pointer to callback data (optional)
+   * @return 0 on success, non-zero callback return value, GIT_ENOTFOUND if
+   *         there is no MERGE_HEAD file, or other error code.
+   *)
 
-function git_repository_mergehead_foreach(repo: Pgit_repository;
-  callback: git_repository_mergehead_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_repository_mergehead_foreach(repo: Pgit_repository; callback: git_repository_mergehead_foreach_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Calculate hash of file using repository filtering rules.
@@ -773,10 +765,10 @@ function git_repository_mergehead_foreach(repo: Pgit_repository;
  *             this is passed as the empty string, then no filters will be
  *             applied when calculating the hash.
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_repository_hashfile(out_: Pgit_oid; repo: Pgit_repository;
-  path: PAnsiChar; type_: git_object_t; as_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_hashfile(out_: Pgit_oid; repo: Pgit_repository; path: PAnsiChar;
+  type_: git_object_t; as_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Make the repository HEAD point to the specified reference.
@@ -795,10 +787,9 @@ function git_repository_hashfile(out_: Pgit_oid; repo: Pgit_repository;
  * @param repo Repository pointer
  * @param refname Canonical name of the reference the HEAD should point at
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Make the repository HEAD directly point to the Commit.
@@ -815,10 +806,9 @@ function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar)
  * @param repo Repository pointer
  * @param commitish Object id of the Commit the HEAD should point to
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_repository_set_head_detached(repo: Pgit_repository;
-  commitish: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_repository_set_head_detached(repo: Pgit_repository; commitish: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Make the repository HEAD directly point to the Commit.
@@ -831,7 +821,7 @@ function git_repository_set_head_detached(repo: Pgit_repository;
  * See the documentation for `git_repository_set_head_detached()`.
  *
  * @see git_repository_set_head_detached
-  *)
+ *)
 
 function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
   commitish: Pgit_annotated_commit): Integer; cdecl; external libgit2_dll;
@@ -852,7 +842,7 @@ function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
  * @param repo Repository pointer
  * @return 0 on success, GIT_EUNBORNBRANCH when HEAD points to a non existing
  * branch or an error code
-  *)
+ *)
 
 function git_repository_detach_head(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -861,11 +851,11 @@ function git_repository_detach_head(repo: Pgit_repository): Integer; cdecl; exte
  *
  * These values represent possible states for the repository to be in,
  * based on the current operation which is ongoing.
-  *)
+ *)
 
 const
-  GIT_REPOSITORY_STATE_NONE = 0;
-  GIT_REPOSITORY_STATE_MERGE = 1;
+  GIT_REPOSITORY_STATE_NONE   = 0;
+  GIT_REPOSITORY_STATE_MERGE  = 1;
   GIT_REPOSITORY_STATE_REVERT = 2;
   GIT_REPOSITORY_STATE_REVERT_SEQUENCE = 3;
   GIT_REPOSITORY_STATE_CHERRYPICK = 4;
@@ -880,12 +870,12 @@ type
   git_repository_state_t = Integer;
 
   (**
- * Determines the status of a git repository - ie, whether an operation
- * (merge, cherry-pick, etc) is in progress.
- *
- * @param repo Repository pointer
- * @return The state of the repository
-  *)
+   * Determines the status of a git repository - ie, whether an operation
+   * (merge, cherry-pick, etc) is in progress.
+   *
+   * @param repo Repository pointer
+   * @return The state of the repository
+   *)
 
 function git_repository_state(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -900,27 +890,25 @@ function git_repository_state(repo: Pgit_repository): Integer; cdecl; external l
  *	folder, e.g. to namespace all references under `refs/namespaces/foo/`,
  *	use `foo` as the namespace.
  *	@return 0 on success, -1 on error
-  *)
+ *)
 
-function git_repository_set_namespace(repo: Pgit_repository; nmspace: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_set_namespace(repo: Pgit_repository; nmspace: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the currently active namespace for this repository
  *
  * @param repo The repo
  * @return the active namespace, or NULL if there isn't one
-  *)
+ *)
 
 function git_repository_get_namespace(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
-
 
 (**
  * Determine if the repository was a shallow clone
  *
  * @param repo The repository
  * @return 1 if shallow, zero if not
-  *)
+ *)
 
 function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -933,10 +921,9 @@ function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; exter
  * @param name where to store the pointer to the name
  * @param email where to store the pointer to the email
  * @param repo the repository
-  *)
+ *)
 
-function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set the identity to be used for writing reflogs
@@ -948,10 +935,11 @@ function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository)
  * @param repo the repository to configure
  * @param name the name to use for the reflog entries
  * @param email the email to use for the reflog entries
-  *)
+ *)
 
-function git_repository_set_ident(repo: Pgit_repository;
-  name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

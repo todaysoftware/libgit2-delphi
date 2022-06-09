@@ -4,7 +4,7 @@
  * @defgroup git_tree Git tree parsing, loading routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Lookup a tree object from the repository.
@@ -13,10 +13,9 @@
  * @param repo The repo to use when locating the tree.
  * @param id Identity of the tree to locate.
  * @return 0 or an error code
-  *)
+ *)
 
-function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Lookup a tree object from the repository,
@@ -29,10 +28,10 @@ function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid)
  * @param id identity of the tree to locate.
  * @param len the length of the short identifier
  * @return 0 or an error code
-  *)
+ *)
 
-function git_tree_lookup_prefix(out_: PPgit_tree; repo: Pgit_repository;
-  id: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_tree_lookup_prefix(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Close an open tree
@@ -43,7 +42,7 @@ function git_tree_lookup_prefix(out_: PPgit_tree; repo: Pgit_repository;
  * release memory. Failure to do so will cause a memory leak.
  *
  * @param tree The tree to close
-  *)
+ *)
 
 procedure git_tree_free(tree: Pgit_tree); cdecl; external libgit2_dll;
 
@@ -52,7 +51,7 @@ procedure git_tree_free(tree: Pgit_tree); cdecl; external libgit2_dll;
  *
  * @param tree a previously loaded tree.
  * @return object identity for the tree.
-  *)
+ *)
 
 function git_tree_id(tree: Pgit_tree): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -61,7 +60,7 @@ function git_tree_id(tree: Pgit_tree): Pgit_oid; cdecl; external libgit2_dll;
  *
  * @param tree A previously loaded tree.
  * @return Repository that contains this tree.
-  *)
+ *)
 
 function git_tree_owner(tree: Pgit_tree): Pgit_repository; cdecl; external libgit2_dll;
 
@@ -70,7 +69,7 @@ function git_tree_owner(tree: Pgit_tree): Pgit_repository; cdecl; external libgi
  *
  * @param tree a previously loaded tree.
  * @return the number of entries in the tree
-  *)
+ *)
 
 function git_tree_entrycount(tree: Pgit_tree): size_t; cdecl; external libgit2_dll;
 
@@ -83,10 +82,9 @@ function git_tree_entrycount(tree: Pgit_tree): size_t; cdecl; external libgit2_d
  * @param tree a previously loaded tree.
  * @param filename the filename of the desired entry
  * @return the tree entry; NULL if not found
-  *)
+ *)
 
-function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar)
-  : Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll;
 
 (**
  * Lookup a tree entry by its position in the tree
@@ -97,7 +95,7 @@ function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar)
  * @param tree a previously loaded tree.
  * @param idx the position in the entry list
  * @return the tree entry; NULL if not found
-  *)
+ *)
 
 function git_tree_entry_byindex(tree: Pgit_tree; idx: size_t): Pgit_tree_entry; cdecl; external libgit2_dll;
 
@@ -127,10 +125,9 @@ function git_tree_entry_byid(tree: Pgit_tree; id: Pgit_oid): Pgit_tree_entry; cd
  * @param root Previously loaded tree which is the root of the relative path
  * @param path Path to the contained entry
  * @return 0 on success; GIT_ENOTFOUND if the path does not exist
-  *)
+ *)
 
-function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Duplicate a tree entry
@@ -143,8 +140,7 @@ function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree;
  * @return 0 or an error code
   *)
 
-function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry)
-  : Integer; cdecl; external libgit2_dll;
+function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free a user-owned tree entry
@@ -154,7 +150,7 @@ function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry)
  * `git_tree_entry_bypath()`.
  *
  * @param entry The entry to free
-  *)
+ *)
 
 procedure git_tree_entry_free(entry: Pgit_tree_entry); cdecl; external libgit2_dll;
 
@@ -172,7 +168,7 @@ function git_tree_entry_name(entry: Pgit_tree_entry): PAnsiChar; cdecl; external
  *
  * @param entry a tree entry
  * @return the oid of the object
-  *)
+ *)
 
 function git_tree_entry_id(entry: Pgit_tree_entry): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -181,7 +177,7 @@ function git_tree_entry_id(entry: Pgit_tree_entry): Pgit_oid; cdecl; external li
  *
  * @param entry a tree entry
  * @return the type of the pointed object
-  *)
+ *)
 
 function git_tree_entry_type(entry: Pgit_tree_entry): git_object_t; cdecl; external libgit2_dll;
 
@@ -190,7 +186,7 @@ function git_tree_entry_type(entry: Pgit_tree_entry): git_object_t; cdecl; exter
  *
  * @param entry a tree entry
  * @return filemode as an integer
-  *)
+ *)
 
 function git_tree_entry_filemode(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll;
 
@@ -202,7 +198,7 @@ function git_tree_entry_filemode(entry: Pgit_tree_entry): git_filemode_t; cdecl;
  *
  * @param entry a tree entry
  * @return filemode as an integer
-  *)
+ *)
 
 function git_tree_entry_filemode_raw(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll;
 
@@ -212,7 +208,7 @@ function git_tree_entry_filemode_raw(entry: Pgit_tree_entry): git_filemode_t; cd
  * @param e1 first tree entry
  * @param e2 second tree entry
  * @return <0 if e1 is before e2, 0 if e1 == e2, >0 if e1 is after e2
-  *)
+ *)
 
 function git_tree_entry_cmp(e1, e2: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
 
@@ -225,10 +221,10 @@ function git_tree_entry_cmp(e1, e2: Pgit_tree_entry): Integer; cdecl; external l
  * @param repo repository where to lookup the pointed object
  * @param entry a tree entry
  * @return 0 or an error code
-  *)
+ *)
 
-function git_tree_entry_to_object(object_out: PPgit_object;
-  repo: Pgit_repository; entry: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
+function git_tree_entry_to_object(object_out: PPgit_object; repo: Pgit_repository;
+  entry: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new tree builder.
@@ -246,7 +242,7 @@ function git_tree_entry_to_object(object_out: PPgit_object;
  * @param repo Repository in which to store the object
  * @param source Source tree to initialize the builder (optional)
  * @return 0 on success; error code otherwise
-  *)
+ *)
 
 function git_treebuilder_new(out_: PPgit_treebuilder; repo: Pgit_repository;
   source: Pgit_tree): Integer; cdecl; external libgit2_dll;
@@ -256,7 +252,7 @@ function git_treebuilder_new(out_: PPgit_treebuilder; repo: Pgit_repository;
  *
  * @param bld Builder to clear
  * @return 0 on success; error code otherwise
-  *)
+ *)
 
 function git_treebuilder_clear(bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
 
@@ -265,7 +261,7 @@ function git_treebuilder_clear(bld: Pgit_treebuilder): Integer; cdecl; external 
  *
  * @param bld a previously loaded treebuilder.
  * @return the number of entries in the treebuilder
-  *)
+ *)
 
 function git_treebuilder_entrycount(bld: Pgit_treebuilder): size_t; cdecl; external libgit2_dll;
 
@@ -277,7 +273,7 @@ function git_treebuilder_entrycount(bld: Pgit_treebuilder): size_t; cdecl; exter
  * will result in a memory leak
  *
  * @param bld Builder to free
-  *)
+ *)
 
 procedure git_treebuilder_free(bld: Pgit_treebuilder); cdecl; external libgit2_dll;
 
@@ -290,10 +286,9 @@ procedure git_treebuilder_free(bld: Pgit_treebuilder); cdecl; external libgit2_d
  * @param bld Tree builder
  * @param filename Name of the entry
  * @return pointer to the entry; NULL if not found
-  *)
+ *)
 
-function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar)
-  : Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll;
 
 (**
  * Add or update an entry to the builder
@@ -322,10 +317,10 @@ function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar)
  *			be valued with one of the following entries: 0040000, 0100644,
  *			0100755, 0120000 or 0160000.
  * @return 0 or an error code
-  *)
+ *)
 
-function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder;
-  filename: PAnsiChar; id: Pgit_oid; filemode: git_filemode_t): Integer; cdecl; external libgit2_dll;
+function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder; filename: PAnsiChar;
+  id: Pgit_oid; filemode: git_filemode_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Remove an entry from the builder by its filename
@@ -333,10 +328,9 @@ function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder;
  * @param bld Tree builder
  * @param filename Filename of the entry to remove
  * @return 0 or an error code
-  *)
+ *)
 
-function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Callback for git_treebuilder_filter
@@ -344,11 +338,10 @@ function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar)
  * The return value is treated as a boolean, with zero indicating that the
  * entry should be left alone and any non-zero value meaning that the
  * entry should be removed from the treebuilder list (i.e. filtered out).
-  *)
+ *)
 
 type
-  git_treebuilder_filter_cb = function(entry: Pgit_tree_entry; payload: Pointer)
-    : Integer; cdecl;
+  git_treebuilder_filter_cb = function(entry: Pgit_tree_entry; payload: Pointer): Integer; cdecl;
 
   (**
  * Selectively remove entries in the tree
@@ -361,10 +354,10 @@ type
  * @param filter Callback to filter entries
  * @param payload Extra data to pass to filter callback
  * @return 0 on success, non-zero callback return value, or error code
-  *)
+ *)
 
-function git_treebuilder_filter(bld: Pgit_treebuilder;
-  filter: git_treebuilder_filter_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_treebuilder_filter(bld: Pgit_treebuilder; filter: git_treebuilder_filter_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write the contents of the tree builder as a tree object
@@ -375,44 +368,43 @@ function git_treebuilder_filter(bld: Pgit_treebuilder;
  * @param id Pointer to store the OID of the newly written tree
  * @param bld Tree builder to write
  * @return 0 or an error code
-  *)
+ *)
 
 function git_treebuilder_write(id: Pgit_oid; bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
 
 (** Callback for the tree traversal method  *)
 
 type
-  git_treewalk_cb = function(root: PAnsiChar; entry: Pgit_tree_entry;
-    payload: Pointer): Integer; cdecl;
+  git_treewalk_cb = function(root: PAnsiChar; entry: Pgit_tree_entry; payload: Pointer): Integer; cdecl;
 
   (** Tree traversal modes  *)
 
 const
-  GIT_TREEWALK_PRE = 0;  (* Pre-order  *)
-  GIT_TREEWALK_POST = 1;  (* Post-order  *)
+  GIT_TREEWALK_PRE            = 0; (* Pre-order  *)
+  GIT_TREEWALK_POST           = 1; (* Post-order  *)
 type
   git_treewalk_mode = Integer;
 
   (**
- * Traverse the entries in a tree and its subtrees in post or pre order.
- *
- * The entries will be traversed in the specified order, children subtrees
- * will be automatically loaded as required, and the `callback` will be
- * called once per entry with the current (relative) root for the entry and
- * the entry data itself.
- *
- * If the callback returns a positive value, the passed entry will be
- * skipped on the traversal (in pre mode). A negative value stops the walk.
- *
- * @param tree The tree to walk
- * @param mode Traversal mode (pre or post-order)
- * @param callback Function to call on each tree entry
- * @param payload Opaque pointer to be passed on each callback
- * @return 0 or an error code
-  *)
+   * Traverse the entries in a tree and its subtrees in post or pre order.
+   *
+   * The entries will be traversed in the specified order, children subtrees
+   * will be automatically loaded as required, and the `callback` will be
+   * called once per entry with the current (relative) root for the entry and
+   * the entry data itself.
+   *
+   * If the callback returns a positive value, the passed entry will be
+   * skipped on the traversal (in pre mode). A negative value stops the walk.
+   *
+   * @param tree The tree to walk
+   * @param mode Traversal mode (pre or post-order)
+   * @param callback Function to call on each tree entry
+   * @param payload Opaque pointer to be passed on each callback
+   * @return 0 or an error code
+   *)
 
-function git_tree_walk(tree: Pgit_tree; mode: git_treewalk_mode;
-  callback: git_treewalk_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_tree_walk(tree: Pgit_tree; mode: git_treewalk_mode; callback: git_treewalk_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create an in-memory copy of a tree. The copy must be explicitly
@@ -420,63 +412,65 @@ function git_tree_walk(tree: Pgit_tree; mode: git_treewalk_mode;
  *
  * @param out Pointer to store the copy of the tree
  * @param source Original tree to copy
-  *)
+ *)
 
 function git_tree_dup(out_: PPgit_tree; source: Pgit_tree): Integer; cdecl; external libgit2_dll;
 
 (**
  * The kind of update to perform
-  *)
+ *)
 
 const
   (** Update or insert an entry at the specified path  *)
-  GIT_TREE_UPDATE_UPSERT = 0;
+  GIT_TREE_UPDATE_UPSERT      = 0;
   (** Remove an entry from the specified path  *)
-  GIT_TREE_UPDATE_REMOVE = 1;
+  GIT_TREE_UPDATE_REMOVE      = 1;
 type
   git_tree_update_t = Integer;
 
   (**
- * An action to perform during the update of a tree
-  *)
+   * An action to perform during the update of a tree
+   *)
 
   git_tree_update = record
     (** Update action. If it's an removal, only the path is looked at  *)
-    action : git_tree_update_t;
+    action: git_tree_update_t;
     (** The entry's id  *)
-    id : git_oid;
+    id: git_oid;
     (** The filemode/kind of object  *)
-    filemode : git_filemode_t;
+    filemode: git_filemode_t;
     (** The full path from the root tree  *)
-    path : PAnsiChar;
+    path: PAnsiChar;
   end;
 
   (**
- * Create a tree based on another one with the specified modifications
- *
- * Given the `baseline` perform the changes described in the list of
- * `updates` and create a new tree.
- *
- * This function is optimized for common file/directory addition, removal and
- * replacement in trees. It is much more efficient than reading the tree into a
- * `git_index` and modifying that, but in exchange it is not as flexible.
- *
- * Deleting and adding the same entry is undefined behaviour, changing
- * a tree to a blob or viceversa is not supported.
- *
- * @param out id of the new tree
- * @param repo the repository in which to create the tree, must be the
- * same as for `baseline`
- * @param baseline the tree to base these changes on
- * @param nupdates the number of elements in the update list
- * @param updates the list of updates to perform
- * @return 0 or an error code
-  *)
+   * Create a tree based on another one with the specified modifications
+   *
+   * Given the `baseline` perform the changes described in the list of
+   * `updates` and create a new tree.
+   *
+   * This function is optimized for common file/directory addition, removal and
+   * replacement in trees. It is much more efficient than reading the tree into a
+   * `git_index` and modifying that, but in exchange it is not as flexible.
+   *
+   * Deleting and adding the same entry is undefined behaviour, changing
+   * a tree to a blob or viceversa is not supported.
+   *
+   * @param out id of the new tree
+   * @param repo the repository in which to create the tree, must be the
+   * same as for `baseline`
+   * @param baseline the tree to base these changes on
+   * @param nupdates the number of elements in the update list
+   * @param updates the list of updates to perform
+   * @return 0 or an error code
+   *)
 
 type
   Pgit_tree_update = ^git_tree_update;
-function git_tree_create_updated(out_: Pgit_oid; repo: Pgit_repository;
-  baseline: Pgit_tree; nupdates: size_t; updates: Pgit_tree_update): Integer; cdecl; external libgit2_dll;
+function git_tree_create_updated(out_: Pgit_oid; repo: Pgit_repository; baseline: Pgit_tree;
+  nupdates: size_t; updates: Pgit_tree_update): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

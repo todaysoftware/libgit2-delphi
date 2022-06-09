@@ -15,37 +15,37 @@
   *)
 
 const
-  GIT_DESCRIBE_DEFAULT = 0;
-  GIT_DESCRIBE_TAGS = 1;
-  GIT_DESCRIBE_ALL = 2;
+  GIT_DESCRIBE_DEFAULT        = 0;
+  GIT_DESCRIBE_TAGS           = 1;
+  GIT_DESCRIBE_ALL            = 2;
 type
   git_describe_strategy_t = Integer;
 
   (**
- * Describe options structure
- *
- * Initialize with `GIT_DESCRIBE_OPTIONS_INIT`. Alternatively, you can
- * use `git_describe_options_init`.
- *
-  *)
+   * Describe options structure
+   *
+   * Initialize with `GIT_DESCRIBE_OPTIONS_INIT`. Alternatively, you can
+   * use `git_describe_options_init`.
+   *
+   *)
 
   git_describe_options = record
-    version : Cardinal;
-    max_candidates_tags : Cardinal;  (**< default: 10  *)
-    describe_strategy : Cardinal;  (**< default: GIT_DESCRIBE_DEFAULT  *)
-    pattern : PAnsiChar;
+    version: Cardinal;
+    max_candidates_tags: Cardinal; (**< default: 10  *)
+    describe_strategy: Cardinal; (**< default: GIT_DESCRIBE_DEFAULT  *)
+    pattern: PAnsiChar;
     (**
-	 * When calculating the distance from the matching tag or
-	 * reference, only walk down the first-parent ancestry.
-	  *)
-    only_follow_first_parent : Integer;
+     * When calculating the distance from the matching tag or
+     * reference, only walk down the first-parent ancestry.
+     *)
+    only_follow_first_parent: Integer;
     (**
-	 * If no matching tag or reference is found, the describe
-	 * operation would normally fail. If this option is set, it
-	 * will instead fall back to showing the full id of the
-	 * commit.
-	  *)
-    show_commit_oid_as_fallback : Integer;
+     * If no matching tag or reference is found, the describe
+     * operation would normally fail. If this option is set, it
+     * will instead fall back to showing the full id of the
+     * commit.
+     *)
+    show_commit_oid_as_fallback: Integer;
   end;
   Pgit_describe_options = ^git_describe_options;
 
@@ -55,18 +55,17 @@ const
   GIT_DESCRIBE_OPTIONS_VERSION = 1;
   //GIT_DESCRIBE_OPTIONS_INIT = { GIT_DESCRIBE_OPTIONS_VERSION , GIT_DESCRIBE_DEFAULT_MAX_CANDIDATES_TAGS , };
   (**
- * Initialize git_describe_options structure
- *
- * Initializes a `git_describe_options` with default values. Equivalent to creating
- * an instance with GIT_DESCRIBE_OPTIONS_INIT.
- *
- * @param opts The `git_describe_options` struct to initialize.
- * @param version The struct version; pass `GIT_DESCRIBE_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
-  *)
+   * Initialize git_describe_options structure
+   *
+   * Initializes a `git_describe_options` with default values. Equivalent to creating
+   * an instance with GIT_DESCRIBE_OPTIONS_INIT.
+   *
+   * @param opts The `git_describe_options` struct to initialize.
+   * @param version The struct version; pass `GIT_DESCRIBE_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+   *)
 
-function git_describe_options_init(opts: Pgit_describe_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_describe_options_init(opts: Pgit_describe_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * Describe format options structure
@@ -78,22 +77,22 @@ function git_describe_options_init(opts: Pgit_describe_options;
 
 type
   git_describe_format_options = record
-    version : Cardinal;
+    version: Cardinal;
     (**
-	 * Size of the abbreviated commit id to use. This value is the
-	 * lower bound for the length of the abbreviated string. The
-	 * default is 7.
-	  *)
-    abbreviated_size : Cardinal;
+     * Size of the abbreviated commit id to use. This value is the
+     * lower bound for the length of the abbreviated string. The
+     * default is 7.
+     *)
+    abbreviated_size: Cardinal;
     (**
-	 * Set to use the long format even when a shorter name could be used.
-	  *)
-    always_use_long_format : Integer;
+     * Set to use the long format even when a shorter name could be used.
+     *)
+    always_use_long_format: Integer;
     (**
-	 * If the workdir is dirty and this is set, this string will
-	 * be appended to the description string.
-	  *)
-    dirty_suffix : PAnsiChar;
+     * If the workdir is dirty and this is set, this string will
+     * be appended to the description string.
+     *)
+    dirty_suffix: PAnsiChar;
   end;
   Pgit_describe_format_options = ^git_describe_format_options;
 
@@ -101,43 +100,43 @@ const
   GIT_DESCRIBE_FORMAT_OPTIONS_VERSION = 1;
   //GIT_DESCRIBE_FORMAT_OPTIONS_INIT = { GIT_DESCRIBE_FORMAT_OPTIONS_VERSION , GIT_DESCRIBE_DEFAULT_ABBREVIATED_SIZE , };
   (**
- * Initialize git_describe_format_options structure
- *
- * Initializes a `git_describe_format_options` with default values. Equivalent to creating
- * an instance with GIT_DESCRIBE_FORMAT_OPTIONS_INIT.
- *
- * @param opts The `git_describe_format_options` struct to initialize.
- * @param version The struct version; pass `GIT_DESCRIBE_FORMAT_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
-  *)
+   * Initialize git_describe_format_options structure
+   *
+   * Initializes a `git_describe_format_options` with default values. Equivalent to creating
+   * an instance with GIT_DESCRIBE_FORMAT_OPTIONS_INIT.
+   *
+   * @param opts The `git_describe_format_options` struct to initialize.
+   * @param version The struct version; pass `GIT_DESCRIBE_FORMAT_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+   *)
 
 function git_describe_format_options_init(opts: Pgit_describe_format_options;
   version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * A struct that stores the result of a describe operation.
-  *)
+ *)
 
 type
   git_describe_result = record
   end;
 
   (**
- * Describe a commit
- *
- * Perform the describe operation on the given committish object.
- *
- * @param result pointer to store the result. You must free this once
- * you're done with it.
- * @param committish a committish to describe
- * @param opts the lookup options (or NULL for defaults)
-  *)
+   * Describe a commit
+   *
+   * Perform the describe operation on the given committish object.
+   *
+   * @param result pointer to store the result. You must free this once
+   * you're done with it.
+   * @param committish a committish to describe
+   * @param opts the lookup options (or NULL for defaults)
+   *)
 
 type
   PPgit_describe_result = ^Pgit_describe_result;
   Pgit_describe_result = ^git_describe_result;
-function git_describe_commit(result: PPgit_describe_result;
-  committish: Pgit_object; opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
+function git_describe_commit(Result: PPgit_describe_result; committish: Pgit_object;
+  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Describe a commit
@@ -150,10 +149,10 @@ function git_describe_commit(result: PPgit_describe_result;
  * you're done with it.
  * @param repo the repository in which to perform the describe
  * @param opts the lookup options (or NULL for defaults)
-  *)
+ *)
 
-function git_describe_workdir(out_: PPgit_describe_result;
-  repo: Pgit_repository; opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
+function git_describe_workdir(out_: PPgit_describe_result; repo: Pgit_repository;
+  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Print the describe result to a buffer
@@ -162,16 +161,18 @@ function git_describe_workdir(out_: PPgit_describe_result;
  * @param result the result from `git_describe_commit()` or
  * `git_describe_workdir()`.
  * @param opts the formatting options (or NULL for defaults)
-  *)
+ *)
 
-function git_describe_format(out_: Pgit_buf; result: Pgit_describe_result;
+function git_describe_format(out_: Pgit_buf; Result: Pgit_describe_result;
   opts: Pgit_describe_format_options): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free the describe result.
-  *)
+ *)
 
-procedure git_describe_result_free(result: Pgit_describe_result); cdecl; external libgit2_dll;
+procedure git_describe_result_free(Result: Pgit_describe_result); cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

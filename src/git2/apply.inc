@@ -22,32 +22,30 @@
 type
   git_apply_delta_cb = function(delta: Pgit_diff_delta; payload: Pointer): Integer; cdecl;
 
-
-(**
- * When applying a patch, callback that will be made per hunk.
- *
- * When the callback:
- * - returns < 0, the apply process will be aborted.
- * - returns > 0, the hunk will not be applied, but the apply process
- *      continues
- * - returns 0, the hunk is applied, and the apply process continues.
- *
- * @param hunk The hunk to be applied
- * @param payload User-specified payload
-  *)
+  (**
+   * When applying a patch, callback that will be made per hunk.
+   *
+   * When the callback:
+   * - returns < 0, the apply process will be aborted.
+   * - returns > 0, the hunk will not be applied, but the apply process
+   *      continues
+   * - returns 0, the hunk is applied, and the apply process continues.
+   *
+   * @param hunk The hunk to be applied
+   * @param payload User-specified payload
+    *)
 
 type
   git_apply_hunk_cb = function(hunk: Pgit_diff_hunk; payload: Pointer): Integer; cdecl;
 
-
-(** Flags controlling the behavior of git_apply  *)
+  (** Flags controlling the behavior of git_apply  *)
 
 const
   (**
-	 * Don't actually make changes, just test that the patch applies.
-	 * This is the equivalent of `git apply --check`.
-	  *)
-  GIT_APPLY_CHECK = ( 1 shl 0 );
+  * Don't actually make changes, just test that the patch applies.
+  * This is the equivalent of `git apply --check`.
+   *)
+  GIT_APPLY_CHECK             = (1 shl 0);
 type
   git_apply_flags_t = Integer;
 
@@ -61,20 +59,20 @@ type
   *)
 
   git_apply_options = record
-    version : Cardinal;  (**< The version  *)
+    version: Cardinal; (**< The version  *)
     (** When applying a patch, callback that will be made per delta (file).  *)
-    delta_cb : git_apply_delta_cb;
+    delta_cb: git_apply_delta_cb;
     (** When applying a patch, callback that will be made per hunk.  *)
-    hunk_cb : git_apply_hunk_cb;
+    hunk_cb: git_apply_hunk_cb;
     (** Payload passed to both delta_cb & hunk_cb.  *)
-    payload : Pointer;
+    payload: Pointer;
     (** Bitmask of git_apply_flags_t  *)
-    flags : Cardinal;
+    flags: Cardinal;
   end;
   Pgit_apply_options = ^git_apply_options;
 
 const
-  GIT_APPLY_OPTIONS_VERSION = 1;
+  GIT_APPLY_OPTIONS_VERSION   = 1;
   //GIT_APPLY_OPTIONS_INIT = { GIT_APPLY_OPTIONS_VERSION };
 
 function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
@@ -92,27 +90,27 @@ function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
  * @return 0 or an error code
   *)
 
-function git_apply_to_tree(out_: PPgit_index; repo: Pgit_repository;
-  preimage: Pgit_tree; diff: Pgit_diff; options: Pgit_apply_options): Integer; cdecl; external libgit2_dll;
+function git_apply_to_tree(out_: PPgit_index; repo: Pgit_repository; preimage: Pgit_tree; diff: Pgit_diff; options:
+  Pgit_apply_options): Integer; cdecl; external libgit2_dll;
 
 (** Possible application locations for git_apply  *)
 
 const
   (**
-	 * Apply the patch to the workdir, leaving the index untouched.
-	 * This is the equivalent of `git apply` with no location argument.
-	  *)
-  GIT_APPLY_LOCATION_WORKDIR = 0;
+  * Apply the patch to the workdir, leaving the index untouched.
+  * This is the equivalent of `git apply` with no location argument.
+   *)
+  GIT_APPLY_LOCATION_WORKDIR  = 0;
   (**
-	 * Apply the patch to the index, leaving the working directory
-	 * untouched.  This is the equivalent of `git apply --cached`.
-	  *)
-  GIT_APPLY_LOCATION_INDEX = 1;
+  * Apply the patch to the index, leaving the working directory
+  * untouched.  This is the equivalent of `git apply --cached`.
+   *)
+  GIT_APPLY_LOCATION_INDEX    = 1;
   (**
-	 * Apply the patch to both the working directory and the index.
-	 * This is the equivalent of `git apply --index`.
-	  *)
-  GIT_APPLY_LOCATION_BOTH = 2;
+  * Apply the patch to both the working directory and the index.
+  * This is the equivalent of `git apply --index`.
+   *)
+  GIT_APPLY_LOCATION_BOTH     = 2;
 type
   git_apply_location_t = Integer;
 
@@ -127,8 +125,10 @@ type
  * @return 0 or an error code
   *)
 
-function git_apply(repo: Pgit_repository; diff: Pgit_diff;
-  location: git_apply_location_t; options: Pgit_apply_options): Integer; cdecl; external libgit2_dll;
+function git_apply(repo: Pgit_repository; diff: Pgit_diff; location: git_apply_location_t; options: Pgit_apply_options): Integer;
+  cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

@@ -4,7 +4,7 @@
  * @defgroup git_signature Git signature creation
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Create a new action signature.
@@ -20,10 +20,10 @@
  * @param time time (in seconds from epoch) when the action happened
  * @param offset timezone offset (in minutes) for the time
  * @return 0 or an error code
-  *)
+ *)
 
-function git_signature_new(out_: PPgit_signature; name_, email: PAnsiChar;
-  time: git_time_t; offset: Integer): Integer; cdecl; external libgit2_dll;
+function git_signature_new(out_: PPgit_signature; name_, email: PAnsiChar; time: git_time_t;
+  offset: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new action signature with a timestamp of 'now'.
@@ -34,10 +34,9 @@ function git_signature_new(out_: PPgit_signature; name_, email: PAnsiChar;
  * @param name name of the person
  * @param email email of the person
  * @return 0 or an error code
-  *)
+ *)
 
-function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new action signature with default user and now timestamp.
@@ -50,10 +49,9 @@ function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar)
  * @param out new signature
  * @param repo repository pointer
  * @return 0 on success, GIT_ENOTFOUND if config is missing, or error code
-  *)
+ *)
 
-function git_signature_default(out_: PPgit_signature; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_signature_default(out_: PPgit_signature; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new signature by parsing the given buffer, which is
@@ -65,10 +63,9 @@ function git_signature_default(out_: PPgit_signature; repo: Pgit_repository)
  * @param out new signature
  * @param buf signature string
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar)
-  : Integer; cdecl; external libgit2_dll;
+function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a copy of an existing signature.  All internal strings are also
@@ -79,7 +76,7 @@ function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar)
  * @param dest pointer where to store the copy
  * @param sig signature to duplicate
  * @return 0 or an error code
-  *)
+ *)
 
 function git_signature_dup(dest: PPgit_signature; sig: Pgit_signature): Integer; cdecl; external libgit2_dll;
 
@@ -91,9 +88,10 @@ function git_signature_dup(dest: PPgit_signature; sig: Pgit_signature): Integer;
  * to the structure itself.
  *
  * @param sig signature to free
-  *)
+ *)
 
 procedure git_signature_free(sig: Pgit_signature); cdecl; external libgit2_dll;
 
 (** @}  *)
+
 

@@ -3,64 +3,64 @@
  * @brief Git stash management routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Stash flags
-  *)
+ *)
 
 const
   (**
-	 * No option, default
-	  *)
-  GIT_STASH_DEFAULT = 0;
+   * No option, default
+   *)
+  GIT_STASH_DEFAULT           = 0;
   (**
-	 * All changes already added to the index are left intact in
-	 * the working directory
-	  *)
-  GIT_STASH_KEEP_INDEX = ( 1 shl 0 );
+   * All changes already added to the index are left intact in
+   * the working directory
+   *)
+  GIT_STASH_KEEP_INDEX        = (1 shl 0);
   (**
-	 * All untracked files are also stashed and then cleaned up
-	 * from the working directory
-	  *)
-  GIT_STASH_INCLUDE_UNTRACKED = ( 1 shl 1 );
+   * All untracked files are also stashed and then cleaned up
+   * from the working directory
+   *)
+  GIT_STASH_INCLUDE_UNTRACKED = (1 shl 1);
   (**
-	 * All ignored files are also stashed and then cleaned up from
-	 * the working directory
-	  *)
-  GIT_STASH_INCLUDE_IGNORED = ( 1 shl 2 );
+   * All ignored files are also stashed and then cleaned up from
+   * the working directory
+   *)
+  GIT_STASH_INCLUDE_IGNORED   = (1 shl 2);
 type
   git_stash_flags = Integer;
 
   (**
- * Save the local modifications to a new stash.
- *
- * @param out Object id of the commit containing the stashed state.
- * This commit is also the target of the direct reference refs/stash.
- *
- * @param repo The owning repository.
- *
- * @param stasher The identity of the person performing the stashing.
- *
- * @param message Optional description along with the stashed state.
- *
- * @param flags Flags to control the stashing process. (see GIT_STASH_* above)
- *
- * @return 0 on success, GIT_ENOTFOUND where there's nothing to stash,
- * or error code.
-  *)
+   * Save the local modifications to a new stash.
+   *
+   * @param out Object id of the commit containing the stashed state.
+   * This commit is also the target of the direct reference refs/stash.
+   *
+   * @param repo The owning repository.
+   *
+   * @param stasher The identity of the person performing the stashing.
+   *
+   * @param message Optional description along with the stashed state.
+   *
+   * @param flags Flags to control the stashing process. (see GIT_STASH_* above)
+   *
+   * @return 0 on success, GIT_ENOTFOUND where there's nothing to stash,
+   * or error code.
+   *)
 
-function git_stash_save(out_: Pgit_oid; repo: Pgit_repository;
-  stasher: Pgit_signature; message: PAnsiChar; flags: uint32_t): Integer; cdecl; external libgit2_dll;
+function git_stash_save(out_: Pgit_oid; repo: Pgit_repository; stasher: Pgit_signature;
+  message: PAnsiChar; flags: uint32_t): Integer; cdecl; external libgit2_dll;
 
 (** Stash application flags.  *)
 
 const
-  GIT_STASH_APPLY_DEFAULT = 0;
+  GIT_STASH_APPLY_DEFAULT     = 0;
   (* Try to reinstate not only the working tree's changes,
-	 * but also the index's changes.
-	  *)
-  GIT_STASH_APPLY_REINSTATE_INDEX = ( 1 shl 0 );
+   * but also the index's changes.
+   *)
+  GIT_STASH_APPLY_REINSTATE_INDEX = (1 shl 0);
 type
   git_stash_apply_flags = Integer;
 
@@ -86,31 +86,30 @@ type
   git_stash_apply_progress_t = Integer;
 
   (**
- * Stash application progress notification function.
- * Return 0 to continue processing, or a negative value to
- * abort the stash application.
-  *)
+   * Stash application progress notification function.
+   * Return 0 to continue processing, or a negative value to
+   * abort the stash application.
+   *)
 
-  git_stash_apply_progress_cb = function(progress: git_stash_apply_progress_t;
-    payload: Pointer): Integer; cdecl;
+  git_stash_apply_progress_cb = function(progress: git_stash_apply_progress_t; payload: Pointer): Integer; cdecl;
 
   (**
- * Stash application options structure
- *
- * Initialize with `GIT_STASH_APPLY_OPTIONS_INIT`. Alternatively, you can
- * use `git_stash_apply_options_init`.
- *
-  *)
+   * Stash application options structure
+   *
+   * Initialize with `GIT_STASH_APPLY_OPTIONS_INIT`. Alternatively, you can
+   * use `git_stash_apply_options_init`.
+   *
+   *)
 
   git_stash_apply_options = record
-    version : Cardinal;
+    version: Cardinal;
     (** See `git_stash_apply_flags`, above.  *)
-    flags : uint32_t;
+    flags: uint32_t;
     (** Options to use when writing files to the working directory.  *)
-    checkout_options : git_checkout_options;
+    checkout_options: git_checkout_options;
     (** Optional callback to notify the consumer of application progress.  *)
-    progress_cb : git_stash_apply_progress_cb;
-    progress_payload : Pointer;
+    progress_cb: git_stash_apply_progress_cb;
+    progress_payload: Pointer;
   end;
   Pgit_stash_apply_options = ^git_stash_apply_options;
 
@@ -118,18 +117,17 @@ const
   GIT_STASH_APPLY_OPTIONS_VERSION = 1;
   //GIT_STASH_APPLY_OPTIONS_INIT = { GIT_STASH_APPLY_OPTIONS_VERSION , GIT_STASH_APPLY_DEFAULT , GIT_CHECKOUT_OPTIONS_INIT };
   (**
- * Initialize git_stash_apply_options structure
- *
- * Initializes a `git_stash_apply_options` with default values. Equivalent to
- * creating an instance with `GIT_STASH_APPLY_OPTIONS_INIT`.
- *
- * @param opts The `git_stash_apply_options` struct to initialize.
- * @param version The struct version; pass `GIT_STASH_APPLY_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
-  *)
+   * Initialize git_stash_apply_options structure
+   *
+   * Initializes a `git_stash_apply_options` with default values. Equivalent to
+   * creating an instance with `GIT_STASH_APPLY_OPTIONS_INIT`.
+   *
+   * @param opts The `git_stash_apply_options` struct to initialize.
+   * @param version The struct version; pass `GIT_STASH_APPLY_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
+   *)
 
-function git_stash_apply_options_init(opts: Pgit_stash_apply_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_stash_apply_options_init(opts: Pgit_stash_apply_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * Apply a single stashed state from the stash list.
@@ -156,7 +154,7 @@ function git_stash_apply_options_init(opts: Pgit_stash_apply_options;
  * @return 0 on success, GIT_ENOTFOUND if there's no stashed state for the
  *         given index, GIT_EMERGECONFLICT if changes exist in the working
  *         directory, or an error code
-  *)
+ *)
 
 function git_stash_apply(repo: Pgit_repository; index_: size_t;
   options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll;
@@ -171,26 +169,25 @@ function git_stash_apply(repo: Pgit_repository; index_: size_t;
  * @param stash_id The commit oid of the stashed state.
  * @param payload Extra parameter to callback function.
  * @return 0 to continue iterating or non-zero to stop.
-  *)
+ *)
 
 type
-  git_stash_cb = function(index_: size_t; message: PAnsiChar;
-    stash_id: Pgit_oid; payload: Pointer): Integer; cdecl;
+  git_stash_cb = function(index_: size_t; message: PAnsiChar; stash_id: Pgit_oid; payload: Pointer): Integer; cdecl;
 
   (**
- * Loop over all the stashed states and issue a callback for each one.
- *
- * If the callback returns a non-zero value, this will stop looping.
- *
- * @param repo Repository where to find the stash.
- *
- * @param callback Callback to invoke per found stashed state. The most
- *                 recent stash state will be enumerated first.
- *
- * @param payload Extra parameter to callback function.
- *
- * @return 0 on success, non-zero callback return value, or error code.
-  *)
+   * Loop over all the stashed states and issue a callback for each one.
+   *
+   * If the callback returns a non-zero value, this will stop looping.
+   *
+   * @param repo Repository where to find the stash.
+   *
+   * @param callback Callback to invoke per found stashed state. The most
+   *                 recent stash state will be enumerated first.
+   *
+   * @param payload Extra parameter to callback function.
+   *
+   * @return 0 on success, non-zero callback return value, or error code.
+   *)
 
 function git_stash_foreach(repo: Pgit_repository; callback: git_stash_cb;
   payload: Pointer): Integer; cdecl; external libgit2_dll;
@@ -205,7 +202,7 @@ function git_stash_foreach(repo: Pgit_repository; callback: git_stash_cb;
  *
  * @return 0 on success, GIT_ENOTFOUND if there's no stashed state for the given
  * index, or error code.
-  *)
+ *)
 
 function git_stash_drop(repo: Pgit_repository; index_: size_t): Integer; cdecl; external libgit2_dll;
 
@@ -226,4 +223,6 @@ function git_stash_pop(repo: Pgit_repository; index_: size_t;
   options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

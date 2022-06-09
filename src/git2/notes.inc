@@ -4,7 +4,7 @@
  * @defgroup git_note Git notes management routines
  * @ingroup Git
  * @{
-  *)
+*)
 
 (**
  * Callback for git_note_foreach.
@@ -16,12 +16,11 @@
   *)
 
 type
-  git_note_foreach_cb = function(blob_id, annotated_object_id: Pgit_oid;
-    payload: Pointer): Integer; cdecl;
+  git_note_foreach_cb = function(blob_id, annotated_object_id: Pgit_oid; payload: Pointer): Integer; cdecl;
 
   (**
- * note iterator
-  *)
+   * note iterator
+   *)
 
   git_iterator = record
   end;
@@ -30,20 +29,20 @@ type
   Pgit_note_iterator = ^git_note_iterator;
 
   (**
- * Creates a new iterator for notes
- *
- * The iterator must be freed manually by the user.
- *
- * @param out pointer to the iterator
- * @param repo repository where to look up the note
- * @param notes_ref canonical name of the reference to use (optional); defaults to
- *                  "refs/notes/commits"
- *
- * @return 0 or an error code
-  *)
+   * Creates a new iterator for notes
+   *
+   * The iterator must be freed manually by the user.
+   *
+   * @param out pointer to the iterator
+   * @param repo repository where to look up the note
+   * @param notes_ref canonical name of the reference to use (optional); defaults to
+   *                  "refs/notes/commits"
+   *
+   * @return 0 or an error code
+   *)
 
-function git_note_iterator_new(out_: PPgit_note_iterator;
-  repo: Pgit_repository; notes_ref: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_note_iterator_new(out_: PPgit_note_iterator; repo: Pgit_repository;
+  notes_ref: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Creates a new iterator for notes from a commit
@@ -54,16 +53,15 @@ function git_note_iterator_new(out_: PPgit_note_iterator;
  * @param notes_commit a pointer to the notes commit object
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_commit_iterator_new(out_: PPgit_note_iterator;
-  notes_commit: Pgit_commit): Integer; cdecl; external libgit2_dll;
+function git_note_commit_iterator_new(out_: PPgit_note_iterator; notes_commit: Pgit_commit): Integer; cdecl; external libgit2_dll;
 
 (**
  * Frees an git_note_iterator
  *
  * @param it pointer to the iterator
-  *)
+ *)
 
 procedure git_note_iterator_free(it: Pgit_note_iterator); cdecl; external libgit2_dll;
 
@@ -77,11 +75,9 @@ procedure git_note_iterator_free(it: Pgit_note_iterator); cdecl; external libgit
  *
  * @return 0 (no error), GIT_ITEROVER (iteration is done) or an error code
  *         (negative value)
-  *)
+ *)
 
-function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator)
-  : Integer; cdecl; external libgit2_dll;
-
+function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read the note for an object
@@ -95,11 +91,10 @@ function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator)
  * @param oid OID of the git object to read the note from
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_read(out_: PPgit_note; repo: Pgit_repository;
-  notes_ref: PAnsiChar; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
-
+function git_note_read(out_: PPgit_note; repo: Pgit_repository; notes_ref: PAnsiChar;
+  oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read the note for an object from a note commit
@@ -112,17 +107,17 @@ function git_note_read(out_: PPgit_note; repo: Pgit_repository;
  * @param oid OID of the git object to read the note from
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_commit_read(out_: PPgit_note; repo: Pgit_repository;
-  notes_commit: Pgit_commit; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_note_commit_read(out_: PPgit_note; repo: Pgit_repository; notes_commit: Pgit_commit;
+  oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the note author
  *
  * @param note the note
  * @return the author
-  *)
+ *)
 
 function git_note_author(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll;
 
@@ -131,27 +126,25 @@ function git_note_author(note: Pgit_note): Pgit_signature; cdecl; external libgi
  *
  * @param note the note
  * @return the committer
-  *)
+ *)
 
 function git_note_committer(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll;
-
 
 (**
  * Get the note message
  *
  * @param note the note
  * @return the note message
-  *)
+ *)
 
 function git_note_message(note: Pgit_note): PAnsiChar; cdecl; external libgit2_dll;
-
 
 (**
  * Get the note object's id
  *
  * @param note the note
  * @return the note object's id
-  *)
+ *)
 
 function git_note_id(note: Pgit_note): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -169,11 +162,10 @@ function git_note_id(note: Pgit_note): Pgit_oid; cdecl; external libgit2_dll;
  * @param force Overwrite existing note
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_create(out_: Pgit_oid; repo: Pgit_repository;
-  notes_ref: PAnsiChar; author, committer: Pgit_signature; oid: Pgit_oid;
-  note: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_note_create(out_: Pgit_oid; repo: Pgit_repository; notes_ref: PAnsiChar;
+  author, committer: Pgit_signature; oid: Pgit_oid; note: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Add a note for an object from a commit
@@ -194,11 +186,11 @@ function git_note_create(out_: Pgit_oid; repo: Pgit_repository;
  * @param allow_note_overwrite Overwrite existing note
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_commit_create(notes_commit_out, notes_blob_out: Pgit_oid;
-  repo: Pgit_repository; parent: Pgit_commit; author, committer: Pgit_signature;
-  oid: Pgit_oid; note: PAnsiChar; allow_note_overwrite: Integer): Integer; cdecl; external libgit2_dll;
+function git_note_commit_create(notes_commit_out, notes_blob_out: Pgit_oid; repo: Pgit_repository;
+  parent: Pgit_commit; author, committer: Pgit_signature; oid: Pgit_oid; note: PAnsiChar;
+  allow_note_overwrite: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Remove the note for an object
@@ -211,7 +203,7 @@ function git_note_commit_create(notes_commit_out, notes_blob_out: Pgit_oid;
  * @param oid OID of the git object to remove the note from
  *
  * @return 0 or an error code
-  *)
+ *)
 
 function git_note_remove(repo: Pgit_repository; notes_ref: PAnsiChar;
   author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
@@ -233,17 +225,16 @@ function git_note_remove(repo: Pgit_repository; notes_ref: PAnsiChar;
  * @param oid OID of the git object to remove the note from
  *
  * @return 0 or an error code
-  *)
+ *)
 
-function git_note_commit_remove(notes_commit_out: Pgit_oid;
-  repo: Pgit_repository; notes_commit: Pgit_commit;
+function git_note_commit_remove(notes_commit_out: Pgit_oid; repo: Pgit_repository; notes_commit: Pgit_commit;
   author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free a git_note object
  *
  * @param note git_note object
-  *)
+ *)
 
 procedure git_note_free(note: Pgit_note); cdecl; external libgit2_dll;
 
@@ -254,7 +245,7 @@ procedure git_note_free(note: Pgit_note); cdecl; external libgit2_dll;
  * @param repo The Git repository
  *
  * @return 0 or an error code
-  *)
+ *)
 
 function git_note_default_ref(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
@@ -273,10 +264,12 @@ function git_note_default_ref(out_: Pgit_buf; repo: Pgit_repository): Integer; c
  * @param payload Extra parameter to callback function.
  *
  * @return 0 on success, non-zero callback return value, or error code
-  *)
+ *)
 
-function git_note_foreach(repo: Pgit_repository; notes_ref: PAnsiChar;
-  note_cb: git_note_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_note_foreach(repo: Pgit_repository; notes_ref: PAnsiChar; note_cb: git_note_foreach_cb;
+  payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 

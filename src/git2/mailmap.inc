@@ -4,7 +4,7 @@
  * @defgroup git_mailmap Git mailmap routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Allocate a new mailmap object.
@@ -14,7 +14,7 @@
  *
  * @param out pointer to store the new mailmap
  * @return 0 on success, or an error code
-  *)
+ *)
 
 function git_mailmap_new(out_: PPgit_mailmap): Integer; cdecl; external libgit2_dll;
 
@@ -22,7 +22,7 @@ function git_mailmap_new(out_: PPgit_mailmap): Integer; cdecl; external libgit2_
  * Free the mailmap and its associated memory.
  *
  * @param mm the mailmap to free
-  *)
+ *)
 
 procedure git_mailmap_free(mm: Pgit_mailmap); cdecl; external libgit2_dll;
 
@@ -36,7 +36,7 @@ procedure git_mailmap_free(mm: Pgit_mailmap); cdecl; external libgit2_dll;
  * @param replace_name the name to replace, or NULL
  * @param replace_email the email to replace
  * @return 0 on success, or an error code
-  *)
+ *)
 
 function git_mailmap_add_entry(mm: Pgit_mailmap;
   real_name, real_email, replace_name, replace_email: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -48,10 +48,9 @@ function git_mailmap_add_entry(mm: Pgit_mailmap;
  * @param buf buffer to parse the mailmap from
  * @param len the length of the input buffer
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_mailmap_from_buffer(out_: PPgit_mailmap; buf: PAnsiChar;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+function git_mailmap_from_buffer(out_: PPgit_mailmap; buf: PAnsiChar; len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a new mailmap instance from a repository, loading mailmap files based
@@ -66,10 +65,9 @@ function git_mailmap_from_buffer(out_: PPgit_mailmap; buf: PAnsiChar;
  * @param out pointer to store the new mailmap
  * @param repo repository to load mailmap information from
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_mailmap_from_repository(out_: PPgit_mailmap; repo: Pgit_repository)
-  : Integer; cdecl; external libgit2_dll;
+function git_mailmap_from_repository(out_: PPgit_mailmap; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
 
 (**
  * Resolve a name and email to the corresponding real name and email.
@@ -82,10 +80,10 @@ function git_mailmap_from_repository(out_: PPgit_mailmap; repo: Pgit_repository)
  * @param name the name to look up
  * @param email the email to look up
  * @return 0 on success, or an error code
-  *)
+ *)
 
-function git_mailmap_resolve(real_name, real_email: PPAnsiChar;
-  mm: Pgit_mailmap; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_mailmap_resolve(real_name, real_email: PPAnsiChar; mm: Pgit_mailmap;
+  name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Resolve a signature to use real names and emails with a mailmap.
@@ -96,10 +94,11 @@ function git_mailmap_resolve(real_name, real_email: PPAnsiChar;
  * @param mm mailmap to resolve with
  * @param sig signature to resolve
  * @return 0 or an error code
-  *)
+ *)
 
 function git_mailmap_resolve_signature(out_: PPgit_signature; mm: Pgit_mailmap;
   sig: Pgit_signature): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
 

@@ -4,11 +4,11 @@
  * @defgroup git_odb Git object database routines
  * @ingroup Git
  * @{
-  *)
+ *)
 
 (**
  * Function type for callbacks from git_odb_foreach.
-  *)
+ *)
 
 type
   git_odb_foreach_cb = function(id: Pgit_oid; payload: Pointer): Integer; cdecl;
@@ -22,7 +22,7 @@ type
  * @param out location to store the database pointer, if opened.
  *			Set to NULL if the open failed.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_odb_new(out_: PPgit_odb): Integer; cdecl; external libgit2_dll;
 
@@ -41,7 +41,7 @@ function git_odb_new(out_: PPgit_odb): Integer; cdecl; external libgit2_dll;
  *			Set to NULL if the open failed.
  * @param objects_dir path of the backends' "objects" directory.
  * @return 0 or an error code
-  *)
+ *)
 
 function git_odb_open(out_: PPgit_odb; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -59,7 +59,7 @@ function git_odb_open(out_: PPgit_odb; objects_dir: PAnsiChar): Integer; cdecl; 
  * @param odb database to add the backend to
  * @param path path to the objects folder for the alternate
  * @return 0 on success, error code otherwise
-  *)
+ *)
 
 function git_odb_add_disk_alternate(odb: Pgit_odb; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
@@ -67,7 +67,7 @@ function git_odb_add_disk_alternate(odb: Pgit_odb; path: PAnsiChar): Integer; cd
  * Close an open object database.
  *
  * @param db database pointer to close. If NULL no action is taken.
-  *)
+ *)
 
 procedure git_odb_free(db: Pgit_odb); cdecl; external libgit2_dll;
 
@@ -86,10 +86,9 @@ procedure git_odb_free(db: Pgit_odb); cdecl; external libgit2_dll;
  * @param id identity of the object to read.
  * @return 0 if the object was read, GIT_ENOTFOUND if the object is
  *         not in the database.
-  *)
+ *)
 
-function git_odb_read(out_: PPgit_odb_object; db: Pgit_odb; id: Pgit_oid)
-  : Integer; cdecl; external libgit2_dll;
+function git_odb_read(out_: PPgit_odb_object; db: Pgit_odb; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read an object from the database, given a prefix
@@ -116,10 +115,10 @@ function git_odb_read(out_: PPgit_odb_object; db: Pgit_odb; id: Pgit_oid)
  * @return 0 if the object was read, GIT_ENOTFOUND if the object is not in the
  *         database. GIT_EAMBIGUOUS if the prefix is ambiguous
  *         (several objects match the prefix)
-  *)
+ *)
 
-function git_odb_read_prefix(out_: PPgit_odb_object; db: Pgit_odb;
-  short_id: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_read_prefix(out_: PPgit_odb_object; db: Pgit_odb; short_id: Pgit_oid;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read the header of an object from the database, without
@@ -137,12 +136,12 @@ function git_odb_read_prefix(out_: PPgit_odb_object; db: Pgit_odb;
  * @param id identity of the object to read.
  * @return 0 if the object was read, GIT_ENOTFOUND if the object is not
  *         in the database.
-  *)
+ *)
 
 type
   Pgit_object_t = ^git_object_t;
-function git_odb_read_header(len_out: Psize_t; type_out: Pgit_object_t;
-  db: Pgit_odb; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_odb_read_header(len_out: Psize_t; type_out: Pgit_object_t; db: Pgit_odb;
+  id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Determine if the given object can be found in the object database.
@@ -150,7 +149,7 @@ function git_odb_read_header(len_out: Psize_t; type_out: Pgit_object_t;
  * @param db database to be searched for the given object.
  * @param id the object to search for.
  * @return 1 if the object was found, 0 otherwise
-  *)
+ *)
 
 function git_odb_exists(db: Pgit_odb; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
@@ -164,55 +163,54 @@ function git_odb_exists(db: Pgit_odb; id: Pgit_oid): Integer; cdecl; external li
  * @param len The length of the prefix.
  * @return 0 if found, GIT_ENOTFOUND if not found, GIT_EAMBIGUOUS if multiple
  *         matches were found, other value < 0 if there was a read error.
-  *)
+ *)
 
-function git_odb_exists_prefix(out_: Pgit_oid; db: Pgit_odb;
-  short_id: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_exists_prefix(out_: Pgit_oid; db: Pgit_odb; short_id: Pgit_oid;
+  len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * The information about object IDs to query in `git_odb_expand_ids`,
  * which will be populated upon return.
-  *)
+ *)
 
 type
   git_odb_expand_id = record
     (** The object ID to expand  *)
-    id : git_oid;
+    id: git_oid;
     (**
-	 * The length of the object ID (in nibbles, or packets of 4 bits; the
-	 * number of hex characters)
-	 *  *)
-    length : Word;
+     * The length of the object ID (in nibbles, or packets of 4 bits; the
+     * number of hex characters)
+     *)
+    Length: Word;
     (**
-	 * The (optional) type of the object to search for; leave as `0` or set
-	 * to `GIT_OBJECT_ANY` to query for any object matching the ID.
-	  *)
-    type_ : git_object_t;
+     * The (optional) type of the object to search for; leave as `0` or set
+     * to `GIT_OBJECT_ANY` to query for any object matching the ID.
+     *)
+    type_: git_object_t;
   end;
 
   (**
- * Determine if one or more objects can be found in the object database
- * by their abbreviated object ID and type.  The given array will be
- * updated in place:  for each abbreviated ID that is unique in the
- * database, and of the given type (if specified), the full object ID,
- * object ID length (`GIT_OID_HEXSZ`) and type will be written back to
- * the array.  For IDs that are not found (or are ambiguous), the
- * array entry will be zeroed.
- *
- * Note that since this function operates on multiple objects, the
- * underlying database will not be asked to be reloaded if an object is
- * not found (which is unlike other object database operations.)
- *
- * @param db The database to be searched for the given objects.
- * @param ids An array of short object IDs to search for
- * @param count The length of the `ids` array
- * @return 0 on success or an error code on failure
-  *)
+   * Determine if one or more objects can be found in the object database
+   * by their abbreviated object ID and type.  The given array will be
+   * updated in place:  for each abbreviated ID that is unique in the
+   * database, and of the given type (if specified), the full object ID,
+   * object ID length (`GIT_OID_HEXSZ`) and type will be written back to
+   * the array.  For IDs that are not found (or are ambiguous), the
+   * array entry will be zeroed.
+   *
+   * Note that since this function operates on multiple objects, the
+   * underlying database will not be asked to be reloaded if an object is
+   * not found (which is unlike other object database operations.)
+   *
+   * @param db The database to be searched for the given objects.
+   * @param ids An array of short object IDs to search for
+   * @param count The length of the `ids` array
+   * @return 0 on success or an error code on failure
+   *)
 
 type
   Pgit_odb_expand_id = ^git_odb_expand_id;
-function git_odb_expand_ids(db: Pgit_odb; ids: Pgit_odb_expand_id;
-  count: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_expand_ids(db: Pgit_odb; ids: Pgit_odb_expand_id; Count: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Refresh the object database to load newly added files.
@@ -231,7 +229,7 @@ function git_odb_expand_ids(db: Pgit_odb; ids: Pgit_odb_expand_id;
  *
  * @param db database to refresh
  * @return 0 on success, error code otherwise
-  *)
+ *)
 
 function git_odb_refresh(db: Pgit_odb): Integer; cdecl; external libgit2_dll;
 
@@ -247,10 +245,9 @@ function git_odb_refresh(db: Pgit_odb): Integer; cdecl; external libgit2_dll;
  * @param cb the callback to call for each object
  * @param payload data to pass to the callback
  * @return 0 on success, non-zero callback return value, or error code
-  *)
+ *)
 
-function git_odb_foreach(db: Pgit_odb; cb: git_odb_foreach_cb; payload: Pointer)
-  : Integer; cdecl; external libgit2_dll;
+function git_odb_foreach(db: Pgit_odb; cb: git_odb_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write an object directly into the ODB
@@ -269,10 +266,10 @@ function git_odb_foreach(db: Pgit_odb; cb: git_odb_foreach_cb; payload: Pointer)
  * @param len size of the buffer
  * @param type type of the data to store
  * @return 0 or an error code
-  *)
+ *)
 
-function git_odb_write(out_: Pgit_oid; odb: Pgit_odb; data: Pointer;
-  len: size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+function git_odb_write(out_: Pgit_oid; odb: Pgit_odb; data: Pointer; len: size_t;
+  type_: git_object_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Open a stream to write an object into the ODB
@@ -294,10 +291,10 @@ function git_odb_write(out_: Pgit_oid; odb: Pgit_odb; data: Pointer;
  * @param size final size of the object that will be written
  * @param type type of the object that will be written
  * @return 0 if the stream was created; error code otherwise
-  *)
+ *)
 
-function git_odb_open_wstream(out_: PPgit_odb_stream; db: Pgit_odb;
-  size: git_object_size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+function git_odb_open_wstream(out_: PPgit_odb_stream; db: Pgit_odb; size: git_object_size_t;
+  type_: git_object_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write to an odb stream
@@ -309,10 +306,9 @@ function git_odb_open_wstream(out_: PPgit_odb_stream; db: Pgit_odb;
  * @param buffer the data to write
  * @param len the buffer's length
  * @return 0 if the write succeeded, error code otherwise
-  *)
+ *)
 
-function git_odb_stream_write(stream: Pgit_odb_stream; buffer: PAnsiChar;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_stream_write(stream: Pgit_odb_stream; buffer: PAnsiChar; len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Finish writing to an odb stream
@@ -326,25 +322,23 @@ function git_odb_stream_write(stream: Pgit_odb_stream; buffer: PAnsiChar;
  * @param out pointer to store the resulting object's id
  * @param stream the stream
  * @return 0 on success, an error code otherwise
-  *)
+ *)
 
-function git_odb_stream_finalize_write(out_: Pgit_oid; stream: Pgit_odb_stream)
-  : Integer; cdecl; external libgit2_dll;
+function git_odb_stream_finalize_write(out_: Pgit_oid; stream: Pgit_odb_stream): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read from an odb stream
  *
  * Most backends don't implement streaming reads
-  *)
+ *)
 
-function git_odb_stream_read(stream: Pgit_odb_stream; buffer: PAnsiChar;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_stream_read(stream: Pgit_odb_stream; buffer: PAnsiChar; len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free an odb stream
  *
  * @param stream the stream to free
-  *)
+ *)
 
 procedure git_odb_stream_free(stream: Pgit_odb_stream); cdecl; external libgit2_dll;
 
@@ -373,10 +367,10 @@ procedure git_odb_stream_free(stream: Pgit_odb_stream); cdecl; external libgit2_
  * @param db object database where the stream will read from
  * @param oid oid of the object the stream will read from
  * @return 0 if the stream was created, error code otherwise
-  *)
+ *)
 
-function git_odb_open_rstream(out_: PPgit_odb_stream; len: Psize_t;
-  type_: Pgit_object_t; db: Pgit_odb; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_odb_open_rstream(out_: PPgit_odb_stream; len: Psize_t; type_: Pgit_object_t;
+  db: Pgit_odb; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Open a stream for writing a pack file to the ODB.
@@ -395,10 +389,10 @@ function git_odb_open_rstream(out_: PPgit_odb_stream; len: Psize_t;
  * Be aware that this is called inline with network and indexing operations,
  * so performance may be affected.
  * @param progress_payload payload for the progress callback
-  *)
+ *)
 
-function git_odb_write_pack(out_: PPgit_odb_writepack; db: Pgit_odb;
-  progress_cb: git_indexer_progress_cb; progress_payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_odb_write_pack(out_: PPgit_odb_writepack; db: Pgit_odb; progress_cb: git_indexer_progress_cb;
+  progress_payload: Pointer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Write a `multi-pack-index` file from all the `.pack` files in the ODB.
@@ -411,6 +405,7 @@ function git_odb_write_pack(out_: PPgit_odb_writepack; db: Pgit_odb;
  *
  * @param db object database where the `multi-pack-index` file will be written.
  *)
+
 function git_odb_write_multi_pack_index(db: Pgit_odb): Integer; cdecl; external libgit2_dll;
 
 (**
@@ -424,10 +419,9 @@ function git_odb_write_multi_pack_index(db: Pgit_odb): Integer; cdecl; external 
  * @param len size of the data
  * @param type of the data to hash
  * @return 0 or an error code
-  *)
+ *)
 
-function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t;
-  type_: git_object_t): Integer; cdecl; external libgit2_dll;
+function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Read a file from disk and fill a git_oid with the object id
@@ -441,10 +435,9 @@ function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t;
  * @param path file to read and determine object id for
  * @param type the type of the object that will be hashed
  * @return 0 or an error code
-  *)
+ *)
 
-function git_odb_hashfile(out_: Pgit_oid; path: PAnsiChar; type_: git_object_t)
-  : Integer; cdecl; external libgit2_dll;
+function git_odb_hashfile(out_: Pgit_oid; path: PAnsiChar; type_: git_object_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create a copy of an odb_object
@@ -457,10 +450,9 @@ function git_odb_hashfile(out_: Pgit_oid; path: PAnsiChar; type_: git_object_t)
  * @param dest pointer where to store the copy
  * @param source object to copy
  * @return 0 or an error code
-  *)
+ *)
 
-function git_odb_object_dup(dest: PPgit_odb_object; source: Pgit_odb_object)
-  : Integer; cdecl; external libgit2_dll;
+function git_odb_object_dup(dest: PPgit_odb_object; source: Pgit_odb_object): Integer; cdecl; external libgit2_dll;
 
 (**
  * Close an ODB object
@@ -469,7 +461,7 @@ function git_odb_object_dup(dest: PPgit_odb_object; source: Pgit_odb_object)
  * longer needed, otherwise memory will leak.
  *
  * @param object object to close
-  *)
+ *)
 
 procedure git_odb_object_free(object_: Pgit_odb_object); cdecl; external libgit2_dll;
 
@@ -480,7 +472,7 @@ procedure git_odb_object_free(object_: Pgit_odb_object); cdecl; external libgit2
  *
  * @param object the object
  * @return a pointer to the OID
-  *)
+ *)
 
 function git_odb_object_id(object_: Pgit_odb_object): Pgit_oid; cdecl; external libgit2_dll;
 
@@ -494,7 +486,7 @@ function git_odb_object_id(object_: Pgit_odb_object): Pgit_oid; cdecl; external 
  *
  * @param object the object
  * @return a pointer to the data
-  *)
+ *)
 
 function git_odb_object_data(object_: Pgit_odb_object): Pointer; cdecl; external libgit2_dll;
 
@@ -506,7 +498,7 @@ function git_odb_object_data(object_: Pgit_odb_object): Pointer; cdecl; external
  *
  * @param object the object
  * @return the size
-  *)
+ *)
 
 function git_odb_object_size(object_: Pgit_odb_object): size_t; cdecl; external libgit2_dll;
 
@@ -515,7 +507,7 @@ function git_odb_object_size(object_: Pgit_odb_object): size_t; cdecl; external 
  *
  * @param object the object
  * @return the type
-  *)
+ *)
 
 function git_odb_object_type(object_: Pgit_odb_object): git_object_t; cdecl; external libgit2_dll;
 
@@ -531,10 +523,9 @@ function git_odb_object_type(object_: Pgit_odb_object): git_object_t; cdecl; ext
  * @param backend pointer to a git_odb_backend instance
  * @param priority Value for ordering the backends queue
  * @return 0 on success, error code otherwise
-  *)
+ *)
 
-function git_odb_add_backend(odb: Pgit_odb; backend: Pgit_odb_backend;
-  priority: Integer): Integer; cdecl; external libgit2_dll;
+function git_odb_add_backend(odb: Pgit_odb; backend: Pgit_odb_backend; priority: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Add a custom backend to an existing Object DB; this
@@ -554,17 +545,16 @@ function git_odb_add_backend(odb: Pgit_odb; backend: Pgit_odb_backend;
  * @param backend pointer to a git_odb_backend instance
  * @param priority Value for ordering the backends queue
  * @return 0 on success, error code otherwise
-  *)
+ *)
 
-function git_odb_add_alternate(odb: Pgit_odb; backend: Pgit_odb_backend;
-  priority: Integer): Integer; cdecl; external libgit2_dll;
+function git_odb_add_alternate(odb: Pgit_odb; backend: Pgit_odb_backend; priority: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Get the number of ODB backend objects
  *
  * @param odb object database
  * @return number of backends in the ODB
-  *)
+ *)
 
 function git_odb_num_backends(odb: Pgit_odb): size_t; cdecl; external libgit2_dll;
 
@@ -575,10 +565,9 @@ function git_odb_num_backends(odb: Pgit_odb): size_t; cdecl; external libgit2_dl
  * @param odb object database
  * @param pos index into object database backend list
  * @return 0 on success, GIT_ENOTFOUND if pos is invalid, other errors < 0
-  *)
+ *)
 
-function git_odb_get_backend(out_: PPgit_odb_backend; odb: Pgit_odb;
-  pos: size_t): Integer; cdecl; external libgit2_dll;
+function git_odb_get_backend(out_: PPgit_odb_backend; odb: Pgit_odb; pos: size_t): Integer; cdecl; external libgit2_dll;
 
 (**
  * Set the git commit-graph for the ODB.
@@ -593,7 +582,10 @@ function git_odb_get_backend(out_: PPgit_odb_backend; odb: Pgit_odb;
  * @param cgraph the git commit-graph
  * @return 0 on success; error code otherwise
  *)
+
 function git_odb_set_commit_graph(odb: Pgit_odb; cgraph: Pgit_commit_graph): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
+
+
 
