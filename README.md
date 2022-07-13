@@ -3,7 +3,7 @@
 Details
 -------
 
-Delphi / Free Pascal bindings for [libgit2](http://libgit2.github.com/) v1.1(.0).
+Delphi / Free Pascal bindings for [libgit2](http://libgit2.github.com/) v1.3(.2).
 
 Since I could not find anything very up to date in the Delphi/Pascal world for recent libgit2 versions I decided to do something myself with assistance from [CHelper](https://wiki.freepascal.org/Chelper).
 
@@ -14,8 +14,7 @@ So far we are only using it on the Windows 32-bit platform so no idea how it wil
 Windows Binaries
 ----------------
 
-[All windows binaries](https://1drv.ms/u/s!Asf6C964OtqIgnrZWHAv6YaNhteW?e=iJAnpL)
-
+Now included as part of the releases.
 
 License
 -------
