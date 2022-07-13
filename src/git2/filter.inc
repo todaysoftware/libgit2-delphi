@@ -52,9 +52,9 @@ type
     flags: Cardinal;
 
     {$IFDEF GIT_DEPRECATE_HARD}
-    commit_id: Pgit_oid;
-    {$ELSE}
     reserved: Pointer;
+    {$ELSE}
+    commit_id: Pgit_oid;
     {$ENDIF}
     (**
      * The commit to load attributes from, when
