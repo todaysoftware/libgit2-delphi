@@ -141,11 +141,17 @@ type
     version: Cardinal;
     (** A combination of GIT_ATTR_CHECK flags *)
     flags: Cardinal;
+
+    {$IFDEF GIT_DEPRECATE_HARD}
+    commit_id: Pgit_oid;
+    {$ELSE}
+    reserved: Pointer;
+    {$ENDIF}
     (**
      * The commit to load attributes from, when
      * `GIT_ATTR_CHECK_INCLUDE_COMMIT` is specified.
      *)
-    commit_id: Pgit_oid;
+    attr_commit_id: git_oid;
   end;
   Pgit_attr_options = ^git_attr_options;
 

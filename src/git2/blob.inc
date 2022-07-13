@@ -125,11 +125,16 @@ type
     version: Integer;
     (** Flags to control the filtering process, see `git_blob_filter_flag_t` above  *)
     flags: uint32_t;
+    {$IFDEF GIT_DEPRECATE_HARD}
+    commit_id: Pgit_oid;
+    {$ELSE}
+    reserved: Pointer;
+    {$ENDIF}
     (**
      * The commit to load attributes from, when
      * `GIT_BLOB_FILTER_ATTRIBUTES_FROM_COMMIT` is specified.
      *)
-    commit_id: Pgit_oid;
+    attr_commit_id: git_oid;
   end;
   Pgit_blob_filter_options = ^git_blob_filter_options;
 

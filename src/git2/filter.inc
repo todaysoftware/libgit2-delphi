@@ -51,11 +51,16 @@ type
     (** See `git_filter_flag_t` above *)
     flags: Cardinal;
 
+    {$IFDEF GIT_DEPRECATE_HARD}
+    commit_id: Pgit_oid;
+    {$ELSE}
+    reserved: Pointer;
+    {$ENDIF}
     (**
      * The commit to load attributes from, when
      * `GIT_FILTER_ATTRIBUTES_FROM_COMMIT` is specified.
      *)
-    commit_id: Pgit_oid;
+    attr_commit_id: git_oid;
   end;
   Pgit_filter_options = ^git_filter_options;
 

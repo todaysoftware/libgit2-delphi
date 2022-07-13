@@ -96,6 +96,8 @@ const
    * diff hunks.
    *)
   GIT_DIFF_INDENT_HEURISTIC   = (1 shl 18);
+	(** Ignore blank lines *)
+	GIT_DIFF_IGNORE_BLANK_LINES = (1 shl 19);
   (** Treat all files as text, disabling binary attributes & detection  *)
   GIT_DIFF_FORCE_TEXT         = (1 shl 20);
   (** Treat all files as binary, disabling text diffs  *)
@@ -126,8 +128,6 @@ const
    *  can apply given diff information to binary files.
    *)
   GIT_DIFF_SHOW_BINARY        = (1 shl 30);
-  (** Ignore blank lines  *)
-  GIT_DIFF_IGNORE_BLANK_LINES = (1 shl 31);
 type
   git_diff_option_t = Integer;
 
@@ -1271,89 +1271,6 @@ function git_diff_stats_to_buf(out_: Pgit_buf; stats: Pgit_diff_stats; format: g
  *)
 
 procedure git_diff_stats_free(stats: Pgit_diff_stats); cdecl; external libgit2_dll;
-
-(**
- * Formatting options for diff e-mail generation
- *)
-
-const
-  (** Normal patch, the default  *)
-  GIT_DIFF_FORMAT_EMAIL_NONE  = 0;
-  (** Don't insert "[PATCH]" in the subject header *)
-  GIT_DIFF_FORMAT_EMAIL_EXCLUDE_SUBJECT_PATCH_MARKER = (1 shl 0);
-type
-  git_diff_format_email_flags_t = Integer;
-
-  (**
-   * Options for controlling the formatting of the generated e-mail.
-   *)
-
-type
-  git_diff_format_email_options = record
-    version: Cardinal;
-    (** see `git_diff_format_email_flags_t` above  *)
-    flags: uint32_t;
-    (** This patch number  *)
-    patch_no: size_t;
-    (** Total number of patches in this series  *)
-    total_patches: size_t;
-    (** id to use for the commit  *)
-    id: Pgit_oid;
-    (** Summary of the change  *)
-    summary: PAnsiChar;
-    (** Commit message's body  *)
-    body: PAnsiChar;
-    (** Author of the change  *)
-    author: Pgit_signature;
-  end;
-  Pgit_diff_format_email_options = ^git_diff_format_email_options;
-
-const
-  GIT_DIFF_FORMAT_EMAIL_OPTIONS_VERSION = 1;
-  //GIT_DIFF_FORMAT_EMAIL_OPTIONS_INIT = { GIT_DIFF_FORMAT_EMAIL_OPTIONS_VERSION , 0 , 1 , 1 , NULL , NULL , NULL , NULL };
-  (**
-   * Create an e-mail ready patch from a diff.
-   *
-   * @param out buffer to store the e-mail patch in
-   * @param diff containing the commit
-   * @param opts structure with options to influence content and formatting.
-   * @return 0 or an error code
-   *)
-
-function git_diff_format_email(out_: Pgit_buf; diff: Pgit_diff;
-  opts: Pgit_diff_format_email_options): Integer; cdecl; external libgit2_dll;
-
-(**
- * Create an e-mail ready patch for a commit.
- *
- * Does not support creating patches for merge commits (yet).
- *
- * @param out buffer to store the e-mail patch in
- * @param repo containing the commit
- * @param commit pointer to up commit
- * @param patch_no patch number of the commit
- * @param total_patches total number of patches in the patch set
- * @param flags determines the formatting of the e-mail
- * @param diff_opts structure with options to influence diff or NULL for defaults.
- * @return 0 or an error code
- *)
-
-function git_diff_commit_as_email(out_: Pgit_buf; repo: Pgit_repository; commit: Pgit_commit;
-  patch_no, total_patches: size_t; flags: uint32_t; diff_opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
-
-(**
- * Initialize git_diff_format_email_options structure
- *
- * Initializes a `git_diff_format_email_options` with default values. Equivalent
- * to creating an instance with GIT_DIFF_FORMAT_EMAIL_OPTIONS_INIT.
- *
- * @param opts The `git_blame_options` struct to initialize.
- * @param version The struct version; pass `GIT_DIFF_FORMAT_EMAIL_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
- *)
-
-function git_diff_format_email_options_init(opts: Pgit_diff_format_email_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 (**
  * Patch ID options structure

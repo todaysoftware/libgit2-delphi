@@ -43,6 +43,7 @@ const
   GIT_EMISMATCH               = -33; (**< Hashsum mismatch in object  *)
   GIT_EINDEXDIRTY             = -34; (**< Unsaved changes in the index would be overwritten  *)
   GIT_EAPPLYFAIL              = -35; (**< Patch application failed  *)
+  GIT_EOWNER                  = -36; (**< The object is not owned by the current user *)
 type
   git_error_code = Integer;
 
@@ -154,5 +155,6 @@ function git_error_set_str(error_class: Integer; string_: PAnsiChar): Integer; c
 procedure git_error_set_oom; cdecl; external libgit2_dll;
 
 (** @}  *)
+
 
 

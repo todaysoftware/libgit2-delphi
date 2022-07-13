@@ -62,6 +62,7 @@ procedure ShutdownLibgit2;
 {$I git2/branch.inc}
 {$I git2/cert.inc}
 {$I git2/checkout.inc}
+{$I git2/email.inc}
 {$I git2/indexer.inc}
 {$I git2/index.inc}
 {$I git2/merge.inc}
