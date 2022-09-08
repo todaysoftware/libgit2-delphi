@@ -175,6 +175,9 @@ type
 
   (**
  * Gets the number of hunks that exist in the blame structure.
+ *
+ * @param blame The blame structure to query.
+ * @return The number of hunks.
   *)
 
 type

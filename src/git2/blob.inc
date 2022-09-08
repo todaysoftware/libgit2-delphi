@@ -280,11 +280,25 @@ function git_blob_create_from_buffer(id: Pgit_oid; repo: Pgit_repository; buffer
 function git_blob_is_binary(blob: Pgit_blob): Integer; cdecl; external libgit2_dll;
 
 (**
+ * Determine if the given content is most certainly binary or not;
+ * this is the same mechanism used by `git_blob_is_binary` but only
+ * looking at raw data.
+ *
+ * @param data The blob data which content should be analyzed
+ * @param len The length of the data
+ * @return 1 if the content of the blob is detected
+ * as binary; 0 otherwise.
+ *)
+
+function git_blob_data_is_binary(data: Pointer; len: size_t): Integer; cdecl; external libgit2_dll;
+
+(**
  * Create an in-memory copy of a blob. The copy must be explicitly
  * free'd or it will leak.
  *
  * @param out Pointer to store the copy of the object
  * @param source Original object to copy
+ * @return 0.
   *)
 
 function git_blob_dup(out_: PPgit_blob; source: Pgit_blob): Integer; cdecl; external libgit2_dll;

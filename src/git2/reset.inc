@@ -35,7 +35,7 @@ type
    *
    * @param target Committish to which the Head should be moved to. This object
    * must belong to the given `repo` and can either be a git_commit or a
-   * git_tag. When a git_tag is being passed, it should be dereferencable
+   * git_tag. When a git_tag is being passed, it should be dereferenceable
    * to a git_commit which oid will be used as the target of the branch.
    *
    * @param reset_type Kind of reset operation to perform.

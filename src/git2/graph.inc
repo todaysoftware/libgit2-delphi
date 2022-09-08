@@ -19,6 +19,7 @@
  * @param repo the repository where the commits exist
  * @param local the commit for local
  * @param upstream the commit for upstream
+ * @return 0 or an error code.
  *)
 
 function git_graph_ahead_behind(ahead, behind: Psize_t; repo: Pgit_repository;

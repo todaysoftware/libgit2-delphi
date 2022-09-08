@@ -290,6 +290,7 @@ function git_index_write(index_: Pgit_index): Integer; cdecl; external libgit2_d
 
 function git_index_path(index_: Pgit_index): PAnsiChar; cdecl; external libgit2_dll;
 
+{$IFNDEF GIT_DEPRECATE_HARD}
 (**
  * Get the checksum of the index
  *
@@ -297,11 +298,13 @@ function git_index_path(index_: Pgit_index): PAnsiChar; cdecl; external libgit2_
  * last 20 bytes which are the checksum itself). In cases where the
  * index does not exist on-disk, it will be zeroed out.
  *
+ * @deprecated this function is deprecated with no replacement
  * @param index an existing index object
  * @return a pointer to the checksum of the index
  *)
 
 function git_index_checksum(index_: Pgit_index): Pgit_oid; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Read a tree into the index file with stats
@@ -500,6 +503,7 @@ function git_index_entry_is_conflict(entry: Pgit_index_entry): Integer; cdecl; e
  *
  * @param iterator_out The newly created iterator
  * @param index The index to iterate
+ * @return 0 or an error code.
  *)
 
 function git_index_iterator_new(iterator_out: PPgit_index_iterator; index_: Pgit_index): Integer; cdecl; external libgit2_dll;
@@ -794,6 +798,7 @@ function git_index_conflict_cleanup(index_: Pgit_index): Integer; cdecl; externa
 (**
  * Determine if the index contains entries representing file conflicts.
  *
+ * @param index An existing index object.
  * @return 1 if at least one conflict is found, 0 otherwise.
  *)
 
@@ -819,6 +824,7 @@ function git_index_conflict_iterator_new(iterator_out: PPgit_index_conflict_iter
  * @param ancestor_out Pointer to store the ancestor side of the conflict
  * @param our_out Pointer to store our side of the conflict
  * @param their_out Pointer to store their side of the conflict
+ * @param iterator The conflict iterator.
  * @return 0 (no error), GIT_ITEROVER (iteration is done) or an error code
  *         (negative value)
  *)

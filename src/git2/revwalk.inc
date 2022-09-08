@@ -247,6 +247,7 @@ function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; 
  *
  * No parents other than the first for each commit will be enqueued.
  *
+ * @param walk The revision walker.
  * @return 0 or an error code
  *)
 
@@ -277,6 +278,7 @@ function git_revwalk_repository(walk: Pgit_revwalk): Pgit_repository; cdecl; ext
  *
  * @param commit_id oid of Commit
  * @param payload User-specified pointer to data to be passed as data payload
+ * @return non-zero to hide the commmit and it parent.
  *)
 
 type
@@ -288,6 +290,7 @@ type
    * @param walk the revision walker
    * @param hide_cb  callback function to hide a commit and its parents
    * @param payload  data payload to be passed to callback function
+   * @return 0 or an error code.
    *)
 
 function git_revwalk_add_hide_cb(walk: Pgit_revwalk; hide_cb: git_revwalk_hide_cb;

@@ -28,6 +28,7 @@ type
    * @param allowed_types A bitmask stating which credential types are OK to return.
    * @param payload The payload provided when specifying this callback.  (This is
    *        interpreted as a `git_credential_userpass_payload*`.)
+   * @return 0 or an error code.
    *)
 
 function git_credential_userpass(out_: PPgit_credential; url, user_from_url: PAnsiChar;

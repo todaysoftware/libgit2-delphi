@@ -39,6 +39,9 @@ function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdec
  * Suggests that the given refdb compress or optimize its references.
  * This mechanism is implementation specific.  For on-disk reference
  * databases, for example, this may pack all loose references.
+ *
+ * @param refdb The reference database to optimize.
+ * @return 0 or an error code.
  *)
 
 function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2_dll;

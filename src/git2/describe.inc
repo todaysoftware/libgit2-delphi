@@ -130,6 +130,7 @@ type
    * you're done with it.
    * @param committish a committish to describe
    * @param opts the lookup options (or NULL for defaults)
+   * @return 0 or an error code.
    *)
 
 type
@@ -142,13 +143,14 @@ function git_describe_commit(Result: PPgit_describe_result; committish: Pgit_obj
  * Describe a commit
  *
  * Perform the describe operation on the current commit and the
- * worktree. After peforming describe on HEAD, a status is run and the
+ * worktree. After performing describe on HEAD, a status is run and the
  * description is considered to be dirty if there are.
  *
  * @param out pointer to store the result. You must free this once
  * you're done with it.
  * @param repo the repository in which to perform the describe
  * @param opts the lookup options (or NULL for defaults)
+ * @return 0 or an error code.
  *)
 
 function git_describe_workdir(out_: PPgit_describe_result; repo: Pgit_repository;
@@ -161,6 +163,7 @@ function git_describe_workdir(out_: PPgit_describe_result; repo: Pgit_repository
  * @param result the result from `git_describe_commit()` or
  * `git_describe_workdir()`.
  * @param opts the formatting options (or NULL for defaults)
+ * @return 0 or an error code.
  *)
 
 function git_describe_format(out_: Pgit_buf; Result: Pgit_describe_result;
@@ -168,6 +171,8 @@ function git_describe_format(out_: Pgit_buf; Result: Pgit_describe_result;
 
 (**
  * Free the describe result.
+ *
+ * @param result The result to free.
  *)
 
 procedure git_describe_result_free(Result: Pgit_describe_result); cdecl; external libgit2_dll;

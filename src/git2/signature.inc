@@ -62,7 +62,7 @@ function git_signature_default(out_: PPgit_signature; repo: Pgit_repository): In
  *
  * @param out new signature
  * @param buf signature string
- * @return 0 on success, or an error code
+ * @return 0 on success, GIT_EINVALID if the signature is not parseable, or an error code
  *)
 
 function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar): Integer; cdecl; external libgit2_dll;

@@ -57,15 +57,18 @@ type
 
   (**
    * Free a config entry
+   *
+   * @param entry The entry to free.
    *)
 
-procedure git_config_entry_free(par0: Pgit_config_entry); cdecl; external libgit2_dll;
+procedure git_config_entry_free(entry: Pgit_config_entry); cdecl; external libgit2_dll;
 
 (**
  * A config enumeration callback
  *
  * @param entry the entry currently being enumerated
  * @param payload a user-specified pointer
+ * @return non-zero to terminate the iteration.
  *)
 
 type
@@ -266,6 +269,7 @@ function git_config_open_level(out_: PPgit_config; parent: Pgit_config;
  *
  * @param out pointer in which to store the config object
  * @param config the config object in which to look
+ * @return 0 or an error code.
  *)
 
 function git_config_open_global(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll;
@@ -436,6 +440,7 @@ function git_config_get_string_buf(out_: Pgit_buf; cfg: Pgit_config; name_: PAns
  * interested in. Use NULL to indicate all
  * @param callback the function to be called on each value of the variable
  * @param payload opaque pointer to pass to the callback
+ * @return 0 or an error code.
  *)
 
 function git_config_get_multivar_foreach(cfg: Pgit_config; name_, regexp: PAnsiChar;
@@ -453,6 +458,7 @@ function git_config_get_multivar_foreach(cfg: Pgit_config; name_, regexp: PAnsiC
  * @param name the variable's name
  * @param regexp regular expression to filter which variables we're
  * interested in. Use NULL to indicate all
+ * @return 0 or an error code.
  *)
 
 type
@@ -543,6 +549,7 @@ function git_config_set_string(cfg: Pgit_config; name_, Value: PAnsiChar): Integ
  * @param name the variable's name
  * @param regexp a regular expression to indicate which values to replace
  * @param value the new value.
+ * @return 0 or an error code.
  *)
 
 function git_config_set_multivar(cfg: Pgit_config; name_, regexp, Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -553,6 +560,7 @@ function git_config_set_multivar(cfg: Pgit_config; name_, regexp, Value: PAnsiCh
  *
  * @param cfg the configuration
  * @param name the variable to delete
+ * @return 0 or an error code.
  *)
 
 function git_config_delete_entry(cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -597,7 +605,8 @@ function git_config_foreach(cfg: Pgit_config; callback: git_config_foreach_cb; p
  * `git_config_iterator_free` when done.
  *
  * @param out pointer to store the iterator
- * @param cfg where to ge the variables from
+ * @param cfg where to get the variables from
+ * @return 0 or an error code.
  *)
 
 function git_config_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config): Integer; cdecl; external libgit2_dll;
@@ -615,6 +624,7 @@ function git_config_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config):
  * @param out pointer to store the iterator
  * @param cfg where to ge the variables from
  * @param regexp regular expression to match the names
+ * @return 0 or an error code.
  *)
 
 function git_config_iterator_glob_new(out_: PPgit_config_iterator; cfg: Pgit_config;
@@ -692,6 +702,7 @@ function git_config_get_mapped(out_: PInteger; cfg: Pgit_config; name_: PAnsiCha
  * @param maps array of `git_configmap` objects specifying the possible mappings
  * @param map_n number of mapping objects in `maps`
  * @param value value to parse
+ * @return 0 or an error code.
  *)
 
 function git_config_lookup_map_value(out_: PInteger; maps: Pgit_configmap; map_n: size_t;
@@ -706,6 +717,7 @@ function git_config_lookup_map_value(out_: PInteger; maps: Pgit_configmap; map_n
  *
  * @param out place to store the result of the parsing
  * @param value value to parse
+ * @return 0 or an error code.
  *)
 
 function git_config_parse_bool(out_: PInteger; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -719,6 +731,7 @@ function git_config_parse_bool(out_: PInteger; Value: PAnsiChar): Integer; cdecl
  *
  * @param out place to store the result of the parsing
  * @param value value to parse
+ * @return 0 or an error code.
  *)
 
 function git_config_parse_int32(out_: Pint32_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -732,6 +745,7 @@ function git_config_parse_int32(out_: Pint32_t; Value: PAnsiChar): Integer; cdec
  *
  * @param out place to store the result of the parsing
  * @param value value to parse
+ * @return 0 or an error code.
  *)
 
 function git_config_parse_int64(out_: Pint64_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -748,6 +762,7 @@ function git_config_parse_int64(out_: Pint64_t; Value: PAnsiChar): Integer; cdec
  *
  * @param out placae to store the result of parsing
  * @param value the path to evaluate
+ * @return 0 or an error code.
  *)
 
 function git_config_parse_path(out_: Pgit_buf; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
@@ -767,6 +782,7 @@ function git_config_parse_path(out_: Pgit_buf; Value: PAnsiChar): Integer; cdecl
  * @param regexp regular expression to match against config names (can be NULL)
  * @param callback the function to call on each variable
  * @param payload the data to pass to the callback
+ * @return 0 or an error code.
  *)
 
 function git_config_backend_foreach_match(backend: Pgit_config_backend; regexp: PAnsiChar; callback: git_config_foreach_cb;

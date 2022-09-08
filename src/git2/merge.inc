@@ -70,6 +70,13 @@ const
    * merge base to `git-merge-resolve`.
    *)
   GIT_MERGE_NO_RECURSIVE      = (1 shl 3);
+  (**
+   * Treat this merge as if it is to produce the virtual base
+   * of a recursive merge.  This will ensure that there are
+   * no conflicts, any conflicting regions will keep conflict
+   * markers in the merge result.
+   *)
+  GIT_MERGE_VIRTUAL_BASE      = (1 shl 4);
 type
   git_merge_flag_t = Integer;
 
@@ -131,6 +138,14 @@ const
   GIT_MERGE_FILE_DIFF_PATIENCE = (1 shl 6);
   (** Take extra time to find minimal diff  *)
   GIT_MERGE_FILE_DIFF_MINIMAL = (1 shl 7);
+  (** Create zdiff3 ("zealous diff3")-style files *)
+  GIT_MERGE_FILE_STYLE_ZDIFF3 = (1 shl 8);
+  (**
+   * Do not produce file conflicts when common regions have
+   * changed; keep the conflict markers in the file and accept
+   * that as the merge result.
+   *)
+  GIT_MERGE_FILE_ACCEPT_CONFLICTS = (1 shl 9);
 type
   git_merge_file_flag_t = Integer;
 
@@ -332,6 +347,7 @@ type
    * merging them into the HEAD of the repository.
    *
    * @param analysis_out analysis enumeration that the result is written into
+   * @param preference_out One of the `git_merge_preference_t` flag.
    * @param repo the repository to merge
    * @param their_heads the heads to merge into
    * @param their_heads_len the number of heads to merge
@@ -341,6 +357,7 @@ type
 type
   Pgit_merge_preference_t = ^git_merge_preference_t;
   Pgit_merge_analysis_t = ^git_merge_analysis_t;
+
 function git_merge_analysis(analysis_out: Pgit_merge_analysis_t; preference_out: Pgit_merge_preference_t;
   repo: Pgit_repository; their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll;
 
@@ -349,6 +366,7 @@ function git_merge_analysis(analysis_out: Pgit_merge_analysis_t; preference_out:
  * merging them into a reference.
  *
  * @param analysis_out analysis enumeration that the result is written into
+ * @param preference_out One of the `git_merge_preference_t` flag.
  * @param repo the repository to merge
  * @param our_ref the reference to perform the analysis from
  * @param their_heads the heads to merge into
@@ -442,6 +460,7 @@ function git_merge_base_octopus(out_: Pgit_oid; repo: Pgit_repository; Length: s
 
 type
   Pgit_merge_file_result = ^git_merge_file_result;
+
 function git_merge_file(out_: Pgit_merge_file_result; ancestor, ours, theirs: Pgit_merge_file_input;
   opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll;
 

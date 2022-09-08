@@ -85,6 +85,7 @@ function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal)
  * will be returned if there are bases missing)
  * @param opts Optional structure containing additional options. See
  * `git_indexer_options` above.
+ * @return 0 or an error code.
  *)
 
 function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; odb: Pgit_odb;
@@ -97,6 +98,7 @@ function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; o
  * @param data the data to add
  * @param size the size of the data in bytes
  * @param stats stat storage
+ * @return 0 or an error code.
   *)
 function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
   stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
@@ -107,20 +109,37 @@ function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
  * Resolve any pending deltas and write out the index file
  *
  * @param idx the indexer
+ * @param stats Stat storage.
+ * @return 0 or an error code.
  *)
 
 function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
 
+{$IFNDEF GIT_DEPRECATE_HARD}
 (**
  * Get the packfile's hash
  *
  * A packfile's name is derived from the sorted hashing of all object
  * names. This is only correct after the index has been finalized.
  *
+ * @deprecated use git_indexer_name
  * @param idx the indexer instance
+ * @return the packfile's hash
  *)
 
 function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_dll;
+{$ENDIF}
+
+(**
+ * Get the unique name for the resulting packfile.
+ *
+ * The packfile's name is derived from the packfile's content.
+ * This is only correct after the index has been finalized.
+ *
+ * @param idx the indexer instance
+ * @return a NUL terminated string for the packfile name
+ *)
+function git_indexer_name(idx: Pgit_indexer): PAnsiChar; cdecl; external libgit2_dll;
 
 (**
  * Free the indexer and its resources

@@ -179,6 +179,7 @@ function git_filter_list_apply_to_buffer(out_: Pgit_buf; filters: Pgit_filter_li
  * @param repo the repository in which to perform the filtering
  * @param path the path of the file to filter, a relative path will be
  * taken as relative to the workdir
+ * @return 0 or an error code.
  *)
 
 function git_filter_list_apply_to_file(out_: Pgit_buf; filters: Pgit_filter_list; repo: Pgit_repository;
@@ -190,6 +191,7 @@ function git_filter_list_apply_to_file(out_: Pgit_buf; filters: Pgit_filter_list
  * @param out buffer into which to store the filtered file
  * @param filters the list of filters to apply
  * @param blob the blob to filter
+ * @return 0 or an error code.
  *)
 
 function git_filter_list_apply_to_blob(out_: Pgit_buf; filters: Pgit_filter_list;
@@ -202,6 +204,7 @@ function git_filter_list_apply_to_blob(out_: Pgit_buf; filters: Pgit_filter_list
  * @param buffer the buffer to filter
  * @param len the size of the buffer
  * @param target the stream into which the data will be written
+ * @return 0 or an error code.
  *)
 
 function git_filter_list_stream_buffer(filters: Pgit_filter_list; const buffer: PAnsiChar; len: size_t;
@@ -215,6 +218,7 @@ function git_filter_list_stream_buffer(filters: Pgit_filter_list; const buffer: 
  * @param path the path of the file to filter, a relative path will be
  * taken as relative to the workdir
  * @param target the stream into which the data will be written
+ * @return 0 or an error code.
  *)
 
 function git_filter_list_stream_file(filters: Pgit_filter_list; repo: Pgit_repository; path: PAnsiChar;
@@ -226,6 +230,7 @@ function git_filter_list_stream_file(filters: Pgit_filter_list; repo: Pgit_repos
  * @param filters the list of filters to apply
  * @param blob the blob to filter
  * @param target the stream into which the data will be written
+ * @return 0 or an error code.
  *)
 
 function git_filter_list_stream_blob(filters: Pgit_filter_list; blob: Pgit_blob;

@@ -55,8 +55,8 @@ type
     payload: Pointer): Integer; cdecl;
 
   (**
- * The signature of a function matchin git_repository_init, with an
- * aditional void * as callback payload.
+ * The signature of a function matching git_repository_init, with an
+ * additional void * as callback payload.
  *
  * Callers of git_clone my provide a function matching this signature
  * to override the repository creation and customization process

@@ -155,7 +155,7 @@ function git_submodule_update_options_init(opts: Pgit_submodule_update_options;
  * @param submodule Submodule object
  * @param init If the submodule is not initialized, setting this flag to true
  *        will initialize the submodule before updating. Otherwise, this will
- *        return an error if attempting to update an uninitialzed repository.
+ *        return an error if attempting to update an uninitialized repository.
  *        but setting this to true forces them to be updated.
  * @param options configuration options for the update.  If NULL, the
  *        function works as though GIT_SUBMODULE_UPDATE_OPTIONS_INIT was passed.
@@ -204,6 +204,7 @@ function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
  *
  * @param out Pointer to store the copy of the submodule.
  * @param source Original submodule to copy.
+ * @return 0
  *)
 
 function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule): Integer; cdecl; external libgit2_dll;
@@ -292,6 +293,7 @@ function git_submodule_clone(out_: PPgit_repository; submodule: Pgit_submodule;
  * (but doesn't actually do the commit).
  *
  * @param submodule The submodule to finish adding.
+ * @return 0 or an error code.
  *)
 
 function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
@@ -569,6 +571,9 @@ function git_submodule_repo_init(out_: PPgit_repository; sm: Pgit_submodule;
  * submodule config, acting like "git submodule sync".  This is useful if
  * you have altered the URL for the submodule (or it has been altered by a
  * fetch of upstream changes) and you need to update your local repo.
+ *
+ * @param submodule The submodule to copy.
+ * @return 0 or an error code.
  *)
 
 function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;

@@ -255,6 +255,7 @@ type
    * Create a new ssh keyboard-interactive based credential object.
    * The supplied credential parameter will be internally duplicated.
    *
+   * @param out The newly created credential object.
    * @param username Username to use to authenticate.
    * @param prompt_callback The callback method used for prompts.
    * @param payload Additional data to pass to the callback.

@@ -173,6 +173,7 @@ const
   *             not have to exist, but if it does not, then it will be
   *             treated as a plain file (not a directory).
   * @param name The name of the attribute to look up.
+  * @return 0 or an error code.
   *)
 
 function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository; flags: uint32_t; path,
@@ -192,6 +193,7 @@ function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository; flags: uint3
  *             not have to exist, but if it does not, then it will be
  *             treated as a plain file (not a directory).
  * @param name The name of the attribute to look up.
+ * @return 0 or an error code.
  *)
 
 function git_attr_get_ext(value_out: PPAnsiChar; repo: Pgit_repository; opts: Pgit_attr_options;
@@ -225,6 +227,7 @@ function git_attr_get_ext(value_out: PPAnsiChar; repo: Pgit_repository; opts: Pg
  *             it will be treated as a plain file (i.e. not a directory).
  * @param num_attr The number of attributes being looked up
  * @param names An array of num_attr strings containing attribute names.
+ * @return 0 or an error code.
   *)
 
 function git_attr_get_many(values_out: PPAnsiChar; repo: Pgit_repository; flags: uint32_t; path: PAnsiChar;
@@ -245,6 +248,7 @@ function git_attr_get_many(values_out: PPAnsiChar; repo: Pgit_repository; flags:
  *             it will be treated as a plain file (i.e. not a directory).
  * @param num_attr The number of attributes being looked up
  * @param names An array of num_attr strings containing attribute names.
+ * @return 0 or an error code.
  *)
 
 function git_attr_get_many_ext(values_out: PPAnsiChar; repo: Pgit_repository; opts: Pgit_attr_options; path: PAnsiChar; num_attr:
@@ -322,11 +326,16 @@ function git_attr_cache_flush(repo: Pgit_repository): Integer; cdecl; external l
  * Add a macro definition.
  *
  * Macros will automatically be loaded from the top level `.gitattributes`
- * file of the repository (plus the build-in "binary" macro).  This
+ * file of the repository (plus the built-in "binary" macro).  This
  * function allows you to add others.  For example, to add the default
  * macro, you would call:
  *
  *     git_attr_add_macro(repo, "binary", "-diff -crlf");
+ *
+ * @param repo The repository to add the macro in.
+ * @param name The name of the macro.
+ * @param values The value for the macro.
+ * @return 0 or an error code.
   *)
 
 function git_attr_add_macro(repo: Pgit_repository; name_, values: PAnsiChar): Integer; cdecl; external libgit2_dll;

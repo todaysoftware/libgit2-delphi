@@ -145,6 +145,14 @@ const
   GIT_CHECKOUT_DONT_REMOVE_EXISTING = (1 shl 22);
   (** Normally checkout writes the index upon completion; this prevents that.  *)
   GIT_CHECKOUT_DONT_WRITE_INDEX = (1 shl 23);
+	(**
+	 * Show what would be done by a checkout.  Stop after sending
+	 * notifications; don't update the working directory or index.
+	 *)
+	GIT_CHECKOUT_DRY_RUN = (1 shl 24);
+	(** Include common ancestor data in zdiff3 format for conflicts *)
+	GIT_CHECKOUT_CONFLICT_STYLE_ZDIFF3 = (1 shl 25);
+
   (**
    * THE FOLLOWING OPTIONS ARE NOT YET IMPLEMENTED
    *)

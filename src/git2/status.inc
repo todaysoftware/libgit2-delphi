@@ -218,6 +218,11 @@ type
      * working directory and index; defaults to HEAD.
      *)
     baseline: Pgit_tree;
+  	(**
+	   * Threshold above which similar files will be considered renames.
+	   * This is equivalent to the -M option. Defaults to 50.
+	   *)
+	   rename_threshold: Word;
   end;
   Pgit_status_options = ^git_status_options;
 

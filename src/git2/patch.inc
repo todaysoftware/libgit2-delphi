@@ -125,6 +125,8 @@ function git_patch_from_buffers(out_: PPgit_patch; old_buffer: Pointer; old_len:
 
 (**
  * Free a git_patch object.
+ *
+ * @param patch The patch to free.
  *)
 
 procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll;
@@ -132,12 +134,18 @@ procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll;
 (**
  * Get the delta associated with a patch.  This delta points to internal
  * data and you do not have to release it when you are done with it.
+ *
+ * @param patch The patch in which to get the delta.
+ * @return The delta associated with the patch.
  *)
 
 function git_patch_get_delta(patch: Pgit_patch): Pgit_diff_delta; cdecl; external libgit2_dll;
 
 (**
  * Get the number of hunks in a patch
+ *
+ * @param patch The patch in which to get the number of hunks.
+ * @return The number of hunks of the patch.
  *)
 
 function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2_dll;

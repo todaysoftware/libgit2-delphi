@@ -457,6 +457,7 @@ function git_commit_create_buffer(out_: Pgit_buf; repo: Pgit_repository;
  * to the commit and write it into the given repository.
  *
  * @param out the resulting commit id
+ * @param repo the repository to create the commit in.
  * @param commit_content the content of the unsigned commit object
  * @param signature the signature to add to the commit. Leave `NULL`
  * to create a commit without adding a signature field.
@@ -474,6 +475,7 @@ function git_commit_create_with_signature(out_: Pgit_oid; repo: Pgit_repository;
  *
  * @param out Pointer to store the copy of the commit
  * @param source Original commit to copy
+ * @return 0
   *)
 
 function git_commit_dup(out_: PPgit_commit; source: Pgit_commit): Integer; cdecl; external libgit2_dll;

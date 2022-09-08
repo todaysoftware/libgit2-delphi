@@ -215,6 +215,7 @@ function git_rebase_open(out_: PPgit_rebase; repo: Pgit_repository;
 (**
  * Gets the original `HEAD` ref name for merge rebases.
  *
+ * @param rebase The in-progress rebase.
  * @return The original `HEAD` ref name
  *)
 
@@ -223,6 +224,7 @@ function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; exter
 (**
  * Gets the original `HEAD` id for merge rebases.
  *
+ * @param rebase The in-progress rebase.
  * @return The original `HEAD` id
  *)
 
@@ -231,6 +233,7 @@ function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external
 (**
  * Gets the `onto` ref name for merge rebases.
  *
+ * @param rebase The in-progress rebase.
  * @return The `onto` ref name
  *)
 
@@ -239,6 +242,7 @@ function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external l
 (**
  * Gets the `onto` id for merge rebases.
  *
+ * @param rebase The in-progress rebase.
  * @return The `onto` id
  *)
 
@@ -303,6 +307,10 @@ function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase)
  * This is only applicable for in-memory rebases; for rebases within
  * a working directory, the changes were applied to the repository's
  * index.
+ *
+ * @param index The result index of the last operation.
+ * @param rebase The in-progress rebase.
+ * @return 0 or an error code
  *)
 
 function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;

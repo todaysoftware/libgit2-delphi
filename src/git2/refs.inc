@@ -45,7 +45,7 @@ function git_reference_name_to_id(out_: Pgit_oid; repo: Pgit_repository;
 (**
  * Lookup a reference by DWIMing its short name
  *
- * Apply the git precendence rules to the given shorthand to determine
+ * Apply the git precedence rules to the given shorthand to determine
  * which reference the user is referring to.
  *
  * @param out pointer in which to store the reference

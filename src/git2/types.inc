@@ -352,7 +352,7 @@ type
 
   (**
    * Git's idea of a remote repository. A remote can be anonymous (in
-   * which case it does not have backing configuration entires).
+   * which case it does not have backing configuration entries).
    *)
 
   git_remote = record

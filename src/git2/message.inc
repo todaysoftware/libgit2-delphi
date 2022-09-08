@@ -70,6 +70,8 @@ function git_message_trailers(arr: Pgit_message_trailer_array; message: PAnsiCha
 (**
  * Clean's up any allocated memory in the git_message_trailer_array filled by
  * a call to git_message_trailers.
+ *
+ * @param arr The trailer to free.
  *)
 
 procedure git_message_trailer_array_free(arr: Pgit_message_trailer_array); cdecl; external libgit2_dll;

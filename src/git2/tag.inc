@@ -337,6 +337,7 @@ function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cde
  *
  * @param out Pointer to store the copy of the tag
  * @param source Original tag to copy
+ * @return 0
  *)
 
 function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; external libgit2_dll;

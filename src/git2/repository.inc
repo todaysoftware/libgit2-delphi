@@ -668,6 +668,9 @@ function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer;
  * Remove git's prepared message.
  *
  * Remove the message that `git_repository_message` retrieves.
+ *
+ * @param repo Repository to remove prepared message from.
+ * @return 0 or an error code.
  *)
 
 function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
@@ -799,18 +802,18 @@ function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar): Int
  * If the provided committish cannot be found in the repository, the HEAD
  * is unaltered and GIT_ENOTFOUND is returned.
  *
- * If the provided commitish cannot be peeled into a commit, the HEAD
+ * If the provided committish cannot be peeled into a commit, the HEAD
  * is unaltered and -1 is returned.
  *
  * Otherwise, the HEAD will eventually be detached and will directly point to
  * the peeled Commit.
  *
  * @param repo Repository pointer
- * @param commitish Object id of the Commit the HEAD should point to
+ * @param committish Object id of the Commit the HEAD should point to
  * @return 0 on success, or an error code
  *)
 
-function git_repository_set_head_detached(repo: Pgit_repository; commitish: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_repository_set_head_detached(repo: Pgit_repository; committish: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
  * Make the repository HEAD directly point to the Commit.
@@ -836,7 +839,7 @@ function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
  * If the HEAD is already detached and points to a Tag, the HEAD is
  * updated into making it point to the peeled Commit, and 0 is returned.
  *
- * If the HEAD is already detached and points to a non commitish, the HEAD is
+ * If the HEAD is already detached and points to a non committish, the HEAD is
  * unaltered, and -1 is returned.
  *
  * Otherwise, the HEAD will be detached and point to the peeled Commit.
@@ -923,6 +926,7 @@ function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; exter
  * @param name where to store the pointer to the name
  * @param email where to store the pointer to the email
  * @param repo the repository
+ * @return 0 or an error code
  *)
 
 function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
@@ -937,6 +941,7 @@ function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): 
  * @param repo the repository to configure
  * @param name the name to use for the reflog entries
  * @param email the email to use for the reflog entries
+ * @return 0 or an error code
  *)
 
 function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;

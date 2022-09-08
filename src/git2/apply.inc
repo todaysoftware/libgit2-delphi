@@ -17,6 +17,8 @@
  *
  * @param delta The delta to be applied
  * @param payload User-specified payload
+ * @return 0 if the delta is applied, < 0 if the apply process will be aborted
+ *	or > 0 if the delta will not be applied.
   *)
 
 type
@@ -33,6 +35,8 @@ type
    *
    * @param hunk The hunk to be applied
    * @param payload User-specified payload
+   * @return 0 if the hunk is applied, < 0 if the apply process will be aborted
+   *	or > 0 if the hunk will not be applied.
     *)
 
 type
@@ -74,6 +78,17 @@ type
 const
   GIT_APPLY_OPTIONS_VERSION   = 1;
   //GIT_APPLY_OPTIONS_INIT = { GIT_APPLY_OPTIONS_VERSION };
+
+(**
+ * Initialize git_apply_options structure
+ *
+ * Initialize a `git_apply_options` with default values. Equivalent to creating
+ * an instance with GIT_APPLY_OPTIONS_INIT.
+ *
+ * @param opts The `git_apply_options` struct to initialize.
+ * @param version The struct version; pass `GIT_APPLY_OPTIONS_VERSION`
+ * @return 0 on success or -1 on failure.
+ *)
 
 function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
   : Integer; cdecl; external libgit2_dll;
