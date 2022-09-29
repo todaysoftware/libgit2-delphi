@@ -31,6 +31,7 @@ function git_worktree_lookup(out_: PPgit_worktree; repo: Pgit_repository; name_:
  *
  * @param out Out-pointer for the newly allocated worktree
  * @param repo Repository to look up worktree for
+ * @return 0 or an error code
  *)
 
 function git_worktree_open_from_repository(out_: PPgit_worktree;
@@ -70,12 +71,16 @@ type
     version: Cardinal;
     lock: Integer; (**< lock newly created worktree  *)
     ref: Pgit_reference; (**< reference to use for the new worktree HEAD  *)
+    (**
+     * Options for the checkout.
+     *)
+    checkout_options: git_checkout_options;
   end;
   Pgit_worktree_add_options = ^git_worktree_add_options;
 
 const
   GIT_WORKTREE_ADD_OPTIONS_VERSION = 1;
-  //GIT_WORKTREE_ADD_OPTIONS_INIT = { GIT_WORKTREE_ADD_OPTIONS_VERSION , 0 , NULL };
+  //GIT_WORKTREE_ADD_OPTIONS_INIT {GIT_WORKTREE_ADD_OPTIONS_VERSION,0,NULL,GIT_CHECKOUT_OPTIONS_INIT}
   (**
    * Initialize git_worktree_add_options structure
    *
@@ -224,6 +229,10 @@ function git_worktree_prune_options_init(opts: Pgit_worktree_prune_options; vers
  * If the worktree is not valid and not locked or if the above
  * flags have been passed in, this function will return a
  * positive value.
+ *
+ * @param wt Worktree to check.
+ * @param opts The prunable options.
+ * @return 1 if the worktree is prunable, 0 otherwise, or an error code.
   *)
 function git_worktree_is_prunable(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll;
 
@@ -243,6 +252,3 @@ function git_worktree_is_prunable(wt: Pgit_worktree; opts: Pgit_worktree_prune_o
 function git_worktree_prune(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
-
