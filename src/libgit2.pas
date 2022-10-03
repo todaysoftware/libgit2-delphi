@@ -14,7 +14,11 @@ unit LibGit2;
 interface
 
 uses
+  {$IF RTLVersion >= 23}
+  System.SysUtils;
+  {$ELSE}
   SysUtils;
+  {$IFEND}
 
 const
   {$IFDEF MSWINDOWS}
@@ -190,5 +194,3 @@ begin
 end;
 
 end.
-
-

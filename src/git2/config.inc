@@ -116,7 +116,7 @@ type
    * global configuration file.
    *
    * This method will not guess the path to the xdg compatible
-   * config file (.config/git/config).
+   * config file ( .config/git/config ).
    *
    * @param out Pointer to a user-allocated git_buf in which to store the path
    * @return 0 if a global configuration file has been found. Its path will be stored in `out`.
@@ -145,8 +145,8 @@ function git_config_find_xdg(out_: Pgit_buf): Integer; cdecl; external libgit2_d
 (**
  * Locate the path to the system configuration file
  *
- * If /etc/gitconfig doesn't exist, it will look for
- * %PROGRAMFILES%\Git\etc\gitconfig.
+ * If `/etc/gitconfig` doesn't exist, it will look for
+ * `%PROGRAMFILES%\Git\etc\gitconfig`.
  *
  * @param out Pointer to a user-allocated git_buf in which to store the path
  * @return 0 if a system configuration file has been
@@ -158,7 +158,7 @@ function git_config_find_system(out_: Pgit_buf): Integer; cdecl; external libgit
 (**
  * Locate the path to the configuration file in ProgramData
  *
- * Look for the file in %PROGRAMDATA%\Git\config used by portable git.
+ * Look for the file in `%PROGRAMDATA%\Git\config` used by portable git.
  *
  * @param out Pointer to a user-allocated git_buf in which to store the path
  * @return 0 if a ProgramData configuration file has been
@@ -471,8 +471,8 @@ function git_config_multivar_iterator_new(out_: PPgit_config_iterator; cfg: Pgit
 (**
  * Return the current entry and advance the iterator
  *
- * The pointers returned by this function are valid until the iterator
- * is freed.
+ * The pointers returned by this function are valid until the next call
+ * to `git_config_next` or until the iterator is freed.
  *
  * @param entry pointer to store the entry
  * @param iter the iterator

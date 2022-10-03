@@ -96,7 +96,7 @@ const
   GIT_ERROR_FILESYSTEM        = 30;
   GIT_ERROR_PATCH             = 31;
   GIT_ERROR_WORKTREE          = 32;
-  GIT_ERROR_SHA1              = 33;
+  GIT_ERROR_SHA               = 33;
   GIT_ERROR_HTTP              = 34;
   GIT_ERROR_INTERNAL          = 35;
 type
@@ -123,7 +123,8 @@ function git_error_last: Pgit_error; cdecl; external libgit2_dll;
 procedure git_error_clear; cdecl; external libgit2_dll;
 
 (**
- * Set the error message string for this thread.
+ * Set the error message string for this thread, using `printf`-style
+ * formatting.
  *
  * This function is public so that custom ODB backends and the like can
  * relay an error message through libgit2.  Most regular users of libgit2
@@ -136,7 +137,19 @@ procedure git_error_clear; cdecl; external libgit2_dll;
  *
  * @param error_class One of the `git_error_t` enum above describing the
  *                    general subsystem that is responsible for the error.
- * @param string The formatted error message to keep
+ * @param fmt The `printf`-style format string; subsequent arguments must
+ *            be the arguments for the format string.
+ *)
+procedure git_error_set(error_class: Integer; fmt: PAnsiChar); cdecl; varargs; external libgit2_dll;
+
+(**
+ * Set the error message string for this thread.  This function is like
+ * `git_error_set` but takes a static string instead of a `printf`-style
+ * format.
+ *
+ * @param error_class One of the `git_error_t` enum above describing the
+ *                    general subsystem that is responsible for the error.
+ * @param string The error message to keep
  * @return 0 on success or -1 on failure
  *)
 

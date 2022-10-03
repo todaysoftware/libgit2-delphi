@@ -23,6 +23,7 @@ const
    *)
 
   GIT_OID_HEX_ZERO            = '0000000000000000000000000000000000000000';
+
   (**
    * Return the version of the libgit2 library
    * being currently used.
@@ -34,6 +35,18 @@ const
    *)
 
 function git_libgit2_version(major, minor, rev: PInteger): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Return the prerelease state of the libgit2 library currently being
+ * used.  For nightly builds during active development, this will be
+ * "alpha".  Releases may have a "beta" or release candidate ("rc1",
+ * "rc2", etc) prerelease.  For a final release, this function returns
+ * NULL.
+ *
+ * @return the name of the prerelease state or NULL
+ *)
+
+function git_libgit2_prerelease: PAnsiChar; cdecl; external libgit2_dll;
 
 (**
  * Combinations of these values describe the features with which libgit2
@@ -387,7 +400,7 @@ type
    * @return 0 on success, <0 on failure
    *)
 
-function git_libgit2_opts(option: Integer): Integer; cdecl varargs; external libgit2_dll;
+function git_libgit2_opts(option: Integer): Integer; cdecl; varargs; external libgit2_dll;
 
 
 

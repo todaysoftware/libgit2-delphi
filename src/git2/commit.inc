@@ -381,7 +381,7 @@ function git_commit_create(id: Pgit_oid; repo: Pgit_repository; update_ref: PAns
 
 function git_commit_create_v(id: Pgit_oid; repo: Pgit_repository; update_ref: PAnsiChar;
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar; tree:
-  Pgit_tree; parent_count: size_t): Integer; cdecl varargs; external libgit2_dll;
+  Pgit_tree; parent_count: size_t): Integer; cdecl; varargs; external libgit2_dll;
 
 (**
  * Amend an existing commit by replacing only non-NULL values.
