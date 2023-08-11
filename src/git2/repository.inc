@@ -325,6 +325,14 @@ type
      * pointing to this URL.
      *)
     origin_url: PAnsiChar;
+    {$IFDEF GIT_EXPERIMENTAL_SHA256}
+    (**
+     *
+     * Type of object IDs to use for this repository, or 0 for
+     * default (currently SHA1).
+     *)
+    oid_type: git_oid_t;
+    {$ENDIF}
   end;
   Pgit_repository_init_options = ^git_repository_init_options;
 
@@ -434,7 +442,9 @@ function git_repository_head_unborn(repo: Pgit_repository): Integer; cdecl; exte
  * Check if a repository is empty
  *
  * An empty repository has just been initialized and contains no references
- * apart from HEAD, which must be pointing to the unborn master branch.
+ * apart from HEAD, which must be pointing to the unborn master branch,
+ * or the branch specified for the repository in the `init.defaultBranch`
+ * configuration variable.
  *
  * @param repo Repo to test
  * @return 1 if the repository is empty, 0 if it isn't, error code
@@ -946,7 +956,13 @@ function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): 
 
 function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
+(**
+ * Gets the object type used by this repository.
+ *
+ * @param repo the repository
+ * @return the object id type
+ *)
+function git_repository_oid_type(repo: Pgit_repository): git_oid_t; cdecl; external libgit2_dll;
+
 (** @}  *)
-
-
 

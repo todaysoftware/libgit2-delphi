@@ -10,32 +10,44 @@
  * Constructors for in-box ODB backends.
  *)
 
-(**
- * Create a backend for the packfiles.
- *
- * @param out location to store the odb backend pointer
- * @param objects_dir the Git repository's objects directory
- *
- * @return 0 or an error code
- *)
+(** Options for configuring a packfile object backend. *)
+type
+  git_odb_backend_pack_options = record
+    version: Cardinal; (**< version for the struct *)
 
-function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar)  : Integer; cdecl; external libgit2_dll;
+    (**
+     * Type of object IDs to use for this object database, or
+     * 0 for default (currently SHA1).
+     *)
+    oid_type: git_oid_t;
+  end;
+  Pgit_odb_backend_pack_options = ^git_odb_backend_pack_options;
 
-(**
- * Create a backend for loose objects
- *
- * @param out location to store the odb backend pointer
- * @param objects_dir the Git repository's objects directory
- * @param compression_level zlib compression level to use
- * @param do_fsync whether to do an fsync() after writing
- * @param dir_mode permissions to use creating a directory or 0 for defaults
- * @param file_mode permissions to use creating a file or 0 for defaults
- *
- * @return 0 or an error code
- *)
+  (* The current version of the diff options structure *)
+const
+  GIT_ODB_BACKEND_PACK_OPTIONS_VERSION = 1;
 
-function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar;  compression_level, do_fsync: Integer;
-dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll;
+  (* Stack initializer for odb pack backend options.  Alternatively use
+   * `git_odb_backend_pack_options_init` programmatic initialization.
+   *)
+  //#DEFINE GIT_ODB_BACKEND_PACK_OPTIONS_INIT { GIT_ODB_BACKEND_PACK_OPTIONS_VERSION }
+
+    (**
+    * Create a backend for the packfiles.
+    *
+    * @param out location to store the odb backend pointer
+    * @param objects_dir the Git repository's objects directory
+    *
+    * @return 0 or an error code
+    *)
+
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
+function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Create a backend out of a single packfile
@@ -48,8 +60,77 @@ dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll;
  *
  * @return 0 or an error code
  *)
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
 
-function git_odb_backend_one_pack(out_: PPgit_odb_backend;  index_file: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ELSE}
+function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
+
+const
+  GIT_ODB_BACKEND_LOOSE_FSYNC = (1 shl 0);
+type
+  git_odb_backend_loose_flag_t = Integer;
+
+  (** Options for configuring a loose object backend. *)
+type
+  git_odb_backend_loose_options = record
+    version: Cardinal; (**< version for the struct *)
+
+    (** A combination of the `git_odb_backend_loose_flag_t` types. *)
+    flags: uint32_t;
+
+    (**
+     * zlib compression level to use (0-9), where 1 is the fastest
+     * at the expense of larger files, and 9 produces the best
+     * compression at the expense of speed.  0 indicates that no
+     * compression should be performed.  -1 is the default (currently
+     * optimizing for speed).
+     *)
+    compression_level: Integer;
+
+    (** Permissions to use creating a directory or 0 for defaults *)
+    dir_mode: Cardinal;
+
+    (** Permissions to use creating a file or 0 for defaults *)
+    file_mode: Cardinal;
+
+    (**
+     * Type of object IDs to use for this object database, or
+     * 0 for default (currently SHA1).
+     *)
+    oid_type: git_oid_t;
+  end;
+  Pgit_odb_backend_loose_options = ^git_odb_backend_loose_options;
+
+  (* The current version of the diff options structure *)
+const
+  GIT_ODB_BACKEND_LOOSE_OPTIONS_VERSION = 1;
+
+  (* Stack initializer for odb loose backend options.  Alternatively use
+   * `git_odb_backend_loose_options_init` programmatic initialization.
+   *)
+  //#define GIT_ODB_BACKEND_LOOSE_OPTIONS_INIT { GIT_ODB_BACKEND_LOOSE_OPTIONS_VERSION, 0, -1 }
+
+  (**
+   * Create a backend for loose objects
+   *
+   * @param out location to store the odb backend pointer
+   * @param objects_dir the Git repository's objects directory
+   * @param opts options for the loose object backend or NULL
+   *
+   * @return 0 or an error code
+   *)
+
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
+  opts: Pgit_odb_backend_loose_options): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
+function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar; compression_level, do_fsync: Integer;
+  dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (** Streaming mode  *)
 
@@ -118,5 +199,6 @@ type
     : Integer; cdecl;
     Free: procedure(writepack: Pgit_odb_writepack); cdecl;
   end;
+
 
 

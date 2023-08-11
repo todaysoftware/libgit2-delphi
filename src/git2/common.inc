@@ -18,11 +18,6 @@ const
    *)
 
   GIT_PATH_MAX                = 4096;
-  (**
-   * The string representation of the null object ID.
-   *)
-
-  GIT_OID_HEX_ZERO            = '0000000000000000000000000000000000000000';
 
   (**
    * Return the version of the libgit2 library
@@ -148,6 +143,8 @@ const
   GIT_OPT_SET_EXTENSIONS      = 34;
   GIT_OPT_GET_OWNER_VALIDATION = 35;
   GIT_OPT_SET_OWNER_VALIDATION = 36;
+  GIT_OPT_GET_HOMEDIR         = 37;
+  GIT_OPT_SET_HOMEDIR         = 38;
 type
   git_libgit2_opt_t = Integer;
 
@@ -394,6 +391,16 @@ type
    *   opts(GIT_OPT_SET_OWNER_VALIDATION, int enabled)
    *      > Set that repository directories should be owned by the current
    *      > user. The default is to validate ownership.
+   *
+   *   opts(GIT_OPT_GET_HOMEDIR, git_buf *out)
+   *      > Gets the current user's home directory, as it will be used
+   *      > for file lookups. The path is written to the `out` buffer.
+   *
+   *   opts(GIT_OPT_SET_HOMEDIR, const char *path)
+   *      > Sets the directory used as the current user's home directory,
+   *      > for file lookups.
+   *      >
+   *      > - `path` directory of home directory.
    *
    * @param option Option key
    * @param ... value to set the option

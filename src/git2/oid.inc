@@ -1,20 +1,76 @@
-(** Size (in bytes) of a raw/binary oid  *)
-
+(** The type of object id. *)
 const
-  GIT_OID_RAWSZ               = 20;
-  (** Size (in bytes) of a hex formatted oid  *)
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+  GIT_OID_SHA1                = 1; (**< SHA1 *)
+  GIT_OID_SHA256              = 2; (**< SHA256 *)
+  {$ELSE}
+  GIT_OID_SHA1                = 1; (**< SHA1 *)
+  {$ENDIF}
+type
+  git_oid_t = Integer;
 
-  GIT_OID_HEXSZ               = (GIT_OID_RAWSZ * 2);
-  (** Minimum length (in number of hex characters,
- * i.e. packets of 4 bits) of an oid prefix  *)
+  (*
+   * SHA1 is currently the only supported object ID type.
+   *)
+const
+  (** SHA1 is currently libgit2's default oid type. *)
+  GIT_OID_DEFAULT             = GIT_OID_SHA1;
 
+  (** Size (in bytes) of a raw/binary sha1 oid *)
+  GIT_OID_SHA1_SIZE           = 20;
+  (** Size (in bytes) of a hex formatted sha1 oid *)
+  GIT_OID_SHA1_HEXSIZE        = (GIT_OID_SHA1_SIZE * 2);
+
+  (**
+   * The string representation of the null sha1 object ID.
+   *)
+  GIT_OID_SHA1_HEXZERO        = '0000000000000000000000000000000000000000';
+
+  (*
+   * Experimental SHA256 support is a breaking change to the API.
+   * This exists for application compatibility testing.
+   *)
+
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+
+  (** Size (in bytes) of a raw/binary sha256 oid *)
+  GIT_OID_SHA256_SIZE         = 32;
+  (** Size (in bytes) of a hex formatted sha256 oid *)
+  GIT_OID_SHA256_HEXSIZE      = (GIT_OID_SHA256_SIZE * 2);
+
+  (**
+   * The binary representation of the null sha256 object ID.
+   *)
+  //# define GIT_OID_SHA256_ZERO { GIT_OID_SHA256, { 0 }}
+
+  (**
+   * The string representation of the null sha256 object ID.
+   *)
+  GIT_OID_SHA256_HEXZERO      = '0000000000000000000000000000000000000000000000000000000000000000';
+
+  {$ENDIF}
+
+  (* Maximum possible object ID size in raw / hex string format. *)
+  {$IFNDEF GIT_EXPERIMENTAL_SHA256}
+  GIT_OID_MAX_SIZE            = GIT_OID_SHA1_SIZE;
+  GIT_OID_MAX_HEXSIZE         = GIT_OID_SHA1_HEXSIZE;
+  {$ELSE}
+  GIT_OID_MAX_SIZE            = GIT_OID_SHA256_SIZE;
+  GIT_OID_MAX_HEXSIZE         = GIT_OID_SHA256_HEXSIZE;
+  {$ENDIF}
+
+  (** Size (in bytes) of a raw/binary oid  *)
   GIT_OID_MINPREFIXLEN        = 4;
-  (** Unique identity of any object (commit, tree, blob, tag).  *)
 
+  (** Unique identity of any object (commit, tree, blob, tag).  *)
 type
   git_oid = record
+    {$IFDEF GIT_EXPERIMENTAL_SHA256}
+    (** type of object id *)
+    type_: Byte;
+    {$ENDIF}
     (** raw binary formatted id  *)
-    id: array[0..GIT_OID_RAWSZ - 1] of Byte;
+    id: array[0..GIT_OID_MAX_SIZE - 1] of Byte;
   end;
 
   (**
@@ -29,17 +85,55 @@ type
 
 type
   Pgit_oid = ^git_oid;
+
+  (**
+   * The binary representation of the null sha1 object ID.
+   *)
+const
+  {$IFNDEF GIT_EXPERIMENTAL_SHA256}
+  GIT_OID_SHA1_ZERO           : git_oid = ();
+  {$ELSE}
+  GIT_OID_SHA1_ZERO           : git_oid = (type_: GIT_OID_SHA1);
+  {$ENDIF}
+
+  (**
+   * Parse a hex formatted object id into a git_oid.
+   *
+   * The appropriate number of bytes for the given object ID type will
+   * be read from the string - 40 bytes for SHA1, 64 bytes for SHA256.
+   * The given string need not be NUL terminated.
+   *
+   * @param out oid structure the result is written into.
+   * @param str input hex string; must be pointing at the start of
+   *		the hex sequence and have at least the number of bytes
+   *		needed for an oid encoded in hex (40 bytes for sha1,
+   *		256 bytes for sha256).
+   * @param type the type of object id
+   * @return 0 or an error code
+   *)
+
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
- * Parse a hex formatted null-terminated string into a git_oid.
+ * Parse a hex formatted NUL-terminated string into a git_oid.
  *
  * @param out oid structure the result is written into.
  * @param str input hex string; must be null-terminated.
+ * @param type the type of object id
  * @return 0 or an error code
  *)
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Parse N characters of a hex formatted object id into a git_oid.
@@ -50,29 +144,42 @@ function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; exter
  * @param out oid structure the result is written into.
  * @param str input hex string of at least size `length`
  * @param length length of the input string
+ * @param type the type of object id
  * @return 0 or an error code
  *)
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Copy an already raw oid into a git_oid structure.
  *
  * @param out oid structure the result is written into.
  * @param raw the raw input bytes to be copied.
+ * @param type the type of object id
  * @return 0 on success or error code
  *)
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_oid_fromraw(out_: Pgit_oid; raw: PByte; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Format a git_oid into a hex string.
  *
  * @param out output hex string; must be pointing at the start of
  *		the hex sequence and have at least the number of bytes
- *		needed for an oid encoded in hex (40 bytes). Only the
- *		oid digits are written; a '\\0' terminator must be added
- *		by the caller if it is required.
+ *		needed for an oid encoded in hex (40 bytes for SHA1,
+ *		64 bytes for SHA256). Only the oid digits are written;
+ *		a '\\0' terminator must be added by the caller if it is
+ *		required.
  * @param id oid structure to format.
  * @return 0 on success or error code
  *)
@@ -83,7 +190,7 @@ function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external li
  * Format a git_oid into a partial hex string.
  *
  * @param out output hex string; you say how many bytes to write.
- *		If the number of bytes is > GIT_OID_HEXSZ, extra bytes
+ *		If the number of bytes is > GIT_OID_SHA1_HEXSIZE, extra bytes
  *		will be zeroed; if not, a '\0' terminator is NOT added.
  * @param n number of characters to write into out string
  * @param id oid structure to format.
@@ -100,9 +207,10 @@ function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl;
  *
  * @param out output hex string; must be pointing at the start of
  *		the hex sequence and have at least the number of bytes
- *		needed for an oid encoded in hex (41 bytes). Only the
- *		oid digits are written; a '\\0' terminator must be added
- *		by the caller if it is required.
+ *		needed for an oid encoded in hex (41 bytes for SHA1,
+ *		65 bytes for SHA256). Only the oid digits are written;
+ *		a '\\0' terminator must be added by the caller if it
+ *		is required.
  * @param id oid structure to format.
  * @return 0 on success, non-zero callback return value, or error code
  *)
@@ -126,7 +234,9 @@ function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
 (**
  * Format a git_oid into a buffer as a hex format c-string.
  *
- * If the buffer is smaller than GIT_OID_HEXSZ+1, then the resulting
+ * If the buffer is smaller than the size of a hex-formatted oid string
+ * plus an additional byte (GIT_OID_SHA_HEXSIZE + 1 for SHA1 or
+ * GIT_OID_SHA256_HEXSIZE + 1 for SHA256), then the resulting
  * oid c-string will be truncated to n-1 characters (but will still be
  * NUL-byte terminated).
  *
@@ -239,6 +349,7 @@ type
 
 type
   Pgit_oid_shorten = ^git_oid_shorten;
+
 function git_oid_shorten_new(min_length: size_t): Pgit_oid_shorten; cdecl; external libgit2_dll;
 
 (**
@@ -275,6 +386,4 @@ function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer;
  *)
 
 procedure git_oid_shorten_free(os: Pgit_oid_shorten); cdecl; external libgit2_dll;
-
-
 

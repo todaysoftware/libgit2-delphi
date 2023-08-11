@@ -210,6 +210,7 @@ function git_object_peel(peeled: PPgit_object; object_: Pgit_object;
 
 function git_object_dup(dest: PPgit_object; source: Pgit_object): Integer; cdecl; external libgit2_dll;
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
 (**
  * Analyzes a buffer of raw object content and determines its validity.
  * Tree, commit, and tag objects will be parsed and ensured that they
@@ -223,14 +224,34 @@ function git_object_dup(dest: PPgit_object; source: Pgit_object): Integer; cdecl
  * @param valid Output pointer to set with validity of the object content
  * @param buf The contents to validate
  * @param len The length of the buffer
- * @param type The type of the object in the buffer
+ * @param object_type The type of the object in the buffer
+ * @param oid_type The object ID type for the OIDs in the given buffer
  * @return 0 on success or an error code
  *)
 
 function git_object_rawcontent_is_valid(valid: PInteger; buf: PAnsiChar; len: size_t;
+  type_: git_object_t; oid_type: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
+(**
+ * Analyzes a buffer of raw object content and determines its validity.
+ * Tree, commit, and tag objects will be parsed and ensured that they
+ * are valid, parseable content.  (Blobs are always valid by definition.)
+ * An error message will be set with an informative message if the object
+ * is not valid.
+ *
+ * @warning This function is experimental and its signature may change in
+ * the future.
+ *
+ * @param valid Output pointer to set with validity of the object content
+ * @param buf The contents to validate
+ * @param len The length of the buffer
+ * @param object_type The type of the object in the buffer
+ * @return 0 on success or an error code
+ *)
+function git_object_rawcontent_is_valid(valid: PInteger; buf: PAnsiChar; len: size_t;
   type_: git_object_t): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (** @}  *)
-
-
 

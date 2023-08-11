@@ -28,19 +28,5 @@ type
 
 procedure git_strarray_dispose(array_: Pgit_strarray); cdecl; external libgit2_dll;
 
-(**
- * Copy a string array object from source to target.
- *
- * Note: target is overwritten and hence should be empty, otherwise its
- * contents are leaked.  Call git_strarray_free() if necessary.
- *
- * @param tgt target
- * @param src source
- * @return 0 on success, < 0 on allocation failure
- *)
-
-function git_strarray_copy(tgt, src: Pgit_strarray): Integer; cdecl; external libgit2_dll;
-
 (** @}  *)
-
 

@@ -23,18 +23,45 @@ const
 type
   git_odb_foreach_cb = function(id: Pgit_oid; payload: Pointer): Integer; cdecl;
 
-  (**
- * Create a new object database with no backends.
- *
- * Before the ODB can be used for read/writing, a custom database
- * backend must be manually added using `git_odb_add_backend()`
- *
- * @param out location to store the database pointer, if opened.
- *			Set to NULL if the open failed.
- * @return 0 or an error code
- *)
+  (** Options for configuring a loose object backend. *)
+  git_odb_options = record
+    version: cardinal; (**< version for the struct *)
 
+    (**
+     * Type of object IDs to use for this object database, or
+     * 0 for default (currently SHA1).
+     *)
+    oid_type: git_oid_t;
+  end;
+  Pgit_odb_options = ^git_odb_options;
+
+const
+  (* The current version of the diff options structure *)
+  GIT_ODB_OPTIONS_VERSION     = 1;
+
+  (* Stack initializer for odb options.  Alternatively use
+   * `git_odb_options_init` programmatic initialization.
+   *)
+  //#define GIT_ODB_OPTIONS_INIT { GIT_ODB_OPTIONS_VERSION }
+
+  (**
+   * Create a new object database with no backends.
+   *
+   * Before the ODB can be used for read/writing, a custom database
+   * backend must be manually added using `git_odb_add_backend()`
+   *
+   * @param out location to store the database pointer, if opened.
+   *			Set to NULL if the open failed.
+   * @param opts the options for this object database or NULL for defaults
+   * @return 0 or an error code
+   *)
+
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_new(out_: PPgit_odb; opts: Pgit_odb_options): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_odb_new(out_: PPgit_odb): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Create a new object database and automatically add
@@ -50,11 +77,16 @@ function git_odb_new(out_: PPgit_odb): Integer; cdecl; external libgit2_dll;
  * @param out location to store the database pointer, if opened.
  *			Set to NULL if the open failed.
  * @param objects_dir path of the backends' "objects" directory.
+ * @param opts the options for this object database or NULL for defaults
  * @return 0 or an error code
  *)
 
-function git_odb_open(out_: PPgit_odb; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_open(out_: PPgit_odb; objects_dir: PAnsiChar; opts: Pgit_odb_options): Integer; cdecl; external libgit2_dll;
 
+{$ELSE}
+function git_odb_open(out_: PPgit_odb; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 (**
  * Add an on-disk alternate to an existing Object DB.
  *
@@ -107,7 +139,7 @@ function git_odb_read(out_: PPgit_odb_object; db: Pgit_odb; id: Pgit_oid): Integ
  * This method queries all available ODB backends
  * trying to match the 'len' first hexadecimal
  * characters of the 'short_id'.
- * The remaining (GIT_OID_HEXSZ-len)*4 bits of
+ * The remaining (GIT_OID_SHA1_HEXSIZE-len)*4 bits of
  * 'short_id' must be 0s.
  * 'len' must be at least GIT_OID_MINPREFIXLEN,
  * and the prefix must be long enough to identify
@@ -217,7 +249,7 @@ type
    *
    * The given array will be updated in place: for each abbreviated ID that is
    * unique in the database, and of the given type (if specified),
-   * the full object ID, object ID length (`GIT_OID_HEXSZ`) and type will be
+   * the full object ID, object ID length (`GIT_OID_SHA1_HEXSIZE`) and type will be
    * written back to the array. For IDs that are not found (or are ambiguous),
    * the array entry will be zeroed.
    *
@@ -440,19 +472,26 @@ function git_odb_write_pack(out_: PPgit_odb_writepack; db: Pgit_odb; progress_cb
 function git_odb_write_multi_pack_index(db: Pgit_odb): Integer; cdecl; external libgit2_dll;
 
 (**
- * Determine the object-ID (sha1 hash) of a data buffer
+ * Determine the object-ID (sha1 or sha256 hash) of a data buffer
  *
- * The resulting SHA-1 OID will be the identifier for the data
- * buffer as if the data buffer it were to written to the ODB.
+ * The resulting OID will be the identifier for the data buffer as if
+ * the data buffer it were to written to the ODB.
  *
  * @param out the resulting object-ID.
  * @param data data to hash
  * @param len size of the data
- * @param type of the data to hash
+ * @param object_type of the data to hash
+ * @param oid_type the oid type to hash to
  * @return 0 or an error code
  *)
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t; type_: git_object_t;
+  oid_type: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Read a file from disk and fill a git_oid with the object id
@@ -464,11 +503,18 @@ function git_odb_hash(out_: Pgit_oid; data: Pointer; len: size_t; type_: git_obj
  *
  * @param out oid structure the result is written into.
  * @param path file to read and determine object id for
- * @param type the type of the object that will be hashed
+ * @param object_type of the data to hash
+ * @param oid_type the oid type to hash to
  * @return 0 or an error code
  *)
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_odb_hashfile(out_: Pgit_oid; path: PAnsiChar; type_: git_object_t;
+  oid_type: git_oid_t): Integer; cdecl; external libgit2_dll;
+
+{$ELSE}
 function git_odb_hashfile(out_: Pgit_oid; path: PAnsiChar; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Create a copy of an odb_object
@@ -617,6 +663,4 @@ function git_odb_get_backend(out_: PPgit_odb_backend; odb: Pgit_odb; pos: size_t
 function git_odb_set_commit_graph(odb: Pgit_odb; cgraph: Pgit_commit_graph): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

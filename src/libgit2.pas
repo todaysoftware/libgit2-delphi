@@ -1,5 +1,5 @@
 (*
- * Copyright (C) 2021 Today Software
+ * Copyright (C) 2021-2023 Today Software
  * Distributed under the MIT licence see LICENCE file for more details
  * https://opensource.org/licenses/MIT
  *)

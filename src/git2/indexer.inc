@@ -51,6 +51,17 @@ type
 type
   git_indexer_options = record
     version: Cardinal;
+    {$IFDEF GIT_EXPERIMENTAL_SHA256}
+    (** permissions to use creating packfile or 0 for defaults *)
+    mode: Cardinal;
+    (**
+     * object database from which to read base objects when
+     * fixing thin packs. This can be NULL if there are no thin
+     * packs; if a thin pack is encountered, an error will be
+     * returned if there are bases missing.
+     *)
+    odb: Pgit_odb;
+    {$ENDIF}
     (** progress_cb function to call with progress information  *)
     progress_cb: git_indexer_progress_cb;
     (** progress_cb_payload payload for the progress callback  *)
@@ -74,6 +85,10 @@ const
 
 function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; oid_type: git_oid_t;
+  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
+{$ELSE}
 (**
  * Create a new indexer instance
  *
@@ -90,6 +105,7 @@ function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal)
 
 function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; odb: Pgit_odb;
   opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
  * Add data to the indexer
