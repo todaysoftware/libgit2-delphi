@@ -21,8 +21,10 @@ uses
   {$IFEND}
 
 const
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS)}
   libgit2_dll                 = 'git2.dll';
+  {$ELSEIF DEFINED(MACOS)}
+  libgit2_dll                 = 'libgit2.dylib';
   {$ELSE}
   libgit2_dll                 = 'libgit2.so';
   {$ENDIF}
