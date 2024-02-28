@@ -226,7 +226,7 @@ function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; externa
  * concurrent calls of the function.
  *
  * @param oid The oid structure to format
- * @return the c-string
+ * @return the c-string or NULL on failure
  *)
 
 function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;

@@ -169,7 +169,11 @@ type
    * @return 0 or an error code
    *)
 
-function git_index_open(out_: PPgit_index; index_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_open(out_: PPgit_index; index_path: PAnsiChar
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+  ; oid_type: git_oid_t
+  {$ENDIF}
+  ): Integer; cdecl; external libgit2_dll;
 
 (**
  * Create an in-memory index object.
@@ -183,7 +187,11 @@ function git_index_open(out_: PPgit_index; index_path: PAnsiChar): Integer; cdec
  * @return 0 or an error code
  *)
 
-function git_index_new(out_: PPgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_new(out_: PPgit_index
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+  ; oid_type: git_oid_t
+  {$ENDIF}
+  ): Integer; cdecl; external libgit2_dll;
 
 (**
  * Free an existing index object.
@@ -841,6 +849,4 @@ function git_index_conflict_next(ancestor_out, our_out, their_out: PPgit_index_e
 procedure git_index_conflict_iterator_free(iterator: Pgit_index_conflict_iterator); cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

@@ -96,8 +96,8 @@ const
    * diff hunks.
    *)
   GIT_DIFF_INDENT_HEURISTIC   = (1 shl 18);
-	(** Ignore blank lines *)
-	GIT_DIFF_IGNORE_BLANK_LINES = (1 shl 19);
+  (** Ignore blank lines *)
+  GIT_DIFF_IGNORE_BLANK_LINES = (1 shl 19);
   (** Treat all files as text, disabling binary attributes & detection  *)
   GIT_DIFF_FORCE_TEXT         = (1 shl 20);
   (** Treat all files as binary, disabling text diffs  *)
@@ -234,7 +234,7 @@ type
     mode: uint16_t;
     (**
      * Represents the known length of the `id` field, when
-  	 * converted to a hex string.  It is generally `GIT_OID_SHA1_HEXSIZE`, unless this
+     * converted to a hex string.  It is generally `GIT_OID_SHA1_HEXSIZE`, unless this
      * delta was created from reading a patch file, in which case it may be
      * abbreviated to something reasonable, like 7 characters.
      *)
@@ -374,6 +374,21 @@ type
      * the hunks will be merged into one. Defaults to 0.
      *)
     interhunk_lines: uint32_t;
+    (**
+     * The object ID type to emit in diffs; this is used by functions
+     * that operate without a repository - namely `git_diff_buffers`,
+     * or `git_diff_blobs` and `git_diff_blob_to_buffer` when one blob
+     * is `NULL`.
+     *
+     * This may be omitted (set to `0`). If a repository is available,
+     * the object ID format of the repository will be used. If no
+     * repository is available then the default is `GIT_OID_SHA`.
+     *
+     * If this is specified and a repository is available, then the
+     * specified `oid_type` must match the repository's object ID
+     * format.
+     *)
+    oid_type: git_oid_t;
     (**
      * The abbreviation length to use when formatting object ids.
      * Defaults to the value of 'core.abbrev' from the config, or 7 if unset.
@@ -700,7 +715,7 @@ type
      *)
     copy_threshold: uint16_t;
     (**
-  	 * Threshold below which similar files will be split into a delete/add pair.
+     * Threshold below which similar files will be split into a delete/add pair.
      * This is equivalent to the last part of the -B option. Defaults to 60.
      *)
     break_rewrite_threshold: uint16_t;
@@ -1075,7 +1090,7 @@ function git_diff_to_buf(out_: Pgit_buf; diff: Pgit_diff; format: git_diff_forma
 (**@} *)
 
 (*
- * Misc
+ * Low-level file comparison, invoking callbacks per difference.
  *)
 
 (**
@@ -1168,27 +1183,53 @@ function git_diff_buffers(old_buffer: Pointer; old_len: size_t; old_as_path: PAn
   binary_cb: git_diff_binary_cb; hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb;
   payload: Pointer): Integer; cdecl; external libgit2_dll;
 
-(**
- * Read the contents of a git patch file into a `git_diff` object.
- *
- * The diff object produced is similar to the one that would be
- * produced if you actually produced it computationally by comparing
- * two trees, however there may be subtle differences.  For example,
- * a patch file likely contains abbreviated object IDs, so the
- * object IDs in a `git_diff_delta` produced by this function will
- * also be abbreviated.
- *
- * This function will only read patch files created by a git
- * implementation, it will not read unified diffs produced by
- * the `diff` program, nor any other types of patch files.
- *
- * @param out A pointer to a git_diff pointer that will be allocated.
- * @param content The contents of a patch file
- * @param content_len The length of the patch file contents
- * @return 0 or an error code
- *)
+(* Patch file parsing. *)
 
-function git_diff_from_buffer(out_: PPgit_diff; content: PAnsiChar; content_len: size_t): Integer; cdecl; external libgit2_dll;
+(**
+ * Options for parsing a diff / patch file.
+ *)
+type
+  git_diff_parse_options = record
+    version: Cardinal;
+    oid_type: git_oid_t;
+  end;
+  Pgit_diff_parse_options = ^git_diff_parse_options;
+
+  (* The current version of the diff parse options structure *)
+const
+  GIT_DIFF_PARSE_OPTIONS_VERSION = 1;
+
+  (* Stack initializer for diff parse options.  Alternatively use
+   * `git_diff_parse_options_init` programmatic initialization.
+   *)
+  //#define GIT_DIFF_PARSE_OPTIONS_INIT \
+  //	{ GIT_DIFF_PARSE_OPTIONS_VERSION, GIT_OID_DEFAULT }
+
+  (**
+   * Read the contents of a git patch file into a `git_diff` object.
+   *
+   * The diff object produced is similar to the one that would be
+   * produced if you actually produced it computationally by comparing
+   * two trees, however there may be subtle differences.  For example,
+   * a patch file likely contains abbreviated object IDs, so the
+   * object IDs in a `git_diff_delta` produced by this function will
+   * also be abbreviated.
+   *
+   * This function will only read patch files created by a git
+   * implementation, it will not read unified diffs produced by
+   * the `diff` program, nor any other types of patch files.
+   *
+   * @param out A pointer to a git_diff pointer that will be allocated.
+   * @param content The contents of a patch file
+   * @param content_len The length of the patch file contents
+   * @return 0 or an error code
+   *)
+
+function git_diff_from_buffer(out_: PPgit_diff; content: PAnsiChar; content_len: size_t
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+  ; opts: Pgit_diff_parse_options
+  {$ENDIF}
+  ): Integer; cdecl; external libgit2_dll;
 
 (**
  * This is an opaque structure which is allocated by `git_diff_get_stats`.
@@ -1229,6 +1270,7 @@ type
 type
   PPgit_diff_stats = ^Pgit_diff_stats;
   Pgit_diff_stats = ^git_diff_stats;
+
 function git_diff_get_stats(out_: PPgit_diff_stats; diff: Pgit_diff): Integer; cdecl; external libgit2_dll;
 
 (**
@@ -1333,6 +1375,4 @@ function git_diff_patchid_options_init(opts: Pgit_diff_patchid_options; version:
 function git_diff_patchid(out_: Pgit_oid; diff: Pgit_diff; opts: Pgit_diff_patchid_options): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

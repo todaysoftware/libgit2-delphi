@@ -45,9 +45,14 @@ function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_work
  * @param out pointer to the repo
  * @param odb the object database to wrap
  * @return 0 or an error code
+ * @param oid_type the oid type of the object database
  *)
 
-function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer; cdecl; external libgit2_dll;
+function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb
+  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+  ; oid_type: git_oid_t
+  {$ENDIF}
+  ): Integer; cdecl; external libgit2_dll;
 
 (**
  * Look for a git repository and copy its path in the given buffer.

@@ -289,6 +289,14 @@ const
 type
   git_remote_redirect_t = Integer;
 
+const
+  (** Constants for fetch depth (shallowness of fetch). *)
+  (** The fetch is "full" (not shallow). This is the default. *)
+  GIT_FETCH_DEPTH_FULL        = 0;
+
+  (** The fetch should "unshallow" and fetch missing data. *)
+  GIT_FETCH_DEPTH_UNSHALLOW   = 2147483647;
+
   (**
    * Fetch options structure.
    *
@@ -297,7 +305,7 @@ type
    *
    *		git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
    *)
-
+type
   git_fetch_options = record
     version: Cardinal;
     (**
@@ -325,6 +333,14 @@ type
      * Proxy options to use, by default no proxy is used.
      *)
     proxy_opts: git_proxy_options;
+    (**
+     * Depth of the fetch to perform, or `GIT_FETCH_DEPTH_FULL`
+     * (or `0`) for full history, or `GIT_FETCH_DEPTH_UNSHALLOW`
+     * to "unshallow" a shallow repository.
+     *
+     * The default is full (`GIT_FETCH_DEPTH_FULL` or `0`).
+     *)
+    depth: Integer;
     (**
      * Whether to allow off-site redirects.  If this is not
      * specified, the `http.followRedirects` configuration setting
@@ -1128,6 +1144,4 @@ function git_remote_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cd
 function git_remote_default_branch(out_: Pgit_buf; remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

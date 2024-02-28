@@ -44,6 +44,7 @@ const
   GIT_EINDEXDIRTY             = -34; (**< Unsaved changes in the index would be overwritten  *)
   GIT_EAPPLYFAIL              = -35; (**< Patch application failed  *)
   GIT_EOWNER                  = -36; (**< The object is not owned by the current user *)
+  GIT_TIMEOUT                 = -37; (**< The operation timed out *)
 type
   git_error_code = Integer;
 
@@ -99,6 +100,7 @@ const
   GIT_ERROR_SHA               = 33;
   GIT_ERROR_HTTP              = 34;
   GIT_ERROR_INTERNAL          = 35;
+  GIT_ERROR_GRAFTS            = 36;
 type
   git_error_t = Integer;
 
@@ -168,6 +170,4 @@ function git_error_set_str(error_class: Integer; string_: PAnsiChar): Integer; c
 procedure git_error_set_oom; cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

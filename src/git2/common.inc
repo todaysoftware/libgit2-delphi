@@ -145,6 +145,10 @@ const
   GIT_OPT_SET_OWNER_VALIDATION = 36;
   GIT_OPT_GET_HOMEDIR         = 37;
   GIT_OPT_SET_HOMEDIR         = 38;
+  GIT_OPT_SET_SERVER_CONNECT_TIMEOUT = 39;
+  GIT_OPT_GET_SERVER_CONNECT_TIMEOUT = 40;
+  GIT_OPT_SET_SERVER_TIMEOUT  = 41;
+  GIT_OPT_GET_SERVER_TIMEOUT  = 42;
 type
   git_libgit2_opt_t = Integer;
 
@@ -402,12 +406,30 @@ type
    *      >
    *      > - `path` directory of home directory.
    *
+   *   opts(GIT_OPT_GET_SERVER_CONNECT_TIMEOUT, int *timeout)
+   *      > Gets the timeout (in milliseconds) to attempt connections to
+   *      > a remote server.
+   *
+   *   opts(GIT_OPT_SET_SERVER_CONNECT_TIMEOUT, int timeout)
+   *      > Sets the timeout (in milliseconds) to attempt connections to
+   *      > a remote server. This is supported only for HTTP(S) connections
+   *      > and is not supported by SSH. Set to 0 to use the system default.
+   *      > Note that this may not be able to be configured longer than the
+   *      > system default, typically 75 seconds.
+   *
+   *   opts(GIT_OPT_GET_SERVER_TIMEOUT, int *timeout)
+   *      > Gets the timeout (in milliseconds) for reading from and writing
+   *      > to a remote server.
+   *
+   *   opts(GIT_OPT_SET_SERVER_TIMEOUT, int timeout)
+   *      > Sets the timeout (in milliseconds) for reading from and writing
+   *      > to a remote server. This is supported only for HTTP(S)
+   *      > connections and is not supported by SSH. Set to 0 to use the
+   *      > system default.
+   *
    * @param option Option key
    * @param ... value to set the option
    * @return 0 on success, <0 on failure
    *)
 
 function git_libgit2_opts(option: Integer): Integer; cdecl; varargs; external libgit2_dll;
-
-
-
