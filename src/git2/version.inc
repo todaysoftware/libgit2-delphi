@@ -3,7 +3,7 @@ const
    * The version string for libgit2.  This string follows semantic
    * versioning (v2) guidelines.
    *)
-  LIBGIT2_VERSION             = '1.6.4';
+  LIBGIT2_VERSION             = '1.6.5';
 
   (** The major version number for this version of libgit2. *)
   LIBGIT2_VER_MAJOR           = 1;
@@ -12,7 +12,7 @@ const
   LIBGIT2_VER_MINOR           = 6;
 
   (** The revision ("teeny") version number for this version of libgit2. *)
-  LIBGIT2_VER_REVISION        = 4;
+  LIBGIT2_VER_REVISION        = 5;
 
   (** The Windows DLL patch number for this version of libgit2. *)
   LIBGIT2_VER_PATCH           = 0;
