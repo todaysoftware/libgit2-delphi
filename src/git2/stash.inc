@@ -74,7 +74,7 @@ type
     message: PAnsiChar;
 
     (** Optional paths that control which files are stashed. *)
-    paths: Pgit_strarray;
+    paths: git_strarray;
   end;
   Pgit_stash_save_options = ^git_stash_save_options;
 
