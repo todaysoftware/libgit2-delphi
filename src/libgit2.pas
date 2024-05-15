@@ -58,6 +58,7 @@ procedure ShutdownLibgit2;
 {$I git2/oid.inc}
 {$I git2/oidarray.inc}
 {$I git2/strarray.inc}
+{$I git2/commit.inc}
 {$I git2/repository.inc}
 {$I git2/diff.inc}
 {$I git2/object.inc}
@@ -83,7 +84,6 @@ procedure ShutdownLibgit2;
 {$I git2/transport.inc}
 {$I git2/remote.inc}
 {$I git2/clone.inc}
-{$I git2/commit.inc}
 {$I git2/config.inc}
 {$I git2/describe.inc}
 {$I git2/errors.inc}

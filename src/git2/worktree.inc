@@ -70,6 +70,7 @@ type
   git_worktree_add_options = record
     version: Cardinal;
     lock: Integer; (**< lock newly created worktree  *)
+	checkout_existing: Integer;	(**< allow checkout of existing branch matching worktree name *)
     ref: Pgit_reference; (**< reference to use for the new worktree HEAD  *)
     (**
      * Options for the checkout.

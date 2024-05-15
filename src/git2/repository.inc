@@ -477,7 +477,8 @@ const
   GIT_REPOSITORY_ITEM_LOGS    = 11;
   GIT_REPOSITORY_ITEM_MODULES = 12;
   GIT_REPOSITORY_ITEM_WORKTREES = 13;
-  GIT_REPOSITORY_ITEM__LAST   = 14;
+  GIT_REPOSITORY_ITEM_WORKTREE_CONFIG = 14;
+  GIT_REPOSITORY_ITEM__LAST   = 15;
 type
   git_repository_item_t = Integer;
 
@@ -968,6 +969,18 @@ function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar
  * @return the object id type
  *)
 function git_repository_oid_type(repo: Pgit_repository): git_oid_t; cdecl; external libgit2_dll;
+
+(**
+ * Gets the parents of the next commit, given the current repository state.
+ * Generally, this is the HEAD commit, except when performing a merge, in
+ * which case it is two or more commits.
+ *
+ * @param commits a `git_commitarray` that will contain the commit parents
+ * @param repo the repository
+ * @return 0 or an error code
+ *)
+function git_repository_commit_parents(commits: Pgit_commitarray; repo: Pgit_repository): Integer;
+  cdecl; external libgit2_dll;
 
 (** @}  *)
 

@@ -383,6 +383,51 @@ function git_commit_create_v(id: Pgit_oid; repo: Pgit_repository; update_ref: PA
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar; tree:
   Pgit_tree; parent_count: size_t): Integer; cdecl; varargs; external libgit2_dll;
 
+type
+  git_commit_create_options = record
+    version: Cardinal;
+
+    (**
+     * Flags for creating the commit.
+     *
+     * If `allow_empty_commit` is specified, a commit with no changes
+     * from the prior commit (and "empty" commit) is allowed. Otherwise,
+     * commit creation will be stopped.
+     *)
+    flags: Cardinal;
+
+    (** The commit author, or NULL for the default. *)
+    author: Pgit_signature;
+
+    (** The committer, or NULL for the default. *)
+    committer: Pgit_signature;
+
+    (** Encoding for the commit message; leave NULL for default. *)
+    message_encoding: PAnsiChar;
+  end;
+  Pgit_commit_create_options = ^git_commit_create_options;
+
+const
+  GIT_COMMIT_ALLOW_EMPTY      = (1 shl 0);
+
+  GIT_COMMIT_CREATE_OPTIONS_VERSION = 1;
+  //GIT_COMMIT_CREATE_OPTIONS_INIT { GIT_COMMIT_CREATE_OPTIONS_VERSION }
+
+(**
+ * Commits the staged changes in the repository; this is a near analog to
+ * `git commit -m message`.
+ *
+ * By default, empty commits are not allowed.
+ *
+ * @param id pointer to store the new commit's object id
+ * @param repo repository to commit changes in
+ * @param message the commit message
+ * @param opts options for creating the commit
+ * @return 0 on success, GIT_EUNCHANGED if there were no changes to commit, or an error code
+ *)
+function git_commit_create_from_stage(id: Pgit_oid; repo: Pgit_repository; message: PAnsiChar;
+  opts: Pgit_commit_create_options): Integer; cdecl; external libgit2_dll;
+
 (**
  * Amend an existing commit by replacing only non-NULL values.
  *
@@ -511,7 +556,25 @@ type
     message_encoding: PAnsiChar; message: PAnsiChar; tree: Pgit_tree; parent_count: size_t; parents: PPgit_commit;
     payload: Pointer): Integer; cdecl;
 
-  (** @}  *)
+  (** An array of commits returned from the library *)
+type
+  git_commitarray = record
+    commits: PPgit_commit;
+    Count: size_t;
+  end;
+  Pgit_commitarray = ^git_commitarray;
 
+  (**
+   * Free the commits contained in a commit array.  This method should
+   * be called on `git_commitarray` objects that were provided by the
+   * library.  Not doing so will result in a memory leak.
+   *
+   * This does not free the `git_commitarray` itself, since the library
+   * will never allocate that object directly itself.
+   *
+   * @param array The git_commitarray that contains commits to free
+   *)
+procedure git_commitarray_dispose(array_: Pgit_commitarray); cdecl; external libgit2_dll;
 
+(** @}  *)
 

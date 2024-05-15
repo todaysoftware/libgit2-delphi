@@ -47,7 +47,7 @@ function git_refspec_dst(refspec: Pgit_refspec): PAnsiChar; cdecl; external libg
  * Get the refspec's string
  *
  * @param refspec the refspec
- * @returns the refspec's original string
+ * @return the refspec's original string
  *)
 
 function git_refspec_string(refspec: Pgit_refspec): PAnsiChar; cdecl; external libgit2_dll;
