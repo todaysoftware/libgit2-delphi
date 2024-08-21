@@ -6,7 +6,11 @@
 unit LibGit2;
 
 {$IFDEF FPC}
-{$MODE objfpc}{$H+}
+  {$MODE objfpc}{$H+}
+{$ELSE}
+  {$IF RTLVersion >= 23}
+    {$DEFINE DOTTEDUNITS}
+  {$IFEND}
 {$ENDIF}
 
 {$DEFINE GIT_DEPRECATE_HARD}
@@ -15,7 +19,7 @@ unit LibGit2;
 interface
 
 uses
-  {$IF RTLVersion >= 23}
+  {$IF DEFINED(DOTTEDUNITS) OR DEFINED(FPC_DOTTEDUNITS)}
   System.SysUtils;
   {$ELSE}
   SysUtils;
@@ -33,11 +37,11 @@ const
 type
   PPByte = ^PByte;
 
-  {$I git2/stdint.inc}
-  {$IFNDEF FPC}
+{$I git2/stdint.inc}
+{$IF NOT DECLARED(size_t)}
 type
   size_t = uintptr_t;
-  {$ENDIF}
+{$IFEND}
 
 procedure InitLibgit2;
 procedure ShutdownLibgit2;
