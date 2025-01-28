@@ -1,4 +1,11 @@
 (**
+ * @file git2/global.h
+ * @brief libgit2 library initializer and shutdown functionality
+ * @ingroup Git
+ * @{
+ *)
+
+ (**
  * Init the global state
  *
  * This function must be called before any other libgit2 function in

@@ -1,3 +1,11 @@
+(**
+ * @file git2/oidarray.h
+ * @brief An array of object IDs
+ * @defgroup git_oidarray Arrays of object IDs
+ * @ingroup Git
+ * @{
+ *)
+
 (** Array of object ids  *)
 
 type

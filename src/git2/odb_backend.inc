@@ -1,13 +1,9 @@
 (**
  * @file git2/backend.h
- * @brief Git custom backend functions
+ * @brief Object database backends manage the storage of git objects
  * @defgroup git_odb Git object database routines
  * @ingroup Git
  * @{
- *)
-
-(*
- * Constructors for in-box ODB backends.
  *)
 
 (** Options for configuring a packfile object backend. *)
@@ -23,50 +19,15 @@ type
   end;
   Pgit_odb_backend_pack_options = ^git_odb_backend_pack_options;
 
-  (* The current version of the diff options structure *)
 const
+  (** The current version of the diff options structure *)
   GIT_ODB_BACKEND_PACK_OPTIONS_VERSION = 1;
 
-  (* Stack initializer for odb pack backend options.  Alternatively use
+  (**
+   * Stack initializer for odb pack backend options.  Alternatively use
    * `git_odb_backend_pack_options_init` programmatic initialization.
    *)
   //#DEFINE GIT_ODB_BACKEND_PACK_OPTIONS_INIT { GIT_ODB_BACKEND_PACK_OPTIONS_VERSION }
-
-    (**
-    * Create a backend for the packfiles.
-    *
-    * @param out location to store the odb backend pointer
-    * @param objects_dir the Git repository's objects directory
-    *
-    * @return 0 or an error code
-    *)
-
-  {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
-  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
-
-{$ELSE}
-function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
-{$ENDIF}
-
-(**
- * Create a backend out of a single packfile
- *
- * This can be useful for inspecting the contents of a single
- * packfile.
- *
- * @param out location to store the odb backend pointer
- * @param index_file path to the packfile's .idx file
- *
- * @return 0 or an error code
- *)
-{$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar;
-  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
-
-{$ELSE}
-function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar): Integer; cdecl; external libgit2_dll;
-{$ENDIF}
 
 const
   GIT_ODB_BACKEND_LOOSE_FSYNC = (1 shl 0);
@@ -104,32 +65,93 @@ type
   end;
   Pgit_odb_backend_loose_options = ^git_odb_backend_loose_options;
 
-  (* The current version of the diff options structure *)
 const
+  (** The current version of the diff options structure *)
   GIT_ODB_BACKEND_LOOSE_OPTIONS_VERSION = 1;
 
-  (* Stack initializer for odb loose backend options.  Alternatively use
+  (**
+   * Stack initializer for odb loose backend options.  Alternatively use
    * `git_odb_backend_loose_options_init` programmatic initialization.
    *)
   //#define GIT_ODB_BACKEND_LOOSE_OPTIONS_INIT { GIT_ODB_BACKEND_LOOSE_OPTIONS_VERSION, 0, -1 }
 
-  (**
-   * Create a backend for loose objects
-   *
-   * @param out location to store the odb backend pointer
-   * @param objects_dir the Git repository's objects directory
-   * @param opts options for the loose object backend or NULL
-   *
-   * @return 0 or an error code
-   *)
+(*
+ * Constructors for in-box ODB backends.
+ *)
 
-  {$IFDEF GIT_EXPERIMENTAL_SHA256}
+{$IFDEF GIT_EXPERIMENTAL_SHA256}
+
+(**
+ * Create a backend for a directory containing packfiles.
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param objects_dir the Git repository's objects directory
+ * @param opts the options to use when creating the pack backend
+ * @return 0 or an error code
+ *)
+function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Create a backend for a single packfile.
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param index_file path to the packfile's .idx file
+ * @param opts the options to use when creating the pack backend
+ * @return 0 or an error code
+ *)
+function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Create a backend for loose objects
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param objects_dir the Git repository's objects directory
+ * @param opts options for the loose object backend or NULL
+ *
+ * @return 0 or an error code
+ *)
 function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
   opts: Pgit_odb_backend_loose_options): Integer; cdecl; external libgit2_dll;
 
 {$ELSE}
+
+(**
+ * Create a backend for a directory containing packfiles.
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param objects_dir the Git repository's objects directory
+ * @return 0 or an error code
+ *)
+function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Create a backend out of a single packfile
+ *
+ * This can be useful for inspecting the contents of a single
+ * packfile.
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param index_file path to the packfile's .idx file
+ * @return 0 or an error code
+ *)
+function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Create a backend for loose objects
+ *
+ * @param[out] out location to store the odb backend pointer
+ * @param objects_dir the Git repository's objects directory
+ * @param compression_level zlib compression level (0-9), or -1 for the default
+ * @param do_fsync if non-zero, perform an fsync on write
+ * @param dir_mode permission to use when creating directories, or 0 for default
+ * @param file_mode permission to use when creating directories, or 0 for default
+ * @return 0 or an error code
+ *)
 function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar; compression_level, do_fsync: Integer;
   dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll;
+
 {$ENDIF}
 
 (** Streaming mode  *)
@@ -195,8 +217,8 @@ type
     backend: Pgit_odb_backend;
     append: function(writepack: Pgit_odb_writepack; data: Pointer; size: size_t;
       stats: Pgit_indexer_progress): Integer; cdecl;
-    commit: function(writepack: Pgit_odb_writepack; stats: Pgit_indexer_progress)
-    : Integer; cdecl;
+    commit: function(writepack: Pgit_odb_writepack;
+      stats: Pgit_indexer_progress) : Integer; cdecl;
     Free: procedure(writepack: Pgit_odb_writepack); cdecl;
   end;
 

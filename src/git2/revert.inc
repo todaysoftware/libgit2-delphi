@@ -1,7 +1,7 @@
 (**
  * @file git2/revert.h
- * @brief Git revert routines
- * @defgroup git_revert Git revert routines
+ * @brief Cherry-pick the inverse of a change to "undo" its effects
+ * @defgroup git_revert Cherry-pick the inverse of a change to "undo" its effects
  * @ingroup Git
  * @{
  *)
@@ -21,7 +21,9 @@ type
   Pgit_revert_options = ^git_revert_options;
 
 const
+  (** Current version for the `git_revert_options` structure *)
   GIT_REVERT_OPTIONS_VERSION  = 1;
+  (** Static constructor for `git_revert_options` *)
   //GIT_REVERT_OPTIONS_INIT = { GIT_REVERT_OPTIONS_VERSION , 0 , GIT_MERGE_OPTIONS_INIT , GIT_CHECKOUT_OPTIONS_INIT };
   (**
    * Initialize git_revert_options structure

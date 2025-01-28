@@ -1,8 +1,13 @@
 (**
  * @file git2/blame.h
- * @brief Git blame routines
+ * @brief Specify a file's most recent changes per-line
  * @defgroup git_blame Git blame routines
  * @ingroup Git
+ *
+ * Producing a "blame" (or "annotated history") decorates individual
+ * lines in a file with the commit that introduced that particular line
+ * of changes. This can be useful to indicate when and why a particular
+ * change was made.
  * @{
   *)
 
@@ -101,8 +106,11 @@ type
   Pgit_blame_options = ^git_blame_options;
 
 const
+  (** Current version for the `git_blame_options` structure *)
   GIT_BLAME_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_blame_options` *)
   //GIT_BLAME_OPTIONS_INIT = { GIT_BLAME_OPTIONS_VERSION };
+
   (**
  * Initialize git_blame_options structure
  *
@@ -140,6 +148,12 @@ type
      * specified, it will contain the canonical real name and email address.
      *)
     final_signature: Pgit_signature;
+  	(**
+	   * The committer of `final_commit_id`. If `GIT_BLAME_USE_MAILMAP` has
+	   * been specified, it will contain the canonical real name and email
+	   * address.
+	   *)
+    final_committer: Pgit_signature;
     (**
      * The OID of the commit where this hunk was found.
      * This will usually be the same as `final_commit_id`, except when
@@ -162,26 +176,90 @@ type
      *)
     orig_signature: Pgit_signature;
     (**
+     * The committer of `orig_commit_id`. If `GIT_BLAME_USE_MAILMAP` has
+     * been specified, it will contain the canonical real name and email
+     * address.
+     *)
+    orig_committer: Pgit_signature;
+    (*
+     * The summary of the commit.
+     *)
+    summary: PAnsiChar;
+    (**
      * The 1 iff the hunk has been tracked to a boundary commit (the root,
      * or the commit specified in git_blame_options.oldest_commit)
      *)
     boundary: AnsiChar;
   end;
+  Pgit_blame_hunk = ^git_blame_hunk;
+
+  (**
+   * Structure that represents a line in a blamed file.
+   *)
+  git_blame_line = record
+  	ptr: PAnsiChar;
+	  len: size_t;
+  end;
+  Pgit_blame_line = ^git_blame_line;
 
   (** Opaque structure to hold blame results  *)
 
   git_blame = record
   end;
+  Pgit_blame = ^git_blame;
+  PPgit_blame = ^Pgit_blame;
 
-  (**
+(**
+ * Gets the number of lines that exist in the blame structure.
+ *
+ * @param blame The blame structure to query.
+ * @return The number of line.
+ *)
+function git_blame_linecount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll;
+
+(**
  * Gets the number of hunks that exist in the blame structure.
  *
  * @param blame The blame structure to query.
  * @return The number of hunks.
-  *)
+ *)
+function git_blame_hunkcount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll;
 
-type
-  Pgit_blame = ^git_blame;
+(**
+ * Gets the blame hunk at the given index.
+ *
+ * @param blame the blame structure to query
+ * @param index index of the hunk to retrieve
+ * @return the hunk at the given index, or NULL on error
+ *)
+function git_blame_hunk_byindex(blame: Pgit_blame; index: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+
+(**
+ * Gets the hunk that relates to the given line number in the newest
+ * commit.
+ *
+ * @param blame the blame structure to query
+ * @param lineno the (1-based) line number to find a hunk for
+ * @return the hunk that contains the given line, or NULL on error
+ *)
+function git_blame_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+
+(**
+ * Gets the information about the line in the blame.
+ *
+ * @param blame the blame structure to query
+ * @param idx the (1-based) line number
+ * @return the blamed line, or NULL on error
+ *)
+function git_blame_line_byindex(blame: Pgit_blame; idx: size_t): Pgit_blame_line; cdecl; external libgit2_dll;
+
+{$IFNDEF GIT_DEPRECATE_HARD}
+(**
+ * Gets the number of hunks that exist in the blame structure.
+ *
+ * @param blame The blame structure to query.
+ * @return The number of hunks.
+ *)
 
 function git_blame_get_hunk_count(blame: Pgit_blame): uint32_t; cdecl; external libgit2_dll;
 
@@ -192,9 +270,6 @@ function git_blame_get_hunk_count(blame: Pgit_blame): uint32_t; cdecl; external 
  * @param index index of the hunk to retrieve
  * @return the hunk at the given index, or NULL on error
   *)
-
-type
-  Pgit_blame_hunk = ^git_blame_hunk;
 
 function git_blame_get_hunk_byindex(blame: Pgit_blame; index_: uint32_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
 
@@ -207,36 +282,48 @@ function git_blame_get_hunk_byindex(blame: Pgit_blame; index_: uint32_t): Pgit_b
   *)
 
 function git_blame_get_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+{$ENDIF}
 
 (**
- * Get the blame for a single file.
+ * Get the blame for a single file in the repository.
  *
  * @param out pointer that will receive the blame object
  * @param repo repository whose history is to be walked
  * @param path path to file to consider
- * @param options options for the blame operation.  If NULL, this is treated as
- *                though GIT_BLAME_OPTIONS_INIT were passed.
- * @return 0 on success, or an error code. (use git_error_last for information
- *         about the error.)
+ * @param options options for the blame operation or NULL
+ * @return 0 on success, or an error code
   *)
-
-type
-  PPgit_blame = ^Pgit_blame;
 
 function git_blame_file(out_: PPgit_blame; repo: Pgit_repository; path: PAnsiChar;
   options: Pgit_blame_options): Integer; cdecl; external libgit2_dll;
 
 (**
- * Get blame data for a file that has been modified in memory. The `reference`
- * parameter is a pre-calculated blame for the in-odb history of the file. This
- * means that once a file blame is completed (which can be expensive), updating
- * the buffer blame is very fast.
+ * Get the blame for a single file in the repository, using the specified
+ * buffer contents as the uncommitted changes of the file (the working
+ * directory contents).
  *
- * Lines that differ between the buffer and the committed version are marked as
- * having a zero OID for their final_commit_id.
+ * @param out pointer that will receive the blame object
+ * @param repo repository whose history is to be walked
+ * @param path path to file to consider
+ * @param contents the uncommitted changes
+ * @param contents_len the length of the changes buffer
+ * @param options options for the blame operation or NULL
+ * @return 0 on success, or an error code
+ *)
+function git_blame_file_from_buffer(out_: PPgit_blame; repo: Pgit_repository; path, contents: PAnsiChar;
+  contents_len: size_t; options: Pgit_blame_options): Integer; cdecl; external libgit2_dll;
+
+(**
+ * Get blame data for a file that has been modified in memory. The `blame`
+ * parameter is a pre-calculated blame for the in-odb history of the file.
+ * This means that once a file blame is completed (which can be expensive),
+ * updating the buffer blame is very fast.
+ *
+ * Lines that differ between the buffer and the committed version are
+ * marked as having a zero OID for their final_commit_id.
  *
  * @param out pointer that will receive the resulting blame data
- * @param reference cached blame from the history of the file (usually the output
+ * @param base cached blame from the history of the file (usually the output
  *                  from git_blame_file)
  * @param buffer the (possibly) modified contents of the file
  * @param buffer_len number of valid bytes in the buffer
@@ -244,7 +331,7 @@ function git_blame_file(out_: PPgit_blame; repo: Pgit_repository; path: PAnsiCha
  *         about the error)
   *)
 
-function git_blame_buffer(out_: PPgit_blame; reference: Pgit_blame; buffer: PAnsiChar;
+function git_blame_buffer(out_: PPgit_blame; base: Pgit_blame; buffer: PAnsiChar;
   buffer_len: size_t): Integer; cdecl; external libgit2_dll;
 
 (**

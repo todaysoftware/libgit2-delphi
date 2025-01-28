@@ -1,6 +1,6 @@
 (**
  * @file git2/status.h
- * @brief Git file status routines
+ * @brief Status indicates how a user has changed the working directory and index
  * @defgroup git_status Git file status routines
  * @ingroup Git
  * @{
@@ -38,11 +38,10 @@ type
   (**
    * Function pointer to receive status on individual files
    *
-   * `path` is the relative path to the file from the root of the repository.
-   *
-   * `status_flags` is a combination of `git_status_t` values that apply.
-   *
-   * `payload` is the value you passed to the foreach function as payload.
+   * @param path is the path to the file
+   * @param status_flags the `git_status_t` values for file's status
+   * @param payload the user-specified payload to the foreach function
+   * @return 0 on success, or a negative number on failure
    *)
 
 type
@@ -180,6 +179,7 @@ type
   git_status_opt_t = Integer;
 
 const
+  (** Default `git_status_opt_t` values *)
   GIT_STATUS_OPT_DEFAULTS     = (GIT_STATUS_OPT_INCLUDE_IGNORED or GIT_STATUS_OPT_INCLUDE_UNTRACKED or
     GIT_STATUS_OPT_RECURSE_UNTRACKED_DIRS);
   (**
@@ -230,7 +230,9 @@ type
   Pgit_status_options = ^git_status_options;
 
 const
+  (** Current version for the `git_status_options` structure *)
   GIT_STATUS_OPTIONS_VERSION  = 1;
+  (** Static constructor for `git_status_options` *)
   //GIT_STATUS_OPTIONS_INIT = { GIT_STATUS_OPTIONS_VERSION };
   (**
    * Initialize git_status_options structure
@@ -266,6 +268,7 @@ type
     head_to_index: Pgit_diff_delta;
     index_to_workdir: Pgit_diff_delta;
   end;
+  Pgit_status_entry = ^git_status_entry;
 
   (**
  * Gather file statuses and run a callback for each one.
@@ -378,8 +381,6 @@ function git_status_list_entrycount(statuslist: Pgit_status_list): size_t; cdecl
  * @return Pointer to the entry; NULL if out of bounds
   *)
 
-type
-  Pgit_status_entry = ^git_status_entry;
 function git_status_byindex(statuslist: Pgit_status_list; idx: size_t): Pgit_status_entry; cdecl; external libgit2_dll;
 
 (**

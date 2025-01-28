@@ -1,8 +1,11 @@
 (**
  * @file git2/apply.h
- * @brief Git patch application routines
+ * @brief Apply patches to the working directory or index
  * @defgroup git_apply Git patch application routines
  * @ingroup Git
+ *
+ * Mechanisms to apply a patch to the index, the working directory,
+ * or both.
  * @{
   *)
 
@@ -42,7 +45,15 @@ type
 type
   git_apply_hunk_cb = function(hunk: Pgit_diff_hunk; payload: Pointer): Integer; cdecl;
 
-  (** Flags controlling the behavior of git_apply  *)
+  (**
+   * Flags controlling the behavior of `git_apply`.
+   *
+   * When the callback:
+   * - returns < 0, the apply process will be aborted.
+   * - returns > 0, the hunk will not be applied, but the apply process
+   *      continues
+   * - returns 0, the hunk is applied, and the apply process continues.
+   *)
 
 const
   (**
@@ -54,13 +65,20 @@ type
   git_apply_flags_t = Integer;
 
   (**
- * Apply options structure
- *
- * Initialize with `GIT_APPLY_OPTIONS_INIT`. Alternatively, you can
- * use `git_apply_options_init`.
- *
- * @see git_apply_to_tree, git_apply
-  *)
+   * Apply options structure.
+   *
+   * When the callback:
+   * - returns < 0, the apply process will be aborted.
+   * - returns > 0, the hunk will not be applied, but the apply process
+   *      continues
+   * - returns 0, the hunk is applied, and the apply process continues.
+   *
+   * Initialize with `GIT_APPLY_OPTIONS_INIT`. Alternatively, you can
+   * use `git_apply_options_init`.
+   *
+   * @see git_apply_to_tree
+   * @see git_apply
+   *)
 
   git_apply_options = record
     version: Cardinal; (**< The version  *)
@@ -68,27 +86,29 @@ type
     delta_cb: git_apply_delta_cb;
     (** When applying a patch, callback that will be made per hunk.  *)
     hunk_cb: git_apply_hunk_cb;
-    (** Payload passed to both delta_cb & hunk_cb.  *)
+    (** Payload passed to both `delta_cb` & `hunk_cb`.  *)
     payload: Pointer;
-    (** Bitmask of git_apply_flags_t  *)
+    (** Bitmask of `git_apply_flags_t`  *)
     flags: Cardinal;
   end;
   Pgit_apply_options = ^git_apply_options;
 
 const
+  (** Current version for the `git_apply_options` structure *)
   GIT_APPLY_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_apply_options` *)
   //GIT_APPLY_OPTIONS_INIT = { GIT_APPLY_OPTIONS_VERSION };
 
-(**
- * Initialize git_apply_options structure
- *
- * Initialize a `git_apply_options` with default values. Equivalent to creating
- * an instance with GIT_APPLY_OPTIONS_INIT.
- *
- * @param opts The `git_apply_options` struct to initialize.
- * @param version The struct version; pass `GIT_APPLY_OPTIONS_VERSION`
- * @return 0 on success or -1 on failure.
- *)
+  (**
+   * Initialize git_apply_options structure
+   *
+   * Initialize a `git_apply_options` with default values. Equivalent to creating
+   * an instance with GIT_APPLY_OPTIONS_INIT.
+   *
+   * @param opts The `git_apply_options` struct to initialize.
+   * @param version The struct version; pass `GIT_APPLY_OPTIONS_VERSION`
+   * @return 0 on success or -1 on failure.
+   *)
 
 function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
   : Integer; cdecl; external libgit2_dll;
@@ -144,6 +164,4 @@ function git_apply(repo: Pgit_repository; diff: Pgit_diff; location: git_apply_l
   cdecl; external libgit2_dll;
 
 (** @}  *)
-
-
 

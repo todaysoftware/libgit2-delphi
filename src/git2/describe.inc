@@ -1,8 +1,13 @@
 (**
  * @file git2/describe.h
- * @brief Git describing routines
+ * @brief Describe a commit in reference to tags
  * @defgroup git_describe Git describing routines
  * @ingroup Git
+ * @{
+ *
+ * Describe a commit, showing information about how the current commit
+ * relates to the tags. This can be useful for showing how the current
+ * commit has changed from a particular tagged version of the repository.
  * @{
   *)
 
@@ -50,9 +55,14 @@ type
   Pgit_describe_options = ^git_describe_options;
 
 const
+  (** Default maximum candidate tags *)
   GIT_DESCRIBE_DEFAULT_MAX_CANDIDATES_TAGS = 10;
+  (** Default abbreviated size *)
   GIT_DESCRIBE_DEFAULT_ABBREVIATED_SIZE = 7;
+
+  (** Current version for the `git_describe_options` structure *)
   GIT_DESCRIBE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_describe_options` *)
   //GIT_DESCRIBE_OPTIONS_INIT = { GIT_DESCRIBE_OPTIONS_VERSION , GIT_DESCRIBE_DEFAULT_MAX_CANDIDATES_TAGS , };
   (**
    * Initialize git_describe_options structure
@@ -97,7 +107,9 @@ type
   Pgit_describe_format_options = ^git_describe_format_options;
 
 const
+  (** Current version for the `git_describe_format_options` structure *)
   GIT_DESCRIBE_FORMAT_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_describe_format_options` *)
   //GIT_DESCRIBE_FORMAT_OPTIONS_INIT = { GIT_DESCRIBE_FORMAT_OPTIONS_VERSION , GIT_DESCRIBE_DEFAULT_ABBREVIATED_SIZE , };
   (**
    * Initialize git_describe_format_options structure
@@ -120,6 +132,8 @@ function git_describe_format_options_init(opts: Pgit_describe_format_options;
 type
   git_describe_result = record
   end;
+  Pgit_describe_result = ^git_describe_result;
+  PPgit_describe_result = ^Pgit_describe_result;
 
   (**
    * Describe a commit
@@ -133,9 +147,6 @@ type
    * @return 0 or an error code.
    *)
 
-type
-  PPgit_describe_result = ^Pgit_describe_result;
-  Pgit_describe_result = ^git_describe_result;
 function git_describe_commit(Result: PPgit_describe_result; committish: Pgit_object;
   opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
 

@@ -1,7 +1,7 @@
 (**
  * @file git2/transaction.h
- * @brief Git transactional reference routines
- * @defgroup git_transaction Git transactional reference routines
+ * @brief Transactional reference handling
+ * @defgroup git_transaction Transactional reference handling
  * @ingroup Git
  * @{
  *)

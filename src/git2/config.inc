@@ -1,8 +1,12 @@
 (**
  * @file git2/config.h
- * @brief Git config management routines
+ * @brief Per-repository, per-user or per-system configuration
  * @defgroup git_config Git config management routines
  * @ingroup Git
+ *
+ * Git configuration affects the operation of the version control
+ * system, and can be specified on a per-repository basis, in user
+ * settings, or at the system level.
  * @{
   *)
 
@@ -24,31 +28,51 @@
  *
  * git_config_open_default() and git_repository_config() honor those
  * priority levels as well.
+ *
+ * @see git_config_open_default
+ * @see git_repository_config
   *)
 
 const
-  (** System-wide on Windows, for compatibility with portable git  *)
+	(**
+	 * System-wide on Windows, for compatibility with "Portable Git".
+	 *)
   GIT_CONFIG_LEVEL_PROGRAMDATA = 1;
-  (** System-wide configuration file; /etc/gitconfig on Linux systems  *)
+	(**
+	 * System-wide configuration file; `/etc/gitconfig` on Linux.
+	 *)
   GIT_CONFIG_LEVEL_SYSTEM     = 2;
-  (** XDG compatible configuration file; typically ~/.config/git/config  *)
+	(**
+	 * XDG compatible configuration file; typically
+	 * `~/.config/git/config`.
+	 *)
   GIT_CONFIG_LEVEL_XDG        = 3;
-  (** User-specific configuration file (also called Global configuration
-   * file); typically ~/.gitconfig
-   *)
+	(**
+	 * Global configuration file is the user-specific configuration;
+	 * typically `~/.gitconfig`.
+	 *)
   GIT_CONFIG_LEVEL_GLOBAL     = 4;
-  (** Repository specific configuration file; $WORK_DIR/.git/config on
-  * non-bare repos
-   *)
+	(**
+	 * Local configuration, the repository-specific configuration file;
+	 * typically `$GIT_DIR/config`.
+	 *)
   GIT_CONFIG_LEVEL_LOCAL      = 5;
-  (** Worktree specific configuration file; $GIT_DIR/config.worktree
-  *)
+	(**
+	 * Worktree-specific configuration; typically
+	 * `$GIT_DIR/config.worktree`.
+	 *)
   GIT_CONFIG_LEVEL_WORKTREE   = 6;
-  (** Application specific configuration file; freely defined by applications
-   *)
+	(**
+	 * Application-specific configuration file. Callers into libgit2
+	 * can add their own configuration beginning at this level.
+	 *)
   GIT_CONFIG_LEVEL_APP        = 7;
-  (** Represents the highest level available config file (i.e. the most
-   * specific config file available that actually is loaded)
+	(**
+	 * Not a configuration level; callers can use this value when
+	 * querying configuration levels to specify that they want to
+	 * have data from the highest-level currently configuration.
+	 * This can be used to indicate that callers want the most
+	 * specific config file available that actually is loaded.
    *)
   GIT_CONFIG_HIGHEST_LEVEL    = -1;
 type
@@ -60,32 +84,28 @@ type
    *)
 
 type
-  Pgit_config_entry = ^git_config_entry;
   git_config_entry = record
-    (** Name of the configuration entry (normalized) *)
+    (** Name of the configuration entry (normalized). *)
     name_: PAnsiChar;
-    (** Literal (string) value of the entry *)
+    (** Literal (string) value of the entry. *)
     Value: PAnsiChar;
-    (** The type of backend that this entry exists in (eg, "file") *)
+    (** The type of backend that this entry exists in (eg, "file"). *)
     backend_type: PAnsiChar;
     (**
      * The path to the origin of this entry. For config files, this is
      * the path to the file.
      *)
     origin_path: PAnsiChar;
-    (** Depth of includes where this variable was found *)
+    (** Depth of includes where this variable was found. *)
     include_depth: Cardinal;
-    (** Configuration level for the file this was found in *)
+    (** Configuration level for the file this was found in. *)
     level: git_config_level_t;
-    (**
-     * Free function for this entry; for internal purposes. Callers
-     * should call `git_config_entry_free` to free data.
-     *)
-    Free: procedure(entry: Pgit_config_entry); cdecl; (**< Free function for this entry  *)
   end;
+  Pgit_config_entry = ^git_config_entry;
+  PPgit_config_entry = ^Pgit_config_entry;
 
   (**
-   * Free a config entry
+   * Free a config entry.
    *
    * @param entry The entry to free.
    *)
@@ -93,7 +113,7 @@ type
 procedure git_config_entry_free(entry: Pgit_config_entry); cdecl; external libgit2_dll;
 
 (**
- * A config enumeration callback
+ * A config enumeration callback.
  *
  * @param entry the entry currently being enumerated
  * @param payload a user-specified pointer
@@ -105,7 +125,7 @@ type
     : Integer; cdecl;
 
   (**
-   * An opaque structure for a configuration iterator
+   * An opaque structure for a configuration iterator.
    *)
 
   git_config_iterator = record
@@ -241,9 +261,9 @@ function git_config_new(out_: PPgit_config): Integer; cdecl; external libgit2_dl
  * @param cfg the configuration to add the file to
  * @param path path to the configuration file to add
  * @param level the priority level of the backend
- * @param force replace config file at the given priority level
  * @param repo optional repository to allow parsing of
  *  conditional includes
+ * @param force replace config file at the given priority level
  * @return 0 on success, GIT_EEXISTS when adding more than one file
  *  for a given priority level (and force_replace set to 0),
  *  GIT_ENOTFOUND when the file doesn't exist or error code
@@ -303,6 +323,17 @@ function git_config_open_level(out_: PPgit_config; parent: Pgit_config;
 
 function git_config_open_global(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll;
 
+(**
+ * Set the write order for configuration backends. By default, the
+ * write ordering does not match the read ordering; for example, the
+ * worktree configuration is a high-priority for reading, but is not
+ * written to unless explicitly chosen.
+ *
+ * @param cfg the configuration to change write order of
+ * @param levels the ordering of levels for writing
+ * @param len the length of the levels array
+ * @return 0 or an error code
+ *)
 function git_config_set_writeorder(config: Pgit_config; levels: Pgit_config_level_t;
   len: size_t): Integer; cdecl; external libgit2_dll;
 
@@ -341,9 +372,6 @@ procedure git_config_free(cfg: Pgit_config); cdecl; external libgit2_dll;
  * @param name the variable's name
  * @return 0 or an error code
  *)
-
-type
-  PPgit_config_entry = ^Pgit_config_entry;
 
 function git_config_get_entry(out_: PPgit_config_entry; cfg: Pgit_config;
   name_: PAnsiChar): Integer; cdecl; external libgit2_dll;

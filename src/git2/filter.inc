@@ -1,8 +1,14 @@
 (**
  * @file git2/filter.h
- * @brief Git filter APIs
- *
+ * @brief Filters modify files during checkout or commit
  * @ingroup Git
+ *
+ * During checkout, filters update a file from a "canonical" state to
+ * a format appropriate for the local filesystem; during commit, filters
+ * produce the canonical state. For example, on Windows, the line ending
+ * filters _may_ take a canonical state (with Unix-style newlines) in
+ * the repository, and place the contents on-disk with Windows-style
+ * `\r\n` line endings.
  * @{
   *)
 
@@ -65,7 +71,9 @@ type
   Pgit_filter_options = ^git_filter_options;
 
 const
+  (** Current version for the `git_filter_options` structure *)
   GIT_FILTER_OPTIONS_VERSION  = 1;
+  (** Static constructor for `git_filter_options` *)
   //GIT_FILTER_OPTIONS_INIT {GIT_FILTER_OPTIONS_VERSION}
 
 (**
@@ -101,6 +109,8 @@ type
 
   git_filter_list = record
   end;
+  Pgit_filter_list = ^git_filter_list;
+  PPgit_filter_list = ^Pgit_filter_list;
 
   (**
    * Load the filter list for a given path.
@@ -118,9 +128,6 @@ type
    *         needed for the requested file), <0 on error
    *)
 
-type
-  PPgit_filter_list = ^Pgit_filter_list;
-  Pgit_filter_list = ^git_filter_list;
 function git_filter_list_load(filters: PPgit_filter_list; repo: Pgit_repository; blob: Pgit_blob;
   path: PAnsiChar; mode: git_filter_mode_t; flags: uint32_t): Integer; cdecl; external libgit2_dll;
 

@@ -234,7 +234,15 @@ function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; exte
 
 function git_packbuilder_written(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll;
 
-(** Packbuilder progress notification function  *)
+(**
+ * Packbuilder progress notification function.
+ *
+ * @param stage the stage of the packbuilder
+ * @param current the current object
+ * @param total the total number of objects
+ * @param payload the callback payload
+ * @return 0 on success or an error code
+ *)
 
 type
   git_packbuilder_progress = function(stage: Integer; current, total: uint32_t; payload: Pointer): Integer; cdecl;
@@ -246,6 +254,9 @@ type
    * @param progress_cb Function to call with progress information during
    * pack building. Be aware that this is called inline with pack building
    * operations, so performance may be affected.
+   * When progress_cb returns an error, the pack building process will be
+   * aborted and the error will be returned from the invoked function.
+   * `pb` must then be freed.
    * @param progress_cb_payload Payload for progress callback.
    * @return 0 or an error code
    *)

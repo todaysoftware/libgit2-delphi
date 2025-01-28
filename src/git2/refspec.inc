@@ -1,7 +1,7 @@
 (**
  * @file git2/refspec.h
- * @brief Git refspec attributes
- * @defgroup git_refspec Git refspec attributes
+ * @brief Refspecs map local references to remote references
+ * @defgroup git_refspec Refspecs map local references to remote references
  * @ingroup Git
  * @{
  *)
@@ -69,6 +69,15 @@ function git_refspec_force(refspec: Pgit_refspec): Integer; cdecl; external libg
  *)
 
 function git_refspec_direction(spec: Pgit_refspec): git_direction; cdecl; external libgit2_dll;
+
+(**
+ * Check if a refspec's source descriptor matches a negative reference
+ *
+ * @param refspec the refspec
+ * @param refname the name of the reference to check
+ * @return 1 if the refspec matches, 0 otherwise
+ *)
+function git_refspec_src_matches_negative(refspec: Pgit_refspec; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
 
 (**
  * Check if a refspec's source descriptor matches a reference

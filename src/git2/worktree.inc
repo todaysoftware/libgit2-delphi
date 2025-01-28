@@ -1,4 +1,12 @@
 (**
+ * @file git2/worktree.h
+ * @brief Additional working directories for a repository
+ * @defgroup git_commit Additional working directories for a repository
+ * @ingroup Git
+ * @{
+ *)
+
+(**
  * List names of linked working trees
  *
  * The returned list should be released with `git_strarray_free`
@@ -80,7 +88,9 @@ type
   Pgit_worktree_add_options = ^git_worktree_add_options;
 
 const
-  GIT_WORKTREE_ADD_OPTIONS_VERSION = 1;
+  (** Current version for the `git_worktree_add_options` structure *)
+ GIT_WORKTREE_ADD_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_worktree_add_options` *)
   //GIT_WORKTREE_ADD_OPTIONS_INIT {GIT_WORKTREE_ADD_OPTIONS_VERSION,0,NULL,GIT_CHECKOUT_OPTIONS_INIT}
   (**
    * Initialize git_worktree_add_options structure
@@ -202,7 +212,9 @@ type
   Pgit_worktree_prune_options = ^git_worktree_prune_options;
 
 const
+  (** Current version for the `git_worktree_prune_options` structure *)
   GIT_WORKTREE_PRUNE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_worktree_prune_options` *)
   //GIT_WORKTREE_PRUNE_OPTIONS_INIT = { GIT_WORKTREE_PRUNE_OPTIONS_VERSION , 0 };
   (**
    * Initialize git_worktree_prune_options structure

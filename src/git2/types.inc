@@ -41,8 +41,12 @@ const
   GIT_OBJECT_REF_DELTA        = 7; (**< A delta, base is given by object id.  *)
 type
   git_object_t = Integer;
+  Pgit_object_t = ^git_object_t;
 
-  (** An open object database handle.  *)
+  (**
+   * An object database stores the objects (commit, trees, blobs, tags,
+   * etc) for a repository.
+   *)
 
   git_odb = record
   end;
@@ -56,7 +60,9 @@ type
   Pgit_odb_backend = ^git_odb_backend;
   PPgit_odb_backend = ^Pgit_odb_backend;
 
-  (** An object read from the ODB  *)
+  (**
+   * A "raw" object read from the object database.
+   *)
 
   git_odb_object = record
   end;
@@ -288,7 +294,18 @@ type
   Pgit_transaction = ^git_transaction;
   PPgit_transaction = ^Pgit_transaction;
 
-  (** Annotated commits, the input to merge and rebase.  *)
+  (**
+   * Annotated commits are commits with additional metadata about how the
+   * commit was resolved, which can be used for maintaining the user's
+   * "intent" through commands like merge and rebase.
+   *
+   * For example, if a user wants to conceptually "merge `HEAD`", then the
+   * commit portion of an annotated commit will point to the `HEAD` commit,
+   * but the _annotation_ will denote the ref `HEAD`. This allows git to
+   * perform the internal bookkeeping so that the system knows both the
+   * content of what is being merged but also how the content was looked up
+   * so that it can be recorded in the reflog appropriately.
+   *)
 
   git_annotated_commit = record
   end;
@@ -327,6 +344,7 @@ const
   GIT_BRANCH_ALL              = GIT_BRANCH_LOCAL or GIT_BRANCH_REMOTE;
 type
   git_branch_t = Integer;
+  Pgit_branch_t = ^git_branch_t;
 
   (** Valid modes for index and tree entries.  *)
 

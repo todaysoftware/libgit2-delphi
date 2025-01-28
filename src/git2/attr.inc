@@ -1,8 +1,12 @@
 (**
  * @file git2/attr.h
- * @brief Git attribute management routines
+ * @brief Attribute management routines
  * @defgroup git_attr Git attribute management routines
  * @ingroup Git
+ *
+ * Attributes specify additional information about how git should
+ * handle particular paths - for example, they may indicate whether
+ * a particular filter is applied, like LFS or line ending conversions.
  * @{
   *)
 
@@ -110,10 +114,14 @@ function git_attr_value(attr: PAnsiChar): git_attr_value_t; cdecl; external libg
   *)
 
 const
+  (** Examine attribute in working directory, then index *)
   GIT_ATTR_CHECK_FILE_THEN_INDEX = 0;
+  (** Examine attribute in index, then working directory *)
   GIT_ATTR_CHECK_INDEX_THEN_FILE = 1;
+  (** Examine attributes only in the index *)
   GIT_ATTR_CHECK_INDEX_ONLY      = 2;
-  (**
+
+(**
  * Check attribute flags: controlling extended attribute behavior.
  *
  * Normally, attribute checks include looking in the /etc (or system
@@ -128,9 +136,13 @@ const
  * from a `.gitattributes` file in a specific commit.
   *)
 
+  (** Ignore system attributes *)
   GIT_ATTR_CHECK_NO_SYSTEM    = (1 shl 2);
+  (** Honor `.gitattributes` in the HEAD revision *)
   GIT_ATTR_CHECK_INCLUDE_HEAD = (1 shl 3);
+  (** Honor `.gitattributes` in a specific commit *)
   GIT_ATTR_CHECK_INCLUDE_COMMIT = (1 shl 4);
+
   (**
   * An options structure for querying attributes.
   *)
@@ -154,7 +166,9 @@ type
   Pgit_attr_options = ^git_attr_options;
 
 const
+  (** Current version for the `git_attr_options` structure *)
   GIT_ATTR_OPTIONS_VERSION    = 1;
+  (** Static constructor for `git_attr_options` *)
   //GIT_ATTR_OPTIONS_INIT {GIT_ATTR_OPTIONS_VERSION}
 
   (**

@@ -1,7 +1,7 @@
 (**
  * @file git2/rebase.h
- * @brief Git rebase routines
- * @defgroup git_rebase Git merge routines
+ * @brief Rebase manipulates commits, placing them on a new parent
+ * @defgroup git_rebase Rebase manipulates commits, placing them on a new parent
  * @ingroup Git
  * @{
  *)
@@ -46,10 +46,9 @@ type
     merge_options: git_merge_options;
     (**
      * Options to control how files are written during `git_rebase_init`,
-     * `git_rebase_next` and `git_rebase_abort`.  Note that a minimum
-     * strategy of `GIT_CHECKOUT_SAFE` is defaulted in `init` and `next`,
-     * and a minimum strategy of `GIT_CHECKOUT_FORCE` is defaulted in
-     * `abort` to match git semantics.
+     * `git_rebase_next` and `git_rebase_abort`.  Note that during
+     * `abort`, these options will add an implied `GIT_CHECKOUT_FORCE`
+     * to match git semantics.
      *)
     checkout_options: git_checkout_options;
     (**
@@ -135,7 +134,9 @@ type
   git_rebase_operation_t = Integer;
 
 const
+  (** Current version for the `git_rebase_options` structure *)
   GIT_REBASE_OPTIONS_VERSION  = 1;
+  (** Static constructor for `git_rebase_options` *)
   //GIT_REBASE_OPTIONS_INIT = { GIT_REBASE_OPTIONS_VERSION , 0 , 0 , NULL , GIT_MERGE_OPTIONS_INIT , GIT_CHECKOUT_OPTIONS_INIT , NULL , NULL };
   (** Indicates that a rebase operation is not (yet) in progress.  *)
 

@@ -1,11 +1,12 @@
 (**
  * @file git2/net.h
- * @brief Git networking declarations
+ * @brief Low-level networking functionality
  * @ingroup Git
  * @{
  *)
 
 const
+  (** Default git protocol port number *)
   GIT_DEFAULT_PORT            = '9418';
   (**
    * Direction of the connection.

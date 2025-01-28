@@ -1,6 +1,6 @@
 (**
  * @file git2/submodule.h
- * @brief Git submodule management utilities
+ * @brief Submodules place another repository's contents within this one
  *
  * Submodule support in libgit2 builds a list of known submodules and keeps
  * it in the repository.  The list is built from the .gitmodules file, the
@@ -75,14 +75,22 @@ type
   git_submodule_status_t = Integer;
 
 const
+  (** Submodule source bits *)
   GIT_SUBMODULE_STATUS__IN_FLAGS = $000F;
+  (** Submodule index status *)
   GIT_SUBMODULE_STATUS__INDEX_FLAGS = $0070;
+  (** Submodule working directory status *)
   GIT_SUBMODULE_STATUS__WD_FLAGS = $3F80;
 
+(** Whether the submodule is modified *)
 function GIT_SUBMODULE_STATUS_IS_UNMODIFIED(S: Integer): Boolean;
+(** Whether the submodule is modified (in the index) *)
 function GIT_SUBMODULE_STATUS_IS_INDEX_UNMODIFIED(S: Integer): Boolean;
+(** Whether the submodule is modified (in the working directory) *)
 function GIT_SUBMODULE_STATUS_IS_WD_UNMODIFIED(S: Integer): Boolean;
+(** Whether the submodule working directory is dirty *)
 function GIT_SUBMODULE_STATUS_IS_WD_DIRTY(S: Integer): Boolean;
+
 (**
  * Function pointer to receive each submodule
  *
@@ -107,10 +115,8 @@ type
     version: Cardinal;
     (**
      * These options are passed to the checkout step. To disable
-     * checkout, set the `checkout_strategy` to
-     * `GIT_CHECKOUT_NONE`. Generally you will want the use
-     * GIT_CHECKOUT_SAFE to update files in the working
-     * directory.
+     * checkout, set the `checkout_strategy` to `GIT_CHECKOUT_NONE`
+     * or `GIT_CHECKOUT_DRY_RUN`.
      *)
     checkout_opts: git_checkout_options;
     (**
@@ -129,7 +135,9 @@ type
   Pgit_submodule_update_options = ^git_submodule_update_options;
 
 const
+  (** Current version for the `git_submodule_update_options` structure *)
   GIT_SUBMODULE_UPDATE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_submodule_update_options` *)
   //GIT_SUBMODULE_UPDATE_OPTIONS_INIT = { GIT_SUBMODULE_UPDATE_OPTIONS_VERSION , { GIT_CHECKOUT_OPTIONS_VERSION , GIT_CHECKOUT_SAFE } , GIT_FETCH_OPTIONS_INIT , 1 };
   (**
    * Initialize git_submodule_update_options structure
@@ -512,7 +520,8 @@ function git_submodule_set_update(repo: Pgit_repository; name_: PAnsiChar;
  * Note that at this time, libgit2 does not honor this setting and the
  * fetch functionality current ignores submodules.
  *
- * @return 0 if fetchRecurseSubmodules is false, 1 if true
+ * @param submodule the submodule to examine
+ * @return the submodule recursion configuration
  *)
 
 function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_submodule_recurse_t; cdecl; external libgit2_dll;
@@ -524,7 +533,7 @@ function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_
  *
  * @param repo the repository to affect
  * @param name the submodule to configure
- * @param fetch_recurse_submodules Boolean value
+ * @param fetch_recurse_submodules the submodule recursion configuration
  * @return old value for fetchRecurseSubmodules
  *)
 

@@ -1,8 +1,11 @@
 (**
  * @file git2/merge.h
- * @brief Git merge routines
+ * @brief Merge re-joins diverging branches of history
  * @defgroup git_merge Git merge routines
  * @ingroup Git
+ *
+ * Merge will take two commits and attempt to produce a commit that
+ * includes the changes that were made in both branches.
  * @{
  *)
 
@@ -27,7 +30,9 @@ type
   Pgit_merge_file_input = ^git_merge_file_input;
 
 const
+  (** Current version for the `git_merge_file_input_options` structure *)
   GIT_MERGE_FILE_INPUT_VERSION = 1;
+  (** Static constructor for `git_merge_file_input_options` *)
   //GIT_MERGE_FILE_INPUT_INIT = { GIT_MERGE_FILE_INPUT_VERSION };
   (**
    * Initializes a `git_merge_file_input` with default values. Equivalent to
@@ -150,6 +155,7 @@ type
   git_merge_file_flag_t = Integer;
 
 const
+  (** Default size for conflict markers *)
   GIT_MERGE_CONFLICT_MARKER_SIZE = 7;
   (**
    * Options for merging a file
@@ -184,7 +190,9 @@ type
   Pgit_merge_file_options = ^git_merge_file_options;
 
 const
+  (** Current version for the `git_merge_file_options` structure *)
   GIT_MERGE_FILE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_merge_file_options` *)
   //GIT_MERGE_FILE_OPTIONS_INIT = { GIT_MERGE_FILE_OPTIONS_VERSION };
   (**
    * Initialize git_merge_file_options structure
@@ -222,6 +230,7 @@ type
     (** The length of the merge contents.  *)
     len: size_t;
   end;
+  Pgit_merge_file_result = ^git_merge_file_result;
 
   (**
    * Merging options
@@ -272,7 +281,9 @@ type
   Pgit_merge_options = ^git_merge_options;
 
 const
+  (** Current version for the `git_merge_options` structure *)
   GIT_MERGE_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_merge_options` *)
   //GIT_MERGE_OPTIONS_INIT = { GIT_MERGE_OPTIONS_VERSION , GIT_MERGE_FIND_RENAMES };
   (**
    * Initialize git_merge_options structure
@@ -318,6 +329,7 @@ const
   GIT_MERGE_ANALYSIS_UNBORN   = (1 shl 3);
 type
   git_merge_analysis_t = Integer;
+  Pgit_merge_analysis_t = ^git_merge_analysis_t;
 
   (**
    * The user's stated preference for merges.
@@ -341,6 +353,7 @@ const
   GIT_MERGE_PREFERENCE_FASTFORWARD_ONLY = (1 shl 1);
 type
   git_merge_preference_t = Integer;
+  Pgit_merge_preference_t = ^git_merge_preference_t;
 
   (**
    * Analyzes the given branch(es) and determines the opportunities for
@@ -353,10 +366,6 @@ type
    * @param their_heads_len the number of heads to merge
    * @return 0 on success or error code
    *)
-
-type
-  Pgit_merge_preference_t = ^git_merge_preference_t;
-  Pgit_merge_analysis_t = ^git_merge_analysis_t;
 
 function git_merge_analysis(analysis_out: Pgit_merge_analysis_t; preference_out: Pgit_merge_preference_t;
   repo: Pgit_repository; their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll;
@@ -403,9 +412,40 @@ function git_merge_base(out_: Pgit_oid; repo: Pgit_repository; one, two: Pgit_oi
 function git_merge_bases(out_: Pgit_oidarray; repo: Pgit_repository; one, two: Pgit_oid): Integer; cdecl; external libgit2_dll;
 
 (**
- * Find a merge base given a list of commits
+ * Find all merge bases given a list of commits
  *
- * @param out the OID of a merge base considering all the commits
+ * This behaves similar to [`git merge-base`](https://git-scm.com/docs/git-merge-base#_discussion).
+ *
+ * Given three commits `a`, `b`, and `c`, `merge_base_many`
+ * will compute a hypothetical commit `m`, which is a merge between `b`
+ * and `c`.
+
+ * For example, with the following topology:
+ * ```text
+ *        o---o---o---o---C
+ *       /
+ *      /   o---o---o---B
+ *     /   /
+ * ---2---1---o---o---o---A
+ * ```
+ *
+ * the result of `merge_base_many` given `a`, `b`, and `c` is 1. This is
+ * because the equivalent topology with the imaginary merge commit `m`
+ * between `b` and `c` is:
+ * ```text
+ *        o---o---o---o---o
+ *       /                 \
+ *      /   o---o---o---o---M
+ *     /   /
+ * ---2---1---o---o---o---A
+ * ```
+ *
+ * and the result of `merge_base_many` given `a` and `m` is 1.
+ *
+ * If you're looking to recieve the common ancestor between all the
+ * given commits, use `merge_base_octopus`.
+ *
+ * @param out array in which to store the resulting ids
  * @param repo the repository where the commits exist
  * @param length The number of commits in the provided `input_array`
  * @param input_array oids of the commits
@@ -457,9 +497,6 @@ function git_merge_base_octopus(out_: Pgit_oid; repo: Pgit_repository; Length: s
  * @param opts The merge file options or `NULL` for defaults
  * @return 0 on success or error code
  *)
-
-type
-  Pgit_merge_file_result = ^git_merge_file_result;
 
 function git_merge_file(out_: Pgit_merge_file_result; ancestor, ours, theirs: Pgit_merge_file_input;
   opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll;
