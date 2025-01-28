@@ -1,3 +1,14 @@
+(**
+ * @file git2/indexer.h
+ * @brief Packfile indexing
+ * @ingroup Git
+ * @{
+ *
+ * Indexing is the operation of taking a packfile - which is simply a
+ * collection of unordered commits - and producing an "index" so that
+ * one can lookup a commit in the packfile by object ID.
+ *)
+
 (** A git indexer object  *)
 
 type
@@ -54,6 +65,8 @@ type
     {$IFDEF GIT_EXPERIMENTAL_SHA256}
     (** permissions to use creating packfile or 0 for defaults *)
     mode: Cardinal;
+  	(** the type of object ids in the packfile or 0 for SHA1 *)
+	  oid_type: git_oid_t;
     (**
      * object database from which to read base objects when
      * fixing thin packs. This can be NULL if there are no thin
@@ -72,7 +85,9 @@ type
   Pgit_indexer_options = ^git_indexer_options;
 
 const
+  (** Current version for the `git_indexer_options` structure *)
   GIT_INDEXER_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_indexer_options` *)
   //GIT_INDEXER_OPTIONS_INIT = { GIT_INDEXER_OPTIONS_VERSION };
   (**
    * Initializes a `git_indexer_options` with default values. Equivalent to
@@ -86,7 +101,15 @@ const
 function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; oid_type: git_oid_t;
+(**
+ * Create a new indexer instance
+ *
+ * @param out where to store the indexer instance
+ * @param path to the directory where the packfile should be stored
+ * @param opts the options to create the indexer with
+ * @return 0 or an error code.
+ *)
+function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar;
   opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
 {$ELSE}
 (**

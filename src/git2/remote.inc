@@ -1,7 +1,7 @@
 (**
  * @file git2/remote.h
- * @brief Git remote management functions
- * @defgroup git_remote remote management functions
+ * @brief Remotes are where local repositories fetch from and push to
+ * @defgroup git_remote Remotes are where local repositories fetch from and push to
  * @ingroup Git
  * @{
  *)
@@ -18,7 +18,15 @@ const
 type
   git_remote_completion_t = Integer;
 
-  (** Push network progress notification function  *)
+  (**
+   * Push network progress notification callback.
+   *
+   * @param current The number of objects pushed so far
+   * @param total The total number of objects to push
+   * @param bytes The number of bytes pushed
+   * @param payload The user-specified payload callback
+   * @return 0 or an error code to stop the transfer
+   *)
 
   git_push_transfer_progress_cb = function(current, total: Cardinal;
     bytes: size_t; payload: Pointer): Integer; cdecl;
@@ -45,6 +53,8 @@ type
      *)
     dst: git_oid;
   end;
+  Pgit_push_update = ^git_push_update;
+  PPgit_push_update = ^Pgit_push_update;
 
   (**
    * Callback used to inform of upcoming updates.
@@ -53,11 +63,9 @@ type
    * as commands to the destination.
    * @param len number of elements in `updates`
    * @param payload Payload provided by the caller
+   * @return 0 or an error code to stop the push
    *)
 
-type
-  PPgit_push_update = ^Pgit_push_update;
-  Pgit_push_update = ^git_push_update;
   git_push_negotiation = function(updates: PPgit_push_update; len: size_t; payload: Pointer): Integer; cdecl;
 
   (**
@@ -77,18 +85,18 @@ type
 
   {$IFNDEF GIT_DEPRECATE_HARD}
   (**
- * Callback to resolve URLs before connecting to remote
- *
- * If you return GIT_PASSTHROUGH, you don't need to write anything to
- * url_resolved.
- *
- * @param url_resolved The buffer to write the resolved URL to
- * @param url The URL to resolve
- * @param direction GIT_DIRECTION_FETCH or GIT_DIRECTION_PUSH
- * @param payload Payload provided by the caller
- * @return 0 on success, GIT_PASSTHROUGH or an error
- * @deprecated Use `git_remote_set_instance_url`
- *)
+   * Callback to resolve URLs before connecting to remote
+   *
+   * If you return GIT_PASSTHROUGH, you don't need to write anything to
+   * url_resolved.
+   *
+   * @param url_resolved The buffer to write the resolved URL to
+   * @param url The URL to resolve
+   * @param direction GIT_DIRECTION_FETCH or GIT_DIRECTION_PUSH
+   * @param payload Payload provided by the caller
+   * @return 0 on success, GIT_PASSTHROUGH or an error
+   * @deprecated Use `git_remote_set_instance_url`
+   *)
 
   git_url_resolve_cb = function(url_resolved: Pgit_buf; url: PAnsiChar; direction: Integer; payload: Pointer): Integer; cdecl;
   {$ENDIF}
@@ -146,11 +154,21 @@ type
      * indexer.
      *)
     transfer_progress: git_indexer_progress_cb;
+    {$IFDEF GIT_DEPRECATE_HARD}
+    reserved_update_tips: Pointer;
+    {$ELSE}
     (**
-     * Each time a reference is updated locally, this function
-     * will be called with information about it.
+     * Deprecated callback for reference updates, callers should
+     * set `update_refs` instead. This is retained for backward
+     * compatibility; if you specify both `update_refs` and
+     * `update_tips`, then only the `update_refs` function will
+     * be called.
+     *
+     * @deprecated the `update_refs` callback in this structure
+     * should be preferred
      *)
     update_tips: function(refname: PAnsiChar; a, b: Pgit_oid; data: Pointer): Integer; cdecl;
+    {$ENDIF}
     (**
      * Function to call with progress information during pack
      * building. Be aware that this is called inline with pack
@@ -203,12 +221,22 @@ type
      *)
     resolve_url: git_url_resolve_cb;
     {$ENDIF}
+
+    (**
+     * Each time a reference is updated locally, this function
+     * will be called with information about it. This should be
+     * preferred over the `update_tips` callback in this
+     * structure.
+     *)
+    update_refs: function(refname: PAnsiChar; a, b: Pgit_oid; spec: Pgit_refspec; data: Pointer): Integer; cdecl;
   end;
   Pgit_remote_callbacks = ^git_remote_callbacks;
   PPgit_remote_callbacks = ^Pgit_remote_callbacks;
 
 const
+  (** Current version for the `git_remote_callbacks_options` structure *)
   GIT_REMOTE_CALLBACKS_VERSION = 1;
+  (** Static constructor for `git_remote_callbacks_options` *)
   //GIT_REMOTE_CALLBACKS_INIT = { GIT_REMOTE_CALLBACKS_VERSION };
   (**
    * Initializes a `git_remote_callbacks` with default values. Equivalent to
@@ -319,7 +347,7 @@ type
     (**
      * How to handle reference updates; see `git_remote_update_flags`.
      *)
-    update_fetchhead: Integer;
+    update_fetchhead: Cardinal;
     (**
      * Determines how to behave regarding tags on the remote, such
      * as auto-downloading tags for objects we're downloading or
@@ -354,7 +382,9 @@ type
   Pgit_fetch_options = ^git_fetch_options;
 
 const
+  (** Current version for the `git_fetch_options` structure *)
   GIT_FETCH_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_fetch_options` *)
   //GIT_FETCH_OPTIONS_INIT = { GIT_FETCH_OPTIONS_VERSION , GIT_REMOTE_CALLBACKS_INIT , GIT_FETCH_PRUNE_UNSPECIFIED , 1 , GIT_REMOTE_DOWNLOAD_TAGS_UNSPECIFIED , GIT_PROXY_OPTIONS_INIT };
   (**
    * Initialize git_fetch_options structure
@@ -411,7 +441,9 @@ type
   Pgit_push_options = ^git_push_options;
 
 const
+  (** Current version for the `git_push_options` structure *)
   GIT_PUSH_OPTIONS_VERSION    = 1;
+  (** Static constructor for `git_push_options` *)
   //GIT_PUSH_OPTIONS_INIT = { GIT_PUSH_OPTIONS_VERSION , 1 , GIT_REMOTE_CALLBACKS_INIT , GIT_PROXY_OPTIONS_INIT };
   (**
    * Initialize git_push_options structure
@@ -457,7 +489,7 @@ type
 const
   (* Write the fetch results to FETCH_HEAD. *)
   GIT_REMOTE_UPDATE_FETCHHEAD = (1 shl 0);
-  (* Report unchanged tips in the update_tips callback. *)
+	(* Report unchanged tips in the update_refs callback. *)
   GIT_REMOTE_UPDATE_REPORT_UNCHANGED = (1 shl 1);
 
 type
@@ -491,7 +523,9 @@ type
   Pgit_remote_create_options = ^git_remote_create_options;
 
 const
+  (** Current version for the `git_remote_create_options` structure *)
   GIT_REMOTE_CREATE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_remote_create_options` *)
   //GIT_REMOTE_CREATE_OPTIONS_INIT = { GIT_REMOTE_CREATE_OPTIONS_VERSION };
   (**
    * Initialize git_remote_create_options structure
@@ -987,14 +1021,14 @@ function git_remote_upload(remote: Pgit_remote; refspecs: Pgit_strarray;
  * `git_remote_connect` will be used (if it was called).
  *
  * @param remote the remote to update
- * @param reflog_message The message to insert into the reflogs. If
- * NULL and fetching, the default is "fetch <name>", where <name> is
- * the name of the remote (or its url, for in-memory remotes). This
- * parameter is ignored when pushing.
  * @param callbacks  pointer to the callback structure to use or NULL
  * @param update_flags the git_remote_update_flags for these tips.
  * @param download_tags what the behaviour for downloading tags is for this fetch. This is
  * ignored for push. This must be the same value passed to `git_remote_download()`.
+ * @param reflog_message The message to insert into the reflogs. If
+ * NULL and fetching, the default is "fetch <name>", where <name> is
+ * the name of the remote (or its url, for in-memory remotes). This
+ * parameter is ignored when pushing.
  * @return 0 or an error code
  *)
 
@@ -1055,6 +1089,9 @@ function git_remote_push(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pgi
 
 (**
  * Get the statistics structure that is filled in by the fetch operation.
+ *
+ * @param remote the remote to get statistics for
+ * @return the git_indexer_progress for the remote
  *)
 
 function git_remote_stats(remote: Pgit_remote): Pgit_indexer_progress; cdecl; external libgit2_dll;

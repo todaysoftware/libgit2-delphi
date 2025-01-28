@@ -1,4 +1,14 @@
 (**
+ * @file git2/ignore.h
+ * @brief Ignore particular untracked files
+ * @ingroup Git
+ * @{
+ *
+ * When examining the repository status, git can optionally ignore
+ * specified untracked files.
+ *)
+
+(**
  * Add ignore rules for a repository.
  *
  * Excludesfile rules (i.e. .gitignore rules) are generally read from

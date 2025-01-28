@@ -1,6 +1,6 @@
 (**
  * @file git2/message.h
- * @brief Git message management routines
+ * @brief Commit messages
  * @ingroup Git
  * @{
  *)

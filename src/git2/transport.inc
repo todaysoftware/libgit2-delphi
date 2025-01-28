@@ -1,7 +1,7 @@
 (**
  * @file git2/transport.h
- * @brief Git transport interfaces and functions
- * @defgroup git_transport interfaces and functions
+ * @brief Transports are the low-level mechanism to connect to a remote server
+ * @defgroup git_transport Transports are the low-level mechanism to connect to a remote server
  * @ingroup Git
  * @{
  *)
@@ -14,6 +14,7 @@
  * @param str The message from the transport
  * @param len The length of the message
  * @param payload Payload provided by the caller
+ * @return 0 on success or an error code
  *)
 
 type
@@ -22,6 +23,14 @@ type
   (** Signature of a function which creates a transport  *)
 
 type
+  (**
+   * Signature of a function which creates a transport.
+   *
+   * @param out the transport generate
+   * @param owner the owner for the transport
+   * @param param the param to the transport creation
+   * @return 0 on success or an error code
+   *)
   git_transport_cb = function(out_: PPgit_transport; owner: Pgit_remote; param: Pointer): Integer; cdecl;
 
   (** @}  *)

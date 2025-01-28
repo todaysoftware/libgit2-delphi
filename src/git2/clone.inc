@@ -1,8 +1,12 @@
 (**
  * @file git2/clone.h
- * @brief Git cloning routines
+ * @brief Clone a remote repository to the local disk
  * @defgroup git_clone Git cloning routines
  * @ingroup Git
+ *
+ * Clone will take a remote repository - located on a remote server
+ * accessible by HTTPS or SSH, or a repository located elsewhere on
+ * the local disk - and place a copy in the given local path.
  * @{
   *)
 
@@ -43,7 +47,7 @@ type
    * Callers of git_clone may provide a function matching this signature to override
    * the remote creation and customization process during a clone operation.
    *
-   * @param out the resulting remote
+   * @param[out] out the resulting remote
    * @param repo the repository in which to create the remote
    * @param name the remote's name
    * @param url the remote's url
@@ -62,7 +66,7 @@ type
  * to override the repository creation and customization process
  * during a clone operation.
  *
- * @param out the resulting repository
+ * @param[out] out the resulting repository
  * @param path path in which to create the repository
  * @param bare whether the repository is bare. This is the value from the clone options
  * @param payload payload specified by the options
@@ -78,14 +82,17 @@ type
  * Initialize with `GIT_CLONE_OPTIONS_INIT`. Alternatively, you can
  * use `git_clone_options_init`.
  *
+ * @options[version] GIT_CLONE_OPTIONS_VERSION
+ * @options[init_macro] GIT_CLONE_OPTIONS_INIT
+ * @options[init_function] git_clone_options_init
   *)
 
   git_clone_options = record
     version: Cardinal;
     (**
      * These options are passed to the checkout step. To disable
-     * checkout, set the `checkout_strategy` to
-     * `GIT_CHECKOUT_NONE`.
+  	 * checkout, set the `checkout_strategy` to `GIT_CHECKOUT_NONE`
+	   * or `GIT_CHECKOUT_DRY_RUN`.
      *)
     checkout_opts: git_checkout_options;
     (**
@@ -136,7 +143,9 @@ type
   Pgit_clone_options = ^git_clone_options;
 
 const
+  (** Current version for the `git_clone_options` structure *)
   GIT_CLONE_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_clone_options` *)
   //GIT_CLONE_OPTIONS_INIT = { GIT_CLONE_OPTIONS_VERSION , { GIT_CHECKOUT_OPTIONS_VERSION , GIT_CHECKOUT_SAFE } , GIT_FETCH_OPTIONS_INIT };
   (**
  * Initialize git_clone_options structure
@@ -158,7 +167,11 @@ function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal): In
  * git's defaults. You can use the options in the callback to
  * customize how these are created.
  *
- * @param out pointer that will receive the resulting repository object
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
+ *
+ * @param[out] out pointer that will receive the resulting repository object
  * @param url the remote repository to clone
  * @param local_path local directory to clone to
  * @param options configuration options for the clone.  If NULL, the

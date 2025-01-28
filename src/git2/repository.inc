@@ -1,7 +1,7 @@
 (**
  * @file git2/repository.h
- * @brief Git repository management routines
- * @defgroup git_repository Git repository management routines
+ * @brief The repository stores revisions for a source tree
+ * @defgroup git_repository The repository stores revisions for a source tree
  * @ingroup Git
  * @{
  *)
@@ -15,7 +15,11 @@
  * The method will automatically detect if 'path' is a normal
  * or bare repository or fail is 'path' is neither.
  *
- * @param out pointer to the repo which will be opened
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
+ *
+ * @param[out] out pointer to the repo which will be opened
  * @param path the path to the repository
  * @return 0 or an error code
  *)
@@ -45,14 +49,9 @@ function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_work
  * @param out pointer to the repo
  * @param odb the object database to wrap
  * @return 0 or an error code
- * @param oid_type the oid type of the object database
  *)
 
-function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb
-  {$IFDEF GIT_EXPERIMENTAL_SHA256}
-  ; oid_type: git_oid_t
-  {$ENDIF}
-  ): Integer; cdecl; external libgit2_dll;
+function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer; cdecl; external libgit2_dll;
 
 (**
  * Look for a git repository and copy its path in the given buffer.
@@ -63,6 +62,10 @@ function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb
  *
  * The method will automatically detect if the repository is bare
  * (if there is a repository).
+ *
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
  *
  * @param out A pointer to a user-allocated git_buf which will contain
  * the found path.
@@ -137,7 +140,11 @@ type
   (**
    * Find and open a repository with extended controls.
    *
-   * @param out Pointer to the repo which will be opened.  This can
+   * Note that the libgit2 library _must_ be initialized using
+   * `git_libgit2_init` before any APIs can be called, including
+   * this one.
+   *
+   * @param[out] out Pointer to the repo which will be opened.  This can
    *        actually be NULL if you only want to use the error code to
    *        see if a repo at this path could be opened.
    * @param path Path to open as git repository.  If the flags
@@ -163,7 +170,11 @@ function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar; flags:
  * if you're e.g. hosting git repositories and need to access them
  * efficiently
  *
- * @param out Pointer to the repo which will be opened.
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
+ *
+ * @param[out] out Pointer to the repo which will be opened.
  * @param bare_path Direct path to the bare repository
  * @return 0 on success, or an error code
  *)
@@ -190,7 +201,11 @@ procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dl
  * TODO:
  *	- Reinit the repository
  *
- * @param out pointer to the repo which will be created or reinitialized
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
+ *
+ * @param[out] out pointer to the repo which will be created or reinitialized
  * @param path the path to the repository
  * @param is_bare if true, a Git repository without a working directory is
  *		created at the pointed path. If false, provided path will be
@@ -342,17 +357,19 @@ type
   Pgit_repository_init_options = ^git_repository_init_options;
 
 const
+  (** Current version for the `git_repository_init_options` structure *)
   GIT_REPOSITORY_INIT_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_repository_init_options` *)
   //GIT_REPOSITORY_INIT_OPTIONS_INIT = { GIT_REPOSITORY_INIT_OPTIONS_VERSION };
   (**
- * Initialize git_repository_init_options structure
- *
- * Initializes a `git_repository_init_options` with default values. Equivalent to
- * creating an instance with `GIT_REPOSITORY_INIT_OPTIONS_INIT`.
- *
- * @param opts The `git_repository_init_options` struct to initialize.
- * @param version The struct version; pass `GIT_REPOSITORY_INIT_OPTIONS_VERSION`.
- * @return Zero on success; -1 on failure.
+   * Initialize git_repository_init_options structure
+   *
+   * Initializes a `git_repository_init_options` with default values. Equivalent to
+   * creating an instance with `GIT_REPOSITORY_INIT_OPTIONS_INIT`.
+   *
+   * @param opts The `git_repository_init_options` struct to initialize.
+   * @param version The struct version; pass `GIT_REPOSITORY_INIT_OPTIONS_VERSION`.
+   * @return Zero on success; -1 on failure.
   *)
 
 function git_repository_init_options_init(opts: Pgit_repository_init_options;
@@ -366,7 +383,10 @@ function git_repository_init_options_init(opts: Pgit_repository_init_options;
  * auto-detect the case sensitivity of the file system and if the
  * file system supports file mode bits correctly.
  *
- * @param out Pointer to the repo which will be created or reinitialized.
+ * Note that the libgit2 library _must_ be initialized using
+ * `git_libgit2_init` before any APIs can be called, including
+ * this one.
+ *
  * @param repo_path The path to the repository.
  * @param opts Pointer to git_repository_init_options struct.
  * @return 0 or an error code on failure.
@@ -382,7 +402,7 @@ function git_repository_init_ext(out_: PPgit_repository; repo_path: PAnsiChar;
  * `git_reference_free()` must be called when done with it to release the
  * allocated memory and prevent a leak.
  *
- * @param out pointer to the reference which will be retrieved
+ * @param[out] out pointer to the reference which will be retrieved
  * @param repo a repository object
  *
  * @return 0 on success, GIT_EUNBORNBRANCH when HEAD points to a non existing
@@ -620,7 +640,7 @@ function git_repository_config_snapshot(out_: PPgit_config; repo: Pgit_repositor
  * The ODB must be freed once it's no longer being used by
  * the user.
  *
- * @param out Pointer to store the loaded ODB
+ * @param[out] out Pointer to store the loaded ODB
  * @param repo A repository object
  * @return 0, or an error code
  *)
@@ -637,7 +657,7 @@ function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cd
  * The refdb must be freed once it's no longer being used by
  * the user.
  *
- * @param out Pointer to store the loaded refdb
+ * @param[out] out Pointer to store the loaded refdb
  * @param repo A repository object
  * @return 0, or an error code
  *)
@@ -654,7 +674,7 @@ function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer
  * The index must be freed once it's no longer being used by
  * the user.
  *
- * @param out Pointer to store the loaded index
+ * @param[out] out Pointer to store the loaded index
  * @param repo A repository object
  * @return 0, or an error code
  *)
@@ -841,7 +861,9 @@ function git_repository_set_head_detached(repo: Pgit_repository; committish: Pgi
  *
  * See the documentation for `git_repository_set_head_detached()`.
  *
- * @see git_repository_set_head_detached
+ * @param repo Repository pointer
+ * @param committish annotated commit to point HEAD to
+ * @return 0 on success, or an error code
  *)
 
 function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
@@ -939,8 +961,8 @@ function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; exter
  * The memory is owned by the repository and must not be freed by the
  * user.
  *
- * @param name where to store the pointer to the name
- * @param email where to store the pointer to the email
+ * @param[out] name where to store the pointer to the name
+ * @param[out] email where to store the pointer to the email
  * @param repo the repository
  * @return 0 or an error code
  *)

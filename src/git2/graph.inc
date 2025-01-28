@@ -1,6 +1,6 @@
 (**
  * @file git2/graph.h
- * @brief Git graph traversal routines
+ * @brief Graph traversal routines
  * @defgroup git_revwalk Git graph traversal routines
  * @ingroup Git
  * @{
@@ -46,8 +46,8 @@ function git_graph_descendant_of(repo: Pgit_repository; commit, ancestor: Pgit_o
  *
  * @param repo the repository where the commits exist
  * @param commit a previously loaded commit
- * @param length the number of commits in the provided `descendant_array`
  * @param descendant_array oids of the commits
+ * @param length the number of commits in the provided `descendant_array`
  * @return 1 if the given commit is an ancestor of any of the given potential
  * descendants, 0 if not, error code otherwise.
  *)

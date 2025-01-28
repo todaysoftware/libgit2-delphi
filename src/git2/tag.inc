@@ -1,6 +1,6 @@
 (**
  * @file git2/tag.h
- * @brief Git tag parsing routines
+ * @brief A (nearly) immutable pointer to a commit; useful for versioning
  * @defgroup git_tag Git tag management
  * @ingroup Git
  * @{
@@ -313,6 +313,7 @@ type
  * @param repo Repository
  * @param callback Callback function
  * @param payload Pointer to callback data (optional)
+ * @return 0 on success or an error code
  *)
 
 function git_tag_foreach(repo: Pgit_repository; callback: git_tag_foreach_cb;

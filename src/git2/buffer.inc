@@ -1,14 +1,11 @@
 (**
- * A data buffer for exporting data from libgit2
+ * @file git2/buffer.h
+ * @brief A data structure to return data to callers
+ * @ingroup Git
  *
- * Sometimes libgit2 wants to return an allocated data buffer to the
- * caller and have the caller take responsibility for freeing that memory.
- * To make ownership clear in these cases, libgit2 uses  `git_buf` to
- * return this data.  Callers should use `git_buf_dispose()` to release
- * the memory when they are done.
- *
- * A `git_buf` contains a pointer to a NUL-terminated C string, and
- * the length of the string (not including the NUL terminator).
+ * The `git_buf` buffer is used to return arbitrary data - typically
+ * strings - to callers. Callers are responsible for freeing the memory
+ * in a buffer with the `git_buf_dispose` function.
   *)
 
 type
@@ -30,6 +27,7 @@ type
    *)
     size: size_t;
   end;
+  Pgit_buf = ^git_buf;
 
   (**
  * Use to initialize a `git_buf` before passing it to a function that
@@ -46,9 +44,6 @@ type
    *
    * @param buffer The buffer to deallocate
     *)
-
-type
-  Pgit_buf = ^git_buf;
 
 procedure git_buf_dispose(buffer: Pgit_buf); cdecl; external libgit2_dll;
 

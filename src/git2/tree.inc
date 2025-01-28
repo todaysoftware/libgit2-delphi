@@ -1,7 +1,7 @@
 (**
  * @file git2/tree.h
- * @brief Git tree parsing, loading routines
- * @defgroup git_tree Git tree parsing, loading routines
+ * @brief Trees are collections of files and folders to make up the repository hierarchy
+ * @defgroup git_tree Trees are collections of files and folders to make up the repository hierarchy
  * @ingroup Git
  * @{
  *)
@@ -9,7 +9,7 @@
 (**
  * Lookup a tree object from the repository.
  *
- * @param out Pointer to the looked up tree
+ * @param[out] out Pointer to the looked up tree
  * @param repo The repo to use when locating the tree.
  * @param id Identity of the tree to locate.
  * @return 0 or an error code
@@ -338,6 +338,10 @@ function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar): Int
  * The return value is treated as a boolean, with zero indicating that the
  * entry should be left alone and any non-zero value meaning that the
  * entry should be removed from the treebuilder list (i.e. filtered out).
+ *
+ * @param entry the tree entry for the callback to examine
+ * @param payload the payload from the caller
+ * @return 0 to do nothing, non-zero to remove the entry
  *)
 
 type
@@ -372,9 +376,15 @@ function git_treebuilder_filter(bld: Pgit_treebuilder; filter: git_treebuilder_f
 
 function git_treebuilder_write(id: Pgit_oid; bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
 
-(** Callback for the tree traversal method  *)
-
 type
+  (**
+   * Callback for the tree traversal method.
+   *
+   * @param root the current (relative) root to the entry
+   * @param entry the tree entry
+   * @param payload the caller-provided callback payload
+   * @return a positive value to skip the entry, a negative value to stop the walk
+   *)
   git_treewalk_cb = function(root: PAnsiChar; entry: Pgit_tree_entry; payload: Pointer): Integer; cdecl;
 
   (** Tree traversal modes  *)
@@ -443,6 +453,7 @@ type
     (** The full path from the root tree  *)
     path: PAnsiChar;
   end;
+  Pgit_tree_update = ^git_tree_update;
 
   (**
    * Create a tree based on another one with the specified modifications
@@ -466,8 +477,6 @@ type
    * @return 0 or an error code
    *)
 
-type
-  Pgit_tree_update = ^git_tree_update;
 function git_tree_create_updated(out_: Pgit_oid; repo: Pgit_repository; baseline: Pgit_tree;
   nupdates: size_t; updates: Pgit_tree_update): Integer; cdecl; external libgit2_dll;
 

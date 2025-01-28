@@ -1,5 +1,5 @@
 (*
- * Copyright (C) 2021-2023 Today Software
+ * Copyright (C) 2021-2025 Today Software
  * Distributed under the MIT licence see LICENCE file for more details
  * https://opensource.org/licenses/MIT
  *)
@@ -198,6 +198,13 @@ function GIT_SUBMODULE_STATUS_IS_WD_DIRTY(S: Integer): Boolean;
 begin
   Result := (S and (GIT_SUBMODULE_STATUS_WD_INDEX_MODIFIED or GIT_SUBMODULE_STATUS_WD_WD_MODIFIED or
     GIT_SUBMODULE_STATUS_WD_UNTRACKED)) = 0;
+end;
+
+{ version }
+
+function LIBGIT2_VERSION_CHECK(major, minor, revision: Integer): Boolean;
+begin
+  Result := LIBGIT2_VERSION_NUMBER >= ((major) * 1000000) + ((minor) * 10000) + ((revision) * 100);
 end;
 
 end.

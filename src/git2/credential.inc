@@ -1,8 +1,11 @@
 (**
  * @file git2/credential.h
- * @brief Git authentication & credential management
+ * @brief Authentication and credential management
  * @defgroup git_credential Authentication & credential management
  * @ingroup Git
+ *
+ * Credentials specify how to authenticate to a remote system
+ * over HTTPS or SSH.
  * @{
   *)
 
@@ -68,6 +71,8 @@ type
 
   git_credential = record
   end;
+  Pgit_credential = ^git_credential;
+  PPgit_credential = ^Pgit_credential;
 
   git_credential_userpass_plaintext = record
   end;
@@ -116,7 +121,7 @@ type
    * an error. As such, it's easy to get in a loop if you fail to stop providing
    * the same incorrect credentials.
    *
-   * @param out The newly created credential object.
+   * @param[out] out The newly created credential object.
    * @param url The resource for which we are demanding a credential.
    * @param username_from_url The username that was embedded in a "user\@host"
    *                          remote url, or NULL if not included.
@@ -127,8 +132,6 @@ type
    *)
 
 type
-  PPgit_credential = ^Pgit_credential;
-  Pgit_credential = ^git_credential;
   git_credential_acquire_cb = function(out_: PPgit_credential; url, username_from_url: PAnsiChar;
     allowed_types: Cardinal; payload: Pointer): Integer; cdecl;
 
@@ -247,6 +250,19 @@ type
 type
   PLIBSSH2_USERAUTH_KBDINT_RESPONSE = ^LIBSSH2_USERAUTH_KBDINT_RESPONSE;
   PLIBSSH2_USERAUTH_KBDINT_PROMPT = ^LIBSSH2_USERAUTH_KBDINT_PROMPT;
+
+  (**
+   * Callback for interactive SSH credentials.
+   *
+   * @param name the name
+   * @param name_len the length of the name
+   * @param instruction the authentication instruction
+   * @param instruction_len the length of the instruction
+   * @param num_prompts the number of prompts
+   * @param prompts the prompts
+   * @param responses the responses
+   * @param abstract the abstract
+   *)
   git_credential_ssh_interactive_cb = procedure(name_: PAnsiChar; name_len: Integer; instruction: PAnsiChar;
     instruction_len, num_prompts: Integer; prompts: PLIBSSH2_USERAUTH_KBDINT_PROMPT;
     responses: PLIBSSH2_USERAUTH_KBDINT_RESPONSE; abstract_: PPointer); cdecl;
@@ -278,6 +294,18 @@ function git_credential_ssh_key_from_agent(out_: PPgit_credential;
   username: PAnsiChar): Integer; cdecl; external libgit2_dll;
 type
   PLIBSSH2_SESSION = ^LIBSSH2_SESSION;
+  (**
+   * Callback for credential signing.
+   *
+   * @param session the libssh2 session
+   * @param sig the signature
+   * @param sig_len the length of the signature
+   * @param data the data
+   * @param data_len the length of the data
+   * @param abstract the abstract
+   * @return 0 for success, < 0 to indicate an error, > 0 to indicate
+   *       no credential was acquired
+   *)
   git_credential_sign_cb = function(session: PLIBSSH2_SESSION; sig: PPByte; sig_len: Psize_t;
     data: PByte; data_len: size_t; abstract_: PPointer): Integer; cdecl;
 

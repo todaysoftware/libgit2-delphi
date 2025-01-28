@@ -1,4 +1,11 @@
 (**
+ * @file git2/proxy.h
+ * @brief TLS proxies
+ * @ingroup Git
+ * @{
+ *)
+
+(**
  * The type of proxy to use.
  *)
 
@@ -62,8 +69,11 @@ type
   Pgit_proxy_options = ^git_proxy_options;
 
 const
+  (** Current version for the `git_proxy_options` structure *)
   GIT_PROXY_OPTIONS_VERSION   = 1;
+  (** Static constructor for `git_proxy_options` *)
   //GIT_PROXY_OPTIONS_INIT = { GIT_PROXY_OPTIONS_VERSION };
+
   (**
    * Initialize git_proxy_options structure
    *

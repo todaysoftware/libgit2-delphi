@@ -1,6 +1,6 @@
 (**
  * @file git2/patch.h
- * @brief Patch handling routines.
+ * @brief Patches store the textual diffs in a delta
  * @ingroup Git
  * @{
  *)

@@ -1,4 +1,12 @@
 (**
+ * @file git2/pathspec.h
+ * @brief Specifiers for path matching
+ * @defgroup git_pathspec Specifiers for path matching
+ * @ingroup Git
+ * @{
+ *)
+
+(**
  * Compiled pathspec
  *)
 

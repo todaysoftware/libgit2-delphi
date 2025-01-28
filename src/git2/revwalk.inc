@@ -1,7 +1,7 @@
 (**
  * @file git2/revwalk.h
- * @brief Git revision traversal routines
- * @defgroup git_revwalk Git revision traversal routines
+ * @brief Traverse (walk) the commit graph (revision history)
+ * @defgroup git_revwalk Traverse (walk) the commit graph (revision history)
  * @ingroup Git
  * @{
  *)

@@ -1,7 +1,12 @@
 (**
  * @file git2/stash.h
- * @brief Git stash management routines
+ * @brief Stashes stores some uncommitted state in the repository
  * @ingroup Git
+ *
+ * Stashes stores some uncommitted state in the repository; generally
+ * this allows a user to stash some changes so that they can restore
+ * the working directory to an unmodified state. This can allow a
+ * developer to work on two different changes in parallel.
  * @{
  *)
 
@@ -79,7 +84,9 @@ type
   Pgit_stash_save_options = ^git_stash_save_options;
 
 const
+  (** Current version for the `git_stash_save_options` structure *)
   GIT_STASH_SAVE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_stash_save_options` *)
   //#define GIT_STASH_SAVE_OPTIONS_INIT { GIT_STASH_SAVE_OPTIONS_VERSION }
 
   (**
@@ -144,6 +151,10 @@ type
    * Stash application progress notification function.
    * Return 0 to continue processing, or a negative value to
    * abort the stash application.
+   *
+   * @param progress the progress information
+   * @param payload the user-specified payload to the apply function
+   * @return 0 on success, -1 on error
    *)
 
   git_stash_apply_progress_cb = function(progress: git_stash_apply_progress_t; payload: Pointer): Integer; cdecl;
@@ -169,7 +180,9 @@ type
   Pgit_stash_apply_options = ^git_stash_apply_options;
 
 const
+  (** Current version for the `git_stash_apply_options` structure *)
   GIT_STASH_APPLY_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_stash_apply_options` *)
   //GIT_STASH_APPLY_OPTIONS_INIT = { GIT_STASH_APPLY_OPTIONS_VERSION , GIT_STASH_APPLY_DEFAULT , GIT_CHECKOUT_OPTIONS_INIT };
   (**
    * Initialize git_stash_apply_options structure
@@ -198,8 +211,6 @@ function git_stash_apply_options_init(opts: Pgit_stash_apply_options; version: C
  * conflicts when reinstating the index, the function will return
  * GIT_EMERGECONFLICT and both the working directory and index will be left
  * unmodified.
- *
- * Note that a minimum checkout strategy of `GIT_CHECKOUT_SAFE` is implied.
  *
  * @param repo The owning repository.
  * @param index The position within the stash list. 0 points to the

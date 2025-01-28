@@ -1,7 +1,7 @@
 (**
  * @file git2/strarray.h
- * @brief Git string array routines
- * @defgroup git_strarray Git string array routines
+ * @brief An array of strings for the user to free
+ * @defgroup git_strarray An array of strings for the user to free
  * @ingroup Git
  * @{
  *)

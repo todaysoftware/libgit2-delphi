@@ -1,6 +1,6 @@
 (**
  * @file git2/email.h
- * @brief Git email formatting and application routines.
+ * @brief Produce email-ready patches
  * @ingroup Git
  * @{
  *)
@@ -74,7 +74,13 @@ type
   Pgit_email_create_options = ^git_email_create_options;
 
 const
+  (** Current version for the `git_email_create_options` structure *)
   GIT_EMAIL_CREATE_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_email_create_options`
+   *
+   * By default, our options include rename detection and binary
+   * diffs to match `git format-patch`.
+   *)
   (*GIT_EMAIL_CREATE_OPTIONS_INIT =
   { \
    GIT_EMAIL_CREATE_OPTIONS_VERSION, \
@@ -86,29 +92,12 @@ const
 
 (**
  * Create a diff for a commit in mbox format for sending via email.
- *
- * @param out buffer to store the e-mail patch in
- * @param diff the changes to include in the email
- * @param patch_idx the patch index
- * @param patch_count the total number of patches that will be included
- * @param commit_id the commit id for this change
- * @param summary the commit message for this change
- * @param body optional text to include above the diffstat
- * @param author the person who authored this commit
- * @param opts email creation options
- *)
-
-function git_email_create_from_diff(_out: Pgit_buf; diff: Pgit_diff; patch_idx: size_t; patch_count: size_t;
-  commit_id: Pgit_oid; summary: PAnsiChar; body: PAnsiChar; author: Pgit_signature;
-  opts: Pgit_email_create_options): Integer; cdecl; external libgit2_dll;
-
-(**
- * Create a diff for a commit in mbox format for sending via email.
  * The commit must not be a merge commit.
  *
  * @param out buffer to store the e-mail patch in
  * @param commit commit to create a patch for
  * @param opts email creation options
+ * @return 0 or an error code
  *)
 
 function git_email_create_from_commit(_out: Pgit_buf; commit: Pgit_commit;

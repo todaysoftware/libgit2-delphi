@@ -1,7 +1,7 @@
 (**
  * @file git2/reflog.h
- * @brief Git reflog management routines
- * @defgroup git_reflog Git reflog management routines
+ * @brief Reference logs store how references change
+ * @defgroup git_reflog Reference logs store how references change
  * @ingroup Git
  * @{
  *)

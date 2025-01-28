@@ -1,7 +1,7 @@
 (**
  * @file git2/revparse.h
- * @brief Git revision parsing routines
- * @defgroup git_revparse Git revision parsing routines
+ * @brief Parse the textual revision information
+ * @defgroup git_revparse Parse the textual revision information
  * @ingroup Git
  * @{
  *)

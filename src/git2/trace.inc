@@ -1,7 +1,7 @@
 (**
  * @file git2/trace.h
- * @brief Git tracing configuration routines
- * @defgroup git_trace Git tracing configuration routines
+ * @brief Tracing functionality to introspect libgit2 in your application
+ * @defgroup git_trace Tracing functionality to introspect libgit2 in your application
  * @ingroup Git
  * @{
  *)
@@ -31,6 +31,9 @@ type
 
   (**
    * An instance for a tracing function
+   *
+   * @param level the trace level
+   * @param msg the trace message
    *)
 
   git_trace_cb = procedure(level: git_trace_level_t; msg: PAnsiChar); cdecl;

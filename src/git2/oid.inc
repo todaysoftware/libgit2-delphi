@@ -1,3 +1,11 @@
+(**
+ * @file git2/oid.h
+ * @brief Object IDs
+ * @defgroup git_oid Git object id routines
+ * @ingroup Git
+ * @{
+ *)
+
 (** The type of object id. *)
 const
   {$IFDEF GIT_EXPERIMENTAL_SHA256}
@@ -50,7 +58,7 @@ const
 
   {$ENDIF}
 
-  (* Maximum possible object ID size in raw / hex string format. *)
+  (** Maximum possible object ID size in raw / hex string format *)
   {$IFNDEF GIT_EXPERIMENTAL_SHA256}
   GIT_OID_MAX_SIZE            = GIT_OID_SHA1_SIZE;
   GIT_OID_MAX_HEXSIZE         = GIT_OID_SHA1_HEXSIZE;
@@ -319,6 +327,7 @@ function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external 
 (**
  * Check is an oid is all zeros.
  *
+ * @param id the object ID to check
  * @return 1 if all zeros, 0 otherwise.
  *)
 

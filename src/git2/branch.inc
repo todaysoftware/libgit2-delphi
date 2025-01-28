@@ -1,8 +1,14 @@
 (**
  * @file git2/branch.h
- * @brief Git branch parsing routines
+ * @brief Branch creation and handling
  * @defgroup git_branch Git branch management
  * @ingroup Git
+ *
+ * A branch is a specific type of reference, at any particular time,
+ * a git working directory typically is said to have a branch "checked out",
+ * meaning that commits that are created will be made "on" a branch.
+ * This occurs by updating the branch reference to point to the new
+ * commit. The checked out branch is indicated by the `HEAD` meta-ref.
  * @{
   *)
 
@@ -19,18 +25,13 @@
  * See `git_tag_create()` for rules about valid names.
  *
  * @param out Pointer where to store the underlying reference.
- *
  * @param repo the repository to create the branch in.
- *
  * @param branch_name Name for the branch; this name is
- * validated for consistency. It should also not conflict with
- * an already existing branch name.
- *
+ *   validated for consistency. It should also not conflict with
+ *   an already existing branch name.
  * @param target Commit to which this branch should point. This object
- * must belong to the given `repo`.
- *
+ *   must belong to the given `repo`.
  * @param force Overwrite existing branch.
- *
  * @return 0, GIT_EINVALIDSPEC or an error code.
  * A proper reference is written in the refs/heads namespace
  * pointing to the provided target commit.
@@ -46,13 +47,19 @@ function git_branch_create(out_: PPgit_reference; repo: Pgit_repository; branch_
  * commit, which lets you specify which extended sha syntax string was
  * specified by a user, allowing for more exact reflog messages.
  *
- * See the documentation for `git_branch_create()`.
- *
- * @see git_branch_create
+ * @param ref_out Pointer where to store the underlying reference.
+ * @param repo the repository to create the branch in.
+ * @param branch_name Name for the branch; this name is
+ *   validated for consistency. It should also not conflict with
+ *   an already existing branch name.
+ * @param target Annotated commit to which this branch should point. This
+ *   object must belong to the given `repo`.
+ * @param force Overwrite existing branch.
+ * @return 0, GIT_EINVALIDSPEC or an error code.
   *)
 
-function git_branch_create_from_annotated(ref_out: PPgit_reference; repository: Pgit_repository;
-  branch_name: PAnsiChar; commit: Pgit_annotated_commit; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_branch_create_from_annotated(ref_out: PPgit_reference; repo: Pgit_repository;
+  branch_name: PAnsiChar; target: Pgit_annotated_commit; force: Integer): Integer; cdecl; external libgit2_dll;
 
 (**
  * Delete an existing branch reference.
@@ -86,8 +93,8 @@ type
   *)
 
 type
-  PPgit_branch_iterator = ^Pgit_branch_iterator;
   Pgit_branch_iterator = ^git_branch_iterator;
+  PPgit_branch_iterator = ^Pgit_branch_iterator;
 
 function git_branch_iterator_new(out_: PPgit_branch_iterator; repo: Pgit_repository;
   list_flags: git_branch_t): Integer; cdecl; external libgit2_dll;
@@ -100,9 +107,6 @@ function git_branch_iterator_new(out_: PPgit_branch_iterator; repo: Pgit_reposit
  * @param iter the branch iterator
  * @return 0 on success, GIT_ITEROVER if there are no more branches or an error code.
   *)
-
-type
-  Pgit_branch_t = ^git_branch_t;
 
 function git_branch_next(out_: PPgit_reference; out_type: Pgit_branch_t; iter: Pgit_branch_iterator): Integer; cdecl; external libgit2_dll;
 
@@ -225,7 +229,7 @@ function git_branch_set_upstream(branch: Pgit_reference; branch_name: PAnsiChar)
  * @param repo the repository where the branches live.
  * @param refname reference name of the local branch.
  *
- * @return 0 on success, GIT_ENOTFOUND when no remote tracking reference exists,
+ * @return @type git_error_t 0 on success; GIT_ENOTFOUND if there's no branch named `branch_name`
  *         or an error code.
   *)
 

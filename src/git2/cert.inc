@@ -1,6 +1,6 @@
 (**
  * @file git2/cert.h
- * @brief Git certificate objects
+ * @brief TLS and SSH certificate handling
  * @defgroup git_cert Certificate objects
  * @ingroup Git
  * @{

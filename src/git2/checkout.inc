@@ -1,8 +1,12 @@
 (**
  * @file git2/checkout.h
- * @brief Git checkout routines
+ * @brief Update the contents of the working directory
  * @defgroup git_checkout Git checkout routines
  * @ingroup Git
+ *
+ * Update the contents of the working directory, or a subset of the
+ * files in the working directory, to point to the data in the index
+ * or a specific commit.
  * @{
   *)
 
@@ -17,17 +21,11 @@
  * check out, the "baseline" tree of what was checked out previously, the
  * working directory for actual files, and the index for staged changes.
  *
- * You give checkout one of three strategies for update:
+ * You give checkout one of two strategies for update:
  *
- * - `GIT_CHECKOUT_NONE` is a dry-run strategy that checks for conflicts,
- *   etc., but doesn't make any actual changes.
- *
- * - `GIT_CHECKOUT_FORCE` is at the opposite extreme, taking any action to
- *   make the working directory match the target (including potentially
- *   discarding modified files).
- *
- * - `GIT_CHECKOUT_SAFE` is between these two options, it will only make
- *   modifications that will not lose changes.
+ * - `GIT_CHECKOUT_SAFE` is the default, and similar to git's default,
+ *   which will make modifications that will not lose changes in the
+ *   working directory.
  *
  *                         |  target == baseline   |  target != baseline  |
  *    ---------------------|-----------------------|----------------------|
@@ -40,6 +38,10 @@
  *      workdir missing,   | notify dirty DELETED  |     create file      |
  *      baseline present   |                       |                      |
  *    ---------------------|-----------------------|----------------------|
+ *
+ * - `GIT_CHECKOUT_FORCE` will take any action to make the working
+ *   directory match the target (including potentially discarding
+ *   modified files).
  *
  * To emulate `git checkout`, use `GIT_CHECKOUT_SAFE` with a checkout
  * notification callback (see below) that displays information about dirty
@@ -54,6 +56,9 @@
  *
  *
  * There are some additional flags to modify the behavior of checkout:
+ *
+ * - `GIT_CHECKOUT_DRY_RUN` is a dry-run strategy that checks for conflicts,
+ *   etc., but doesn't make any actual changes.
  *
  * - GIT_CHECKOUT_ALLOW_CONFLICTS makes SAFE mode apply safe file updates
  *   even if there are conflicts (instead of cancelling the checkout).
@@ -88,25 +93,22 @@
  *   files or folders that fold to the same name on case insensitive
  *   filesystems.  This can cause files to retain their existing names
  *   and write through existing symbolic links.
+ *
+ * @flags
   *)
 
 const
-  GIT_CHECKOUT_NONE           = 0; (**< default is a dry run, no actual updates  *)
-  (**
-  * Allow safe updates that cannot overwrite uncommitted data.
-  * If the uncommitted changes don't conflict with the checked out files,
-  * the checkout will still proceed, leaving the changes intact.
-  *
-  * Mutually exclusive with GIT_CHECKOUT_FORCE.
-  * GIT_CHECKOUT_FORCE takes precedence over GIT_CHECKOUT_SAFE.
-   *)
-  GIT_CHECKOUT_SAFE           = (1 shl 0);
-  (**
-  * Allow all updates to force working directory to look like index.
-  *
-  * Mutually exclusive with GIT_CHECKOUT_SAFE.
-  * GIT_CHECKOUT_FORCE takes precedence over GIT_CHECKOUT_SAFE.
-   *)
+	(**
+	 * Allow safe updates that cannot overwrite uncommitted data.
+	 * If the uncommitted changes don't conflict with the checked
+	 * out files, the checkout will still proceed, leaving the
+	 * changes intact.
+	 *)
+  GIT_CHECKOUT_SAFE           = 0;
+	(**
+	 * Allow all updates to force working directory to look like
+	 * the index, potentially losing data in the process.
+	 *)
   GIT_CHECKOUT_FORCE          = (1 shl 1);
   (** Allow checkout to recreate missing files  *)
   GIT_CHECKOUT_RECREATE_MISSING = (1 shl 2);
@@ -146,13 +148,20 @@ const
   (** Normally checkout writes the index upon completion; this prevents that.  *)
   GIT_CHECKOUT_DONT_WRITE_INDEX = (1 shl 23);
 	(**
-	 * Show what would be done by a checkout.  Stop after sending
-	 * notifications; don't update the working directory or index.
+	 * Perform a "dry run", reporting what _would_ be done but
+	 * without actually making changes in the working directory
+	 * or the index.
 	 *)
-	GIT_CHECKOUT_DRY_RUN = (1 shl 24);
+	GIT_CHECKOUT_DRY_RUN        = (1 shl 24);
 	(** Include common ancestor data in zdiff3 format for conflicts *)
 	GIT_CHECKOUT_CONFLICT_STYLE_ZDIFF3 = (1 shl 25);
-
+	(**
+	 * Do not do a checkout and do not fire callbacks; this is primarily
+	 * useful only for internal functions that will perform the
+	 * checkout themselves but need to pass checkout options into
+	 * another function, for example, `git_clone`.
+	*)
+	GIT_CHECKOUT_NONE           = (1 shl 30);
   (**
    * THE FOLLOWING OPTIONS ARE NOT YET IMPLEMENTED
    *)
@@ -176,6 +185,8 @@ type
  * Notification callbacks are made prior to modifying any files on disk,
  * so canceling on any notification will still happen prior to any files
  * being modified.
+ *
+ * @flags
   *)
 
 const
@@ -215,18 +226,40 @@ type
   end;
   Pgit_checkout_perfdata = ^git_checkout_perfdata;
 
-  (** Checkout notification callback function  *)
+  (**
+   * Checkout notification callback function.
+   *
+   * @param why the notification reason
+   * @param path the path to the file being checked out
+   * @param baseline the baseline's diff file information
+   * @param target the checkout target diff file information
+   * @param workdir the working directory diff file information
+   * @param payload the user-supplied callback payload
+   * @return 0 on success, or an error code
+   *)
 
 type
   git_checkout_notify_cb = function(why: git_checkout_notify_t; path: PAnsiChar; baseline, target, workdir: Pgit_diff_file;
     payload: Pointer): Integer; cdecl;
 
-  (** Checkout progress notification function  *)
+  (**
+   * Checkout progress notification function.
+   *
+   * @param path the path to the file being checked out
+   * @param completed_steps number of checkout steps completed
+   * @param total_steps number of total steps in the checkout process
+   * @param payload the user-supplied callback payload
+   *)
 
 type
   git_checkout_progress_cb = procedure(path: PAnsiChar; completed_steps, total_steps: size_t; payload: Pointer); cdecl;
 
-  (** Checkout perfdata notification function  *)
+  (**
+   * Checkout performance data reporting function.
+   *
+   * @param perfdata the performance data for the checkout
+   * @param payload the user-supplied callback payload
+   *)
 
   git_checkout_perfdata_cb = procedure(perfdata: Pgit_checkout_perfdata; payload: Pointer); cdecl;
 
@@ -236,17 +269,31 @@ type
    * Initialize with `GIT_CHECKOUT_OPTIONS_INIT`. Alternatively, you can
    * use `git_checkout_options_init`.
    *
+   * @options[version] GIT_CHECKOUT_OPTIONS_VERSION
+   * @options[init_macro] GIT_CHECKOUT_OPTIONS_INIT
+   * @options[init_function] git_checkout_options_init
     *)
 
 type
   git_checkout_options = record
     version: Cardinal; (**< The version  *)
+    (**
+     * Checkout strategy. Default is a safe checkout.
+     *
+     * @type[flags] git_checkout_strategy_t
+     *)
     checkout_strategy: Cardinal; (**< default will be a safe checkout  *)
     disable_filters: Integer; (**< don't apply filters like CRLF conversion  *)
     dir_mode: Cardinal; (**< default is 0755  *)
     file_mode: Cardinal; (**< default is 0644 or 0755 as dictated by blob  *)
     file_open_flags: Integer; (**< default is O_CREAT | O_TRUNC | O_WRONLY  *)
-    notify_flags: Cardinal; (**< see `git_checkout_notify_t` above  *)
+    (**
+     * Checkout notification flags specify what operations the notify
+     * callback is invoked for.
+     *
+     * @type[flags] git_checkout_notify_t
+     *)
+    notify_flags: Cardinal;
     (**
      * Optional callback to get notifications on specific file states.
      * @see git_checkout_notify_t
@@ -292,7 +339,9 @@ type
   Pgit_checkout_options = ^git_checkout_options;
 
 const
+  (** Current version for the `git_checkout_options` structure *)
   GIT_CHECKOUT_OPTIONS_VERSION = 1;
+  (** Static constructor for `git_checkout_options` *)
   //GIT_CHECKOUT_OPTIONS_INIT = { GIT_CHECKOUT_OPTIONS_VERSION , GIT_CHECKOUT_SAFE };
   (**
    * Initialize git_checkout_options structure
