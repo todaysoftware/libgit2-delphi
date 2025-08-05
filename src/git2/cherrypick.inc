@@ -40,7 +40,7 @@ const
    *)
 
 function git_cherrypick_options_init(opts: Pgit_cherrypick_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Cherry-picks the given commit against the given "our" commit, producing an
@@ -58,7 +58,7 @@ function git_cherrypick_options_init(opts: Pgit_cherrypick_options;
  *)
 
 function git_cherrypick_commit(out_: PPgit_index; repo: Pgit_repository; cherrypick_commit, our_commit: Pgit_commit;
-  mainline: Cardinal; merge_options: Pgit_merge_options): Integer; cdecl; external libgit2_dll;
+  mainline: Cardinal; merge_options: Pgit_merge_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Cherry-pick the given commit, producing changes in the index and working directory.
@@ -70,7 +70,7 @@ function git_cherrypick_commit(out_: PPgit_index; repo: Pgit_repository; cherryp
  *)
 
 function git_cherrypick(repo: Pgit_repository; commit: Pgit_commit;
-  cherrypick_options: Pgit_cherrypick_options): Integer; cdecl; external libgit2_dll;
+  cherrypick_options: Pgit_cherrypick_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

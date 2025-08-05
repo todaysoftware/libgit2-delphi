@@ -76,7 +76,7 @@ type
 type
   PPgit_pathspec = ^Pgit_pathspec;
   Pgit_pathspec = ^git_pathspec;
-function git_pathspec_new(out_: PPgit_pathspec; pathspec: Pgit_strarray): Integer; cdecl; external libgit2_dll;
+function git_pathspec_new(out_: PPgit_pathspec; pathspec: Pgit_strarray): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a pathspec
@@ -84,7 +84,7 @@ function git_pathspec_new(out_: PPgit_pathspec; pathspec: Pgit_strarray): Intege
  * @param ps The compiled pathspec
  *)
 
-procedure git_pathspec_free(ps: Pgit_pathspec); cdecl; external libgit2_dll;
+procedure git_pathspec_free(ps: Pgit_pathspec); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Try to match a path against a pathspec
@@ -101,7 +101,7 @@ procedure git_pathspec_free(ps: Pgit_pathspec); cdecl; external libgit2_dll;
  *)
 
 function git_pathspec_matches_path(ps: Pgit_pathspec; flags: uint32_t;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Match a pathspec against the working directory of a repository.
@@ -130,7 +130,7 @@ type
   PPgit_pathspec_match_list = ^Pgit_pathspec_match_list;
   Pgit_pathspec_match_list = ^git_pathspec_match_list;
 function git_pathspec_match_workdir(out_: PPgit_pathspec_match_list; repo: Pgit_repository;
-  flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+  flags: uint32_t; ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Match a pathspec against entries in an index.
@@ -157,7 +157,7 @@ function git_pathspec_match_workdir(out_: PPgit_pathspec_match_list; repo: Pgit_
  *)
 
 function git_pathspec_match_index(out_: PPgit_pathspec_match_list; index_: Pgit_index; flags: uint32_t;
-  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Match a pathspec against files in a tree.
@@ -179,7 +179,7 @@ function git_pathspec_match_index(out_: PPgit_pathspec_match_list; index_: Pgit_
  *)
 
 function git_pathspec_match_tree(out_: PPgit_pathspec_match_list; tree: Pgit_tree; flags: uint32_t;
-  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Match a pathspec against files in a diff list.
@@ -201,7 +201,7 @@ function git_pathspec_match_tree(out_: PPgit_pathspec_match_list; tree: Pgit_tre
  *)
 
 function git_pathspec_match_diff(out_: PPgit_pathspec_match_list; diff: Pgit_diff; flags: uint32_t;
-  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll;
+  ps: Pgit_pathspec): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free memory associates with a git_pathspec_match_list
@@ -209,7 +209,7 @@ function git_pathspec_match_diff(out_: PPgit_pathspec_match_list; diff: Pgit_dif
  * @param m The git_pathspec_match_list to be freed
  *)
 
-procedure git_pathspec_match_list_free(m: Pgit_pathspec_match_list); cdecl; external libgit2_dll;
+procedure git_pathspec_match_list_free(m: Pgit_pathspec_match_list); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of items in a match list.
@@ -218,7 +218,7 @@ procedure git_pathspec_match_list_free(m: Pgit_pathspec_match_list); cdecl; exte
  * @return Number of items in match list
  *)
 
-function git_pathspec_match_list_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll;
+function git_pathspec_match_list_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a matching filename by position.
@@ -231,7 +231,7 @@ function git_pathspec_match_list_entrycount(m: Pgit_pathspec_match_list): size_t
  * @return The filename of the match
  *)
 
-function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll;
+function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a matching diff delta by position.
@@ -244,7 +244,7 @@ function git_pathspec_match_list_entry(m: Pgit_pathspec_match_list; pos: size_t)
  * @return The filename of the match
  *)
 
-function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list; pos: size_t): Pgit_diff_delta; cdecl; external libgit2_dll;
+function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list; pos: size_t): Pgit_diff_delta; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of pathspec items that did not match.
@@ -256,7 +256,7 @@ function git_pathspec_match_list_diff_entry(m: Pgit_pathspec_match_list; pos: si
  * @return Number of items in original pathspec that had no matches
  *)
 
-function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll;
+function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get an original pathspec string that had no matches.
@@ -268,7 +268,7 @@ function git_pathspec_match_list_failed_entrycount(m: Pgit_pathspec_match_list):
  * @return The pathspec pattern that didn't match anything
  *)
 
-function git_pathspec_match_list_failed_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll;
+function git_pathspec_match_list_failed_entry(m: Pgit_pathspec_match_list; pos: size_t): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 
 

@@ -56,7 +56,7 @@ type
    * @return 0 or an error code
    *)
 
-function git_revwalk_new(out_: PPgit_revwalk; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_revwalk_new(out_: PPgit_revwalk; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Reset the revision walker for reuse.
@@ -73,7 +73,7 @@ function git_revwalk_new(out_: PPgit_revwalk; repo: Pgit_repository): Integer; c
  * @return 0 or an error code
  *)
 
-function git_revwalk_reset(walker: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_revwalk_reset(walker: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a new root for the traversal
@@ -93,7 +93,7 @@ function git_revwalk_reset(walker: Pgit_revwalk): Integer; cdecl; external libgi
  * @return 0 or an error code
  *)
 
-function git_revwalk_push(walk: Pgit_revwalk; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_revwalk_push(walk: Pgit_revwalk; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Push matching references
@@ -112,7 +112,7 @@ function git_revwalk_push(walk: Pgit_revwalk; id: Pgit_oid): Integer; cdecl; ext
  * @return 0 or an error code
  *)
 
-function git_revwalk_push_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revwalk_push_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Push the repository's HEAD
@@ -121,7 +121,7 @@ function git_revwalk_push_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cd
  * @return 0 or an error code
  *)
 
-function git_revwalk_push_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_revwalk_push_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Mark a commit (and its ancestors) uninteresting for the output.
@@ -137,7 +137,7 @@ function git_revwalk_push_head(walk: Pgit_revwalk): Integer; cdecl; external lib
  * @return 0 or an error code
  *)
 
-function git_revwalk_hide(walk: Pgit_revwalk; commit_id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_revwalk_hide(walk: Pgit_revwalk; commit_id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Hide matching references.
@@ -157,7 +157,7 @@ function git_revwalk_hide(walk: Pgit_revwalk; commit_id: Pgit_oid): Integer; cde
  * @return 0 or an error code
  *)
 
-function git_revwalk_hide_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revwalk_hide_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Hide the repository's HEAD
@@ -166,7 +166,7 @@ function git_revwalk_hide_glob(walk: Pgit_revwalk; glob: PAnsiChar): Integer; cd
  * @return 0 or an error code
  *)
 
-function git_revwalk_hide_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_revwalk_hide_head(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Push the OID pointed to by a reference
@@ -178,7 +178,7 @@ function git_revwalk_hide_head(walk: Pgit_revwalk): Integer; cdecl; external lib
  * @return 0 or an error code
  *)
 
-function git_revwalk_push_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revwalk_push_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Hide the OID pointed to by a reference
@@ -190,7 +190,7 @@ function git_revwalk_push_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; 
  * @return 0 or an error code
  *)
 
-function git_revwalk_hide_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revwalk_hide_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the next commit from the revision walk.
@@ -211,7 +211,7 @@ function git_revwalk_hide_ref(walk: Pgit_revwalk; refname: PAnsiChar): Integer; 
  *	GIT_ITEROVER if there are no commits left to iterate
  *)
 
-function git_revwalk_next(out_: Pgit_oid; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_revwalk_next(out_: Pgit_oid; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Change the sorting mode when iterating through the
@@ -224,7 +224,7 @@ function git_revwalk_next(out_: Pgit_oid; walk: Pgit_revwalk): Integer; cdecl; e
  * @return 0 or an error code
  *)
 
-function git_revwalk_sorting(walk: Pgit_revwalk; sort_mode: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_revwalk_sorting(walk: Pgit_revwalk; sort_mode: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Push and hide the respective endpoints of the given range.
@@ -240,7 +240,7 @@ function git_revwalk_sorting(walk: Pgit_revwalk; sort_mode: Cardinal): Integer; 
  *
  *)
 
-function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Simplify the history by first-parent
@@ -251,7 +251,7 @@ function git_revwalk_push_range(walk: Pgit_revwalk; range: PAnsiChar): Integer; 
  * @return 0 or an error code
  *)
 
-function git_revwalk_simplify_first_parent(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_revwalk_simplify_first_parent(walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a revision walker previously allocated.
@@ -259,7 +259,7 @@ function git_revwalk_simplify_first_parent(walk: Pgit_revwalk): Integer; cdecl; 
  * @param walk traversal handle to close. If NULL nothing occurs.
  *)
 
-procedure git_revwalk_free(walk: Pgit_revwalk); cdecl; external libgit2_dll;
+procedure git_revwalk_free(walk: Pgit_revwalk); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the repository on which this walker
@@ -269,7 +269,7 @@ procedure git_revwalk_free(walk: Pgit_revwalk); cdecl; external libgit2_dll;
  * @return the repository being walked
  *)
 
-function git_revwalk_repository(walk: Pgit_revwalk): Pgit_repository; cdecl; external libgit2_dll;
+function git_revwalk_repository(walk: Pgit_revwalk): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * This is a callback function that user can provide to hide a
@@ -294,7 +294,7 @@ type
    *)
 
 function git_revwalk_add_hide_cb(walk: Pgit_revwalk; hide_cb: git_revwalk_hide_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

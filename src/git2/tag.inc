@@ -15,7 +15,7 @@
  * @return 0 or an error code
  *)
 
-function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a tag object from the repository,
@@ -31,7 +31,7 @@ function git_tag_lookup(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid): I
  *)
 
 function git_tag_lookup_prefix(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_oid;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open tag
@@ -44,7 +44,7 @@ function git_tag_lookup_prefix(out_: PPgit_tag; repo: Pgit_repository; id: Pgit_
  * @param tag the tag to close
  *)
 
-procedure git_tag_free(tag: Pgit_tag); cdecl; external libgit2_dll;
+procedure git_tag_free(tag: Pgit_tag); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of a tag.
@@ -53,7 +53,7 @@ procedure git_tag_free(tag: Pgit_tag); cdecl; external libgit2_dll;
  * @return object identity for the tag.
  *)
 
-function git_tag_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
+function git_tag_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository that contains the tag.
@@ -62,7 +62,7 @@ function git_tag_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
  * @return Repository that contains this tag.
  *)
 
-function git_tag_owner(tag: Pgit_tag): Pgit_repository; cdecl; external libgit2_dll;
+function git_tag_owner(tag: Pgit_tag): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the tagged object of a tag
@@ -75,7 +75,7 @@ function git_tag_owner(tag: Pgit_tag): Pgit_repository; cdecl; external libgit2_
  * @return 0 or an error code
  *)
 
-function git_tag_target(target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll;
+function git_tag_target(target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the OID of the tagged object of a tag
@@ -84,7 +84,7 @@ function git_tag_target(target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl
  * @return pointer to the OID
  *)
 
-function git_tag_target_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll;
+function git_tag_target_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the type of a tag's tagged object
@@ -93,7 +93,7 @@ function git_tag_target_id(tag: Pgit_tag): Pgit_oid; cdecl; external libgit2_dll
  * @return type of the tagged object
  *)
 
-function git_tag_target_type(tag: Pgit_tag): git_object_t; cdecl; external libgit2_dll;
+function git_tag_target_type(tag: Pgit_tag): git_object_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the name of a tag
@@ -102,7 +102,7 @@ function git_tag_target_type(tag: Pgit_tag): git_object_t; cdecl; external libgi
  * @return name of the tag
  *)
 
-function git_tag_name(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
+function git_tag_name(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the tagger (author) of a tag
@@ -111,7 +111,7 @@ function git_tag_name(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
  * @return reference to the tag's author or NULL when unspecified
  *)
 
-function git_tag_tagger(tag: Pgit_tag): Pgit_signature; cdecl; external libgit2_dll;
+function git_tag_tagger(tag: Pgit_tag): Pgit_signature; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the message of a tag
@@ -120,7 +120,7 @@ function git_tag_tagger(tag: Pgit_tag): Pgit_signature; cdecl; external libgit2_
  * @return message of the tag or NULL when unspecified
  *)
 
-function git_tag_message(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
+function git_tag_message(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new tag in the repository from an object
@@ -163,7 +163,7 @@ function git_tag_message(tag: Pgit_tag): PAnsiChar; cdecl; external libgit2_dll;
  *)
 
 function git_tag_create(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar; target: Pgit_object;
-  tagger: Pgit_signature; message: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
+  tagger: Pgit_signature; message: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new tag in the object database pointing to a git_object
@@ -190,7 +190,7 @@ function git_tag_create(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiCha
  *)
 
 function git_tag_annotation_create(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar;
-  target: Pgit_object; tagger: Pgit_signature; message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  target: Pgit_object; tagger: Pgit_signature; message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new tag in the repository from a buffer
@@ -203,7 +203,7 @@ function git_tag_annotation_create(oid: Pgit_oid; repo: Pgit_repository; tag_nam
  *)
 
 function git_tag_create_from_buffer(oid: Pgit_oid; repo: Pgit_repository; buffer: PAnsiChar;
-  force: Integer): Integer; cdecl; external libgit2_dll;
+  force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new lightweight tag pointing at a target object
@@ -237,7 +237,7 @@ function git_tag_create_from_buffer(oid: Pgit_oid; repo: Pgit_repository; buffer
  *)
 
 function git_tag_create_lightweight(oid: Pgit_oid; repo: Pgit_repository; tag_name: PAnsiChar;
-  target: Pgit_object; force: Integer): Integer; cdecl; external libgit2_dll;
+  target: Pgit_object; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Delete an existing tag reference.
@@ -253,7 +253,7 @@ function git_tag_create_lightweight(oid: Pgit_oid; repo: Pgit_repository; tag_na
  * @return 0 on success, GIT_EINVALIDSPEC or an error code
  *)
 
-function git_tag_delete(repo: Pgit_repository; tag_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_tag_delete(repo: Pgit_repository; tag_name: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Fill a list with all the tags in the Repository
@@ -269,7 +269,7 @@ function git_tag_delete(repo: Pgit_repository; tag_name: PAnsiChar): Integer; cd
  * @return 0 or an error code
   *)
 
-function git_tag_list(tag_names: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_tag_list(tag_names: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Fill a list with all the tags in the Repository
@@ -291,7 +291,7 @@ function git_tag_list(tag_names: Pgit_strarray; repo: Pgit_repository): Integer;
  *)
 
 function git_tag_list_match(tag_names: Pgit_strarray; pattern: PAnsiChar;
-  repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback used to iterate over tag names
@@ -317,7 +317,7 @@ type
  *)
 
 function git_tag_foreach(repo: Pgit_repository; callback: git_tag_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Recursively peel a tag until a non tag git_object is found
@@ -330,7 +330,7 @@ function git_tag_foreach(repo: Pgit_repository; callback: git_tag_foreach_cb;
  * @return 0 or an error code
  *)
 
-function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll;
+function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a tag. The copy must be explicitly
@@ -341,7 +341,7 @@ function git_tag_peel(tag_target_out: PPgit_object; tag: Pgit_tag): Integer; cde
  * @return 0
  *)
 
-function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; external libgit2_dll;
+function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine whether a tag name is valid, meaning that (when prefixed
@@ -354,7 +354,7 @@ function git_tag_dup(out_: PPgit_tag; source: Pgit_tag): Integer; cdecl; externa
  * @return 0 on success or an error code
  *)
 
-function git_tag_name_is_valid(valid: PInteger; const name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_tag_name_is_valid(valid: PInteger; const name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -135,7 +135,7 @@ type
    * @return A pointer to a `git_error` object that describes the error.
    *)
 
-function git_error_last: Pgit_error; cdecl; external libgit2_dll;
+function git_error_last: Pgit_error; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

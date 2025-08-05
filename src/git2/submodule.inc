@@ -151,7 +151,7 @@ const
    *)
 
 function git_submodule_update_options_init(opts: Pgit_submodule_update_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Update a submodule. This will clone a missing submodule and
@@ -173,7 +173,7 @@ function git_submodule_update_options_init(opts: Pgit_submodule_update_options;
  *)
 
 function git_submodule_update(submodule: Pgit_submodule; init: Integer;
-  options: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll;
+  options: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup submodule information by name or path.
@@ -204,7 +204,7 @@ function git_submodule_update(submodule: Pgit_submodule; init: Integer;
  *)
 
 function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a submodule. The copy must be explicitly
@@ -215,7 +215,7 @@ function git_submodule_lookup(out_: PPgit_submodule; repo: Pgit_repository;
  * @return 0
  *)
 
-function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Release a submodule
@@ -223,7 +223,7 @@ function git_submodule_dup(out_: PPgit_submodule; source: Pgit_submodule): Integ
  * @param submodule Submodule object
  *)
 
-procedure git_submodule_free(submodule: Pgit_submodule); cdecl; external libgit2_dll;
+procedure git_submodule_free(submodule: Pgit_submodule); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Iterate over all tracked submodules of a repository.
@@ -245,7 +245,7 @@ procedure git_submodule_free(submodule: Pgit_submodule); cdecl; external libgit2
   *)
 
 function git_submodule_foreach(repo: Pgit_repository; callback: git_submodule_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set up a new git submodule for checkout.
@@ -275,7 +275,7 @@ function git_submodule_foreach(repo: Pgit_repository; callback: git_submodule_cb
  *)
 
 function git_submodule_add_setup(out_: PPgit_submodule; repo: Pgit_repository; url, path: PAnsiChar;
-  use_gitlink: Integer): Integer; cdecl; external libgit2_dll;
+  use_gitlink: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform the clone step for a newly created submodule.
@@ -290,7 +290,7 @@ function git_submodule_add_setup(out_: PPgit_submodule; repo: Pgit_repository; u
  *)
 
 function git_submodule_clone(out_: PPgit_repository; submodule: Pgit_submodule;
-  opts: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_submodule_update_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Resolve the setup of a new git submodule.
@@ -304,7 +304,7 @@ function git_submodule_clone(out_: PPgit_repository; submodule: Pgit_submodule;
  * @return 0 or an error code.
  *)
 
-function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add current submodule HEAD commit to index of superproject.
@@ -317,7 +317,7 @@ function git_submodule_add_finalize(submodule: Pgit_submodule): Integer; cdecl; 
  * @return 0 on success, <0 on failure
  *)
 
-function git_submodule_add_to_index(submodule: Pgit_submodule; write_index: Integer): Integer; cdecl; external libgit2_dll;
+function git_submodule_add_to_index(submodule: Pgit_submodule; write_index: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the containing repository for a submodule.
@@ -331,7 +331,7 @@ function git_submodule_add_to_index(submodule: Pgit_submodule; write_index: Inte
  * @return Pointer to `git_repository`
  *)
 
-function git_submodule_owner(submodule: Pgit_submodule): Pgit_repository; cdecl; external libgit2_dll;
+function git_submodule_owner(submodule: Pgit_submodule): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the name of submodule.
@@ -340,7 +340,7 @@ function git_submodule_owner(submodule: Pgit_submodule): Pgit_repository; cdecl;
  * @return Pointer to the submodule name
   *)
 
-function git_submodule_name(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
+function git_submodule_name(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the path to the submodule.
@@ -352,7 +352,7 @@ function git_submodule_name(submodule: Pgit_submodule): PAnsiChar; cdecl; extern
  * @return Pointer to the submodule path
  *)
 
-function git_submodule_path(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
+function git_submodule_path(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the URL for the submodule.
@@ -361,7 +361,7 @@ function git_submodule_path(submodule: Pgit_submodule): PAnsiChar; cdecl; extern
  * @return Pointer to the submodule url
  *)
 
-function git_submodule_url(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
+function git_submodule_url(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Resolve a submodule url relative to the given repository.
@@ -372,7 +372,7 @@ function git_submodule_url(submodule: Pgit_submodule): PAnsiChar; cdecl; externa
  * @return 0 or an error code
  *)
 
-function git_submodule_resolve_url(out_: Pgit_buf; repo: Pgit_repository; url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_submodule_resolve_url(out_: Pgit_buf; repo: Pgit_repository; url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the branch for the submodule.
@@ -381,7 +381,7 @@ function git_submodule_resolve_url(out_: Pgit_buf; repo: Pgit_repository; url: P
  * @return Pointer to the submodule branch
  *)
 
-function git_submodule_branch(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll;
+function git_submodule_branch(submodule: Pgit_submodule): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the branch for the submodule in the configuration
@@ -395,7 +395,7 @@ function git_submodule_branch(submodule: Pgit_submodule): PAnsiChar; cdecl; exte
  * @return 0 on success, <0 on failure
  *)
 
-function git_submodule_set_branch(repo: Pgit_repository; name_, branch: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_submodule_set_branch(repo: Pgit_repository; name_, branch: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the URL for the submodule in the configuration
@@ -410,7 +410,7 @@ function git_submodule_set_branch(repo: Pgit_repository; name_, branch: PAnsiCha
  * @return 0 on success, <0 on failure
  *)
 
-function git_submodule_set_url(repo: Pgit_repository; name_, url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_submodule_set_url(repo: Pgit_repository; name_, url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the OID for the submodule in the index.
@@ -419,7 +419,7 @@ function git_submodule_set_url(repo: Pgit_repository; name_, url: PAnsiChar): In
  * @return Pointer to git_oid or NULL if submodule is not in index.
  *)
 
-function git_submodule_index_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
+function git_submodule_index_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the OID for the submodule in the current HEAD tree.
@@ -428,7 +428,7 @@ function git_submodule_index_id(submodule: Pgit_submodule): Pgit_oid; cdecl; ext
  * @return Pointer to git_oid or NULL if submodule is not in the HEAD.
  *)
 
-function git_submodule_head_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
+function git_submodule_head_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the OID for the submodule in the current working directory.
@@ -442,7 +442,7 @@ function git_submodule_head_id(submodule: Pgit_submodule): Pgit_oid; cdecl; exte
  * @return Pointer to git_oid or NULL if submodule is not checked out.
  *)
 
-function git_submodule_wd_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll;
+function git_submodule_wd_id(submodule: Pgit_submodule): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the ignore rule that will be used for the submodule.
@@ -468,7 +468,7 @@ function git_submodule_wd_id(submodule: Pgit_submodule): Pgit_oid; cdecl; extern
  *         this submodule.
  *)
 
-function git_submodule_ignore(submodule: Pgit_submodule): git_submodule_ignore_t; cdecl; external libgit2_dll;
+function git_submodule_ignore(submodule: Pgit_submodule): git_submodule_ignore_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the ignore rule for the submodule in the configuration
@@ -482,7 +482,7 @@ function git_submodule_ignore(submodule: Pgit_submodule): git_submodule_ignore_t
  *)
 
 function git_submodule_set_ignore(repo: Pgit_repository; name_: PAnsiChar;
-  ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll;
+  ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the update rule that will be used for the submodule.
@@ -495,7 +495,7 @@ function git_submodule_set_ignore(repo: Pgit_repository; name_: PAnsiChar;
  *         for this submodule.
   *)
 
-function git_submodule_update_strategy(submodule: Pgit_submodule): git_submodule_update_t; cdecl; external libgit2_dll;
+function git_submodule_update_strategy(submodule: Pgit_submodule): git_submodule_update_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the update rule for the submodule in the configuration
@@ -509,7 +509,7 @@ function git_submodule_update_strategy(submodule: Pgit_submodule): git_submodule
  *)
 
 function git_submodule_set_update(repo: Pgit_repository; name_: PAnsiChar;
-  update: git_submodule_update_t): Integer; cdecl; external libgit2_dll;
+  update: git_submodule_update_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read the fetchRecurseSubmodules rule for a submodule.
@@ -524,7 +524,7 @@ function git_submodule_set_update(repo: Pgit_repository; name_: PAnsiChar;
  * @return the submodule recursion configuration
  *)
 
-function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_submodule_recurse_t; cdecl; external libgit2_dll;
+function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_submodule_recurse_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the fetchRecurseSubmodules rule for a submodule in the configuration
@@ -538,7 +538,7 @@ function git_submodule_fetch_recurse_submodules(submodule: Pgit_submodule): git_
  *)
 
 function git_submodule_set_fetch_recurse_submodules(repo: Pgit_repository; name_: PAnsiChar;
-  fetch_recurse_submodules: git_submodule_recurse_t): Integer; cdecl; external libgit2_dll;
+  fetch_recurse_submodules: git_submodule_recurse_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Copy submodule info into ".git/config" file.
@@ -554,7 +554,7 @@ function git_submodule_set_fetch_recurse_submodules(repo: Pgit_repository; name_
  * @return 0 on success, <0 on failure.
  *)
 
-function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer): Integer; cdecl; external libgit2_dll;
+function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set up the subrepository for a submodule in preparation for clone.
@@ -571,7 +571,7 @@ function git_submodule_init(submodule: Pgit_submodule; overwrite: Integer): Inte
  *)
 
 function git_submodule_repo_init(out_: PPgit_repository; sm: Pgit_submodule;
-  use_gitlink: Integer): Integer; cdecl; external libgit2_dll;
+  use_gitlink: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Copy submodule remote info into submodule repo.
@@ -585,7 +585,7 @@ function git_submodule_repo_init(out_: PPgit_repository; sm: Pgit_submodule;
  * @return 0 or an error code.
  *)
 
-function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open the repository for a submodule.
@@ -600,7 +600,7 @@ function git_submodule_sync(submodule: Pgit_submodule): Integer; cdecl; external
  * @return 0 on success, <0 if submodule repo could not be opened.
  *)
 
-function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Reread submodule info from config, index, and HEAD.
@@ -613,7 +613,7 @@ function git_submodule_open(repo: PPgit_repository; submodule: Pgit_submodule): 
  * @return 0 on success, <0 on error
  *)
 
-function git_submodule_reload(submodule: Pgit_submodule; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_submodule_reload(submodule: Pgit_submodule; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the status for a submodule.
@@ -631,7 +631,7 @@ function git_submodule_reload(submodule: Pgit_submodule; force: Integer): Intege
  *)
 
 function git_submodule_status(status: PCardinal; repo: Pgit_repository; name_: PAnsiChar;
-  ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll;
+  ignore: git_submodule_ignore_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the locations of submodule information.
@@ -648,7 +648,7 @@ function git_submodule_status(status: PCardinal; repo: Pgit_repository; name_: P
  * @return 0 on success, <0 on error
  *)
 
-function git_submodule_location(location_status: PCardinal; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll;
+function git_submodule_location(location_status: PCardinal; submodule: Pgit_submodule): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

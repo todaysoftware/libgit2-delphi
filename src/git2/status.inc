@@ -245,7 +245,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_status_options_init(opts: Pgit_status_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_status_options_init(opts: Pgit_status_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * A status entry, providing the differences between the file as it exists
@@ -287,7 +287,7 @@ type
  *)
 
 function git_status_foreach(repo: Pgit_repository; callback: git_status_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gather file status information and run callbacks as requested.
@@ -310,7 +310,7 @@ function git_status_foreach(repo: Pgit_repository; callback: git_status_cb;
  *)
 
 function git_status_foreach_ext(repo: Pgit_repository; opts: Pgit_status_options;
-  callback: git_status_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_status_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get file status for a single file.
@@ -340,7 +340,7 @@ function git_status_foreach_ext(repo: Pgit_repository; opts: Pgit_status_options
  *)
 
 function git_status_file(status_flags: PCardinal; repo: Pgit_repository;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gather file status information and populate the `git_status_list`.
@@ -357,7 +357,7 @@ function git_status_file(status_flags: PCardinal; repo: Pgit_repository;
  *)
 
 function git_status_list_new(out_: PPgit_status_list; repo: Pgit_repository;
-  opts: Pgit_status_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_status_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the count of status entries in this list.
@@ -369,7 +369,7 @@ function git_status_list_new(out_: PPgit_status_list; repo: Pgit_repository;
  * @return the number of status entries
  *)
 
-function git_status_list_entrycount(statuslist: Pgit_status_list): size_t; cdecl; external libgit2_dll;
+function git_status_list_entrycount(statuslist: Pgit_status_list): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a pointer to one of the entries in the status list.
@@ -381,7 +381,7 @@ function git_status_list_entrycount(statuslist: Pgit_status_list): size_t; cdecl
  * @return Pointer to the entry; NULL if out of bounds
   *)
 
-function git_status_byindex(statuslist: Pgit_status_list; idx: size_t): Pgit_status_entry; cdecl; external libgit2_dll;
+function git_status_byindex(statuslist: Pgit_status_list; idx: size_t): Pgit_status_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free an existing status list
@@ -389,7 +389,7 @@ function git_status_byindex(statuslist: Pgit_status_list; idx: size_t): Pgit_sta
  * @param statuslist Existing status list object
  *)
 
-procedure git_status_list_free(statuslist: Pgit_status_list); cdecl; external libgit2_dll;
+procedure git_status_list_free(statuslist: Pgit_status_list); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Test if the ignore rules apply to a given file.
@@ -409,7 +409,7 @@ procedure git_status_list_free(statuslist: Pgit_status_list); cdecl; external li
  *)
 
 function git_status_should_ignore(ignored: PInteger; repo: Pgit_repository;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

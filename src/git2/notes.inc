@@ -42,7 +42,7 @@ type
    *)
 
 function git_note_iterator_new(out_: PPgit_note_iterator; repo: Pgit_repository;
-  notes_ref: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  notes_ref: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a new iterator for notes from a commit
@@ -55,7 +55,7 @@ function git_note_iterator_new(out_: PPgit_note_iterator; repo: Pgit_repository;
  * @return 0 or an error code
  *)
 
-function git_note_commit_iterator_new(out_: PPgit_note_iterator; notes_commit: Pgit_commit): Integer; cdecl; external libgit2_dll;
+function git_note_commit_iterator_new(out_: PPgit_note_iterator; notes_commit: Pgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Frees an git_note_iterator
@@ -63,7 +63,7 @@ function git_note_commit_iterator_new(out_: PPgit_note_iterator; notes_commit: P
  * @param it pointer to the iterator
  *)
 
-procedure git_note_iterator_free(it: Pgit_note_iterator); cdecl; external libgit2_dll;
+procedure git_note_iterator_free(it: Pgit_note_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the current item (note_id and annotated_id) and advance the iterator
@@ -77,7 +77,7 @@ procedure git_note_iterator_free(it: Pgit_note_iterator); cdecl; external libgit
  *         (negative value)
  *)
 
-function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator): Integer; cdecl; external libgit2_dll;
+function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read the note for an object
@@ -94,7 +94,7 @@ function git_note_next(note_id, annotated_id: Pgit_oid; it: Pgit_note_iterator):
  *)
 
 function git_note_read(out_: PPgit_note; repo: Pgit_repository; notes_ref: PAnsiChar;
-  oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  oid: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read the note for an object from a note commit
@@ -110,7 +110,7 @@ function git_note_read(out_: PPgit_note; repo: Pgit_repository; notes_ref: PAnsi
  *)
 
 function git_note_commit_read(out_: PPgit_note; repo: Pgit_repository; notes_commit: Pgit_commit;
-  oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  oid: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the note author
@@ -119,7 +119,7 @@ function git_note_commit_read(out_: PPgit_note; repo: Pgit_repository; notes_com
  * @return the author
  *)
 
-function git_note_author(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll;
+function git_note_author(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the note committer
@@ -128,7 +128,7 @@ function git_note_author(note: Pgit_note): Pgit_signature; cdecl; external libgi
  * @return the committer
  *)
 
-function git_note_committer(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll;
+function git_note_committer(note: Pgit_note): Pgit_signature; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the note message
@@ -137,7 +137,7 @@ function git_note_committer(note: Pgit_note): Pgit_signature; cdecl; external li
  * @return the note message
  *)
 
-function git_note_message(note: Pgit_note): PAnsiChar; cdecl; external libgit2_dll;
+function git_note_message(note: Pgit_note): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the note object's id
@@ -146,7 +146,7 @@ function git_note_message(note: Pgit_note): PAnsiChar; cdecl; external libgit2_d
  * @return the note object's id
  *)
 
-function git_note_id(note: Pgit_note): Pgit_oid; cdecl; external libgit2_dll;
+function git_note_id(note: Pgit_note): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a note for an object
@@ -165,7 +165,7 @@ function git_note_id(note: Pgit_note): Pgit_oid; cdecl; external libgit2_dll;
  *)
 
 function git_note_create(out_: Pgit_oid; repo: Pgit_repository; notes_ref: PAnsiChar;
-  author, committer: Pgit_signature; oid: Pgit_oid; note: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll;
+  author, committer: Pgit_signature; oid: Pgit_oid; note: PAnsiChar; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a note for an object from a commit
@@ -190,7 +190,7 @@ function git_note_create(out_: Pgit_oid; repo: Pgit_repository; notes_ref: PAnsi
 
 function git_note_commit_create(notes_commit_out, notes_blob_out: Pgit_oid; repo: Pgit_repository;
   parent: Pgit_commit; author, committer: Pgit_signature; oid: Pgit_oid; note: PAnsiChar;
-  allow_note_overwrite: Integer): Integer; cdecl; external libgit2_dll;
+  allow_note_overwrite: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove the note for an object
@@ -206,7 +206,7 @@ function git_note_commit_create(notes_commit_out, notes_blob_out: Pgit_oid; repo
  *)
 
 function git_note_remove(repo: Pgit_repository; notes_ref: PAnsiChar;
-  author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove the note for an object
@@ -228,7 +228,7 @@ function git_note_remove(repo: Pgit_repository; notes_ref: PAnsiChar;
  *)
 
 function git_note_commit_remove(notes_commit_out: Pgit_oid; repo: Pgit_repository; notes_commit: Pgit_commit;
-  author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  author, committer: Pgit_signature; oid: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a git_note object
@@ -236,7 +236,7 @@ function git_note_commit_remove(notes_commit_out: Pgit_oid; repo: Pgit_repositor
  * @param note git_note object
  *)
 
-procedure git_note_free(note: Pgit_note); cdecl; external libgit2_dll;
+procedure git_note_free(note: Pgit_note); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the default notes reference for a repository
@@ -247,7 +247,7 @@ procedure git_note_free(note: Pgit_note); cdecl; external libgit2_dll;
  * @return 0 or an error code
  *)
 
-function git_note_default_ref(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_note_default_ref(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Loop over all the notes within a specified namespace
@@ -267,7 +267,7 @@ function git_note_default_ref(out_: Pgit_buf; repo: Pgit_repository): Integer; c
  *)
 
 function git_note_foreach(repo: Pgit_repository; notes_ref: PAnsiChar; note_cb: git_note_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

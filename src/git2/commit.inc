@@ -24,7 +24,7 @@
   *)
 
 function git_commit_lookup(commit: PPgit_commit; repo: Pgit_repository;
-  id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a commit object from a repository, given a prefix of its
@@ -44,7 +44,7 @@ function git_commit_lookup(commit: PPgit_commit; repo: Pgit_repository;
   *)
 
 function git_commit_lookup_prefix(commit: PPgit_commit; repo: Pgit_repository; id: Pgit_oid;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open commit
@@ -58,7 +58,7 @@ function git_commit_lookup_prefix(commit: PPgit_commit; repo: Pgit_repository; i
  * @param commit the commit to close
   *)
 
-procedure git_commit_free(commit: Pgit_commit); cdecl; external libgit2_dll;
+procedure git_commit_free(commit: Pgit_commit); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of a commit.
@@ -67,7 +67,7 @@ procedure git_commit_free(commit: Pgit_commit); cdecl; external libgit2_dll;
  * @return object identity for the commit.
   *)
 
-function git_commit_id(commit: Pgit_commit): Pgit_oid; cdecl; external libgit2_dll;
+function git_commit_id(commit: Pgit_commit): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository that contains the commit.
@@ -76,7 +76,7 @@ function git_commit_id(commit: Pgit_commit): Pgit_oid; cdecl; external libgit2_d
  * @return Repository that contains this commit.
   *)
 
-function git_commit_owner(commit: Pgit_commit): Pgit_repository; cdecl; external libgit2_dll;
+function git_commit_owner(commit: Pgit_commit): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the encoding for the message of a commit,
@@ -89,7 +89,7 @@ function git_commit_owner(commit: Pgit_commit): Pgit_repository; cdecl; external
  * @return NULL, or the encoding
   *)
 
-function git_commit_message_encoding(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_message_encoding(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the full message of a commit.
@@ -101,7 +101,7 @@ function git_commit_message_encoding(commit: Pgit_commit): PAnsiChar; cdecl; ext
  * @return the message of a commit
   *)
 
-function git_commit_message(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_message(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the full raw message of a commit.
@@ -110,7 +110,7 @@ function git_commit_message(commit: Pgit_commit): PAnsiChar; cdecl; external lib
  * @return the raw message of a commit
   *)
 
-function git_commit_message_raw(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_message_raw(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the short "summary" of the git commit message.
@@ -122,7 +122,7 @@ function git_commit_message_raw(commit: Pgit_commit): PAnsiChar; cdecl; external
  * @return the summary of a commit or NULL on error
   *)
 
-function git_commit_summary(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_summary(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the long "body" of the git commit message.
@@ -136,7 +136,7 @@ function git_commit_summary(commit: Pgit_commit): PAnsiChar; cdecl; external lib
  *   consists of a summary
   *)
 
-function git_commit_body(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_body(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the commit time (i.e. committer time) of a commit.
@@ -145,7 +145,7 @@ function git_commit_body(commit: Pgit_commit): PAnsiChar; cdecl; external libgit
  * @return the time of a commit
   *)
 
-function git_commit_time(commit: Pgit_commit): git_time_t; cdecl; external libgit2_dll;
+function git_commit_time(commit: Pgit_commit): git_time_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the commit timezone offset (i.e. committer's preferred timezone) of a commit.
@@ -154,7 +154,7 @@ function git_commit_time(commit: Pgit_commit): git_time_t; cdecl; external libgi
  * @return positive or negative timezone offset, in minutes from UTC
   *)
 
-function git_commit_time_offset(commit: Pgit_commit): Integer; cdecl; external libgit2_dll;
+function git_commit_time_offset(commit: Pgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the committer of a commit.
@@ -163,7 +163,7 @@ function git_commit_time_offset(commit: Pgit_commit): Integer; cdecl; external l
  * @return the committer of a commit
   *)
 
-function git_commit_committer(commit: Pgit_commit): Pgit_signature; cdecl; external libgit2_dll;
+function git_commit_committer(commit: Pgit_commit): Pgit_signature; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the author of a commit.
@@ -172,7 +172,7 @@ function git_commit_committer(commit: Pgit_commit): Pgit_signature; cdecl; exter
  * @return the author of a commit
   *)
 
-function git_commit_author(commit: Pgit_commit): Pgit_signature; cdecl; external libgit2_dll;
+function git_commit_author(commit: Pgit_commit): Pgit_signature; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the committer of a commit, using the mailmap to map names and email
@@ -187,7 +187,7 @@ function git_commit_author(commit: Pgit_commit): Pgit_signature; cdecl; external
   *)
 
 function git_commit_committer_with_mailmap(out_: PPgit_signature; commit: Pgit_commit;
-  mailmap: Pgit_mailmap): Integer; cdecl; external libgit2_dll;
+  mailmap: Pgit_mailmap): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the author of a commit, using the mailmap to map names and email
@@ -202,7 +202,7 @@ function git_commit_committer_with_mailmap(out_: PPgit_signature; commit: Pgit_c
   *)
 
 function git_commit_author_with_mailmap(out_: PPgit_signature; commit: Pgit_commit;
-  mailmap: Pgit_mailmap): Integer; cdecl; external libgit2_dll;
+  mailmap: Pgit_mailmap): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the full raw text of the commit header.
@@ -211,7 +211,7 @@ function git_commit_author_with_mailmap(out_: PPgit_signature; commit: Pgit_comm
  * @return the header text of the commit
   *)
 
-function git_commit_raw_header(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_commit_raw_header(commit: Pgit_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the tree pointed to by a commit.
@@ -221,7 +221,7 @@ function git_commit_raw_header(commit: Pgit_commit): PAnsiChar; cdecl; external 
  * @return 0 or an error code
   *)
 
-function git_commit_tree(tree_out: PPgit_tree; commit: Pgit_commit): Integer; cdecl; external libgit2_dll;
+function git_commit_tree(tree_out: PPgit_tree; commit: Pgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of the tree pointed to by a commit. This differs from
@@ -232,7 +232,7 @@ function git_commit_tree(tree_out: PPgit_tree; commit: Pgit_commit): Integer; cd
  * @return the id of tree pointed to by commit.
   *)
 
-function git_commit_tree_id(commit: Pgit_commit): Pgit_oid; cdecl; external libgit2_dll;
+function git_commit_tree_id(commit: Pgit_commit): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of parents of this commit
@@ -241,7 +241,7 @@ function git_commit_tree_id(commit: Pgit_commit): Pgit_oid; cdecl; external libg
  * @return integer of count of parents
   *)
 
-function git_commit_parentcount(commit: Pgit_commit): Cardinal; cdecl; external libgit2_dll;
+function git_commit_parentcount(commit: Pgit_commit): Cardinal; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the specified parent of the commit.
@@ -252,7 +252,7 @@ function git_commit_parentcount(commit: Pgit_commit): Cardinal; cdecl; external 
  * @return 0 or an error code
   *)
 
-function git_commit_parent(out_: PPgit_commit; commit: Pgit_commit; n: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_commit_parent(out_: PPgit_commit; commit: Pgit_commit; n: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the oid of a specified parent for a commit. This is different from
@@ -264,7 +264,7 @@ function git_commit_parent(out_: PPgit_commit; commit: Pgit_commit; n: Cardinal)
  * @return the id of the parent, NULL on error.
   *)
 
-function git_commit_parent_id(commit: Pgit_commit; n: Cardinal): Pgit_oid; cdecl; external libgit2_dll;
+function git_commit_parent_id(commit: Pgit_commit; n: Cardinal): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the commit object that is the <n>th generation ancestor
@@ -282,7 +282,7 @@ function git_commit_parent_id(commit: Pgit_commit; n: Cardinal): Pgit_oid; cdecl
   *)
 
 function git_commit_nth_gen_ancestor(ancestor: PPgit_commit; commit: Pgit_commit;
-  n: Cardinal): Integer; cdecl; external libgit2_dll;
+  n: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get an arbitrary header field
@@ -295,7 +295,7 @@ function git_commit_nth_gen_ancestor(ancestor: PPgit_commit; commit: Pgit_commit
  * or an error code
   *)
 
-function git_commit_header_field(out_: Pgit_buf; commit: Pgit_commit; field: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_commit_header_field(out_: Pgit_buf; commit: Pgit_commit; field: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Extract the signature from a commit
@@ -317,7 +317,7 @@ function git_commit_header_field(out_: Pgit_buf; commit: Pgit_commit; field: PAn
   *)
 
 function git_commit_extract_signature(signature, signed_data: Pgit_buf; repo: Pgit_repository;
-  commit_id: Pgit_oid; field: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  commit_id: Pgit_oid; field: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create new commit in the repository from a list of `git_object` pointers
@@ -366,7 +366,7 @@ function git_commit_extract_signature(signature, signed_data: Pgit_buf; repo: Pg
 
 function git_commit_create(id: Pgit_oid; repo: Pgit_repository; update_ref: PAnsiChar;
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar; tree: Pgit_tree;
-  parent_count: size_t; parents: PPgit_commit): Integer; cdecl; external libgit2_dll;
+  parent_count: size_t; parents: PPgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create new commit in the repository using a variable argument list.
@@ -416,7 +416,7 @@ function git_commit_create(id: Pgit_oid; repo: Pgit_repository; update_ref: PAns
 
 function git_commit_create_v(id: Pgit_oid; repo: Pgit_repository; update_ref: PAnsiChar;
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar; tree:
-  Pgit_tree; parent_count: size_t): Integer; cdecl; varargs; external libgit2_dll;
+  Pgit_tree; parent_count: size_t): Integer; cdecl; varargs; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 type
   git_commit_create_options = record
@@ -463,7 +463,7 @@ const
  * @return 0 on success, GIT_EUNCHANGED if there were no changes to commit, or an error code
  *)
 function git_commit_create_from_stage(id: Pgit_oid; repo: Pgit_repository; message: PAnsiChar;
-  opts: Pgit_commit_create_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_commit_create_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Amend an existing commit by replacing only non-NULL values.
@@ -518,7 +518,7 @@ function git_commit_create_from_stage(id: Pgit_oid; repo: Pgit_repository; messa
 
 function git_commit_amend(id: Pgit_oid; commit_to_amend: Pgit_commit; update_ref: PAnsiChar;
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar;
-  tree: Pgit_tree): Integer; cdecl; external libgit2_dll;
+  tree: Pgit_tree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a commit and write it into a buffer
@@ -558,7 +558,7 @@ function git_commit_amend(id: Pgit_oid; commit_to_amend: Pgit_commit; update_ref
 
 function git_commit_create_buffer(out_: Pgit_buf; repo: Pgit_repository;
   author, committer: Pgit_signature; message_encoding, message: PAnsiChar; tree: Pgit_tree;
-  parent_count: size_t; parents: PPgit_commit): Integer; cdecl; external libgit2_dll;
+  parent_count: size_t; parents: PPgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a commit object from the given buffer and signature
@@ -578,7 +578,7 @@ function git_commit_create_buffer(out_: Pgit_buf; repo: Pgit_repository;
   *)
 
 function git_commit_create_with_signature(out_: Pgit_oid; repo: Pgit_repository;
-  commit_content, signature, signature_field: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  commit_content, signature, signature_field: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a commit. The copy must be explicitly
@@ -589,7 +589,7 @@ function git_commit_create_with_signature(out_: Pgit_oid; repo: Pgit_repository;
  * @return 0
   *)
 
-function git_commit_dup(out_: PPgit_commit; source: Pgit_commit): Integer; cdecl; external libgit2_dll;
+function git_commit_dup(out_: PPgit_commit; source: Pgit_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Commit creation callback: used when a function is going to create
@@ -640,7 +640,7 @@ type
    *
    * @param array The git_commitarray that contains commits to free
    *)
-procedure git_commitarray_dispose(array_: Pgit_commitarray); cdecl; external libgit2_dll;
+procedure git_commitarray_dispose(array_: Pgit_commitarray); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

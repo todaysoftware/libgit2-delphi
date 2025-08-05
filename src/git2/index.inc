@@ -217,7 +217,7 @@ const
  * @param version The struct version; pass `GIT_INDEX_OPTIONS_VERSION`.
  * @return Zero on success; -1 on failure.
  *)
-function git_index_options_init(opts: Pgit_index_options; version: uint32_t): Integer; cdecl; external libgit2_dll;
+function git_index_options_init(opts: Pgit_index_options; version: uint32_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a new bare Git index object, without a repository to back
@@ -228,7 +228,7 @@ function git_index_options_init(opts: Pgit_index_options; version: uint32_t): In
  * @param opts the options for opening the index, or NULL
  * @return 0 or an error code
  *)
-function git_index_open(index_out: PPgit_index; index_path: PAnsiChar; opts: Pgit_index_options): Integer; cdecl; external libgit2_dll;
+function git_index_open(index_out: PPgit_index; index_path: PAnsiChar; opts: Pgit_index_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory index object.
@@ -237,7 +237,7 @@ function git_index_open(index_out: PPgit_index; index_path: PAnsiChar; opts: Pgi
  * @param opts the options for opening the index, or NULL
  * @return 0 or an error code
  *)
-function git_index_new(index_out: PPgit_index; opts: Pgit_index_options): Integer; cdecl; external libgit2_dll;
+function git_index_new(index_out: PPgit_index; opts: Pgit_index_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
 
@@ -260,7 +260,7 @@ function git_index_new(index_out: PPgit_index; opts: Pgit_index_options): Intege
    * @return 0 or an error code
    *)
 
-function git_index_open(index_out: PPgit_index; index_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_open(index_out: PPgit_index; index_path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory index object.
@@ -274,7 +274,7 @@ function git_index_open(index_out: PPgit_index; index_path: PAnsiChar): Integer;
  * @return 0 or an error code
  *)
 
-function git_index_new(index_out: PPgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_new(index_out: PPgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ENDIF}
 
@@ -284,7 +284,7 @@ function git_index_new(index_out: PPgit_index): Integer; cdecl; external libgit2
  * @param index an existing index object
  *)
 
-procedure git_index_free(index_: Pgit_index); cdecl; external libgit2_dll;
+procedure git_index_free(index_: Pgit_index); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository this index relates to
@@ -293,7 +293,7 @@ procedure git_index_free(index_: Pgit_index); cdecl; external libgit2_dll;
  * @return A pointer to the repository
  *)
 
-function git_index_owner(index_: Pgit_index): Pgit_repository; cdecl; external libgit2_dll;
+function git_index_owner(index_: Pgit_index): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read index capabilities flags.
@@ -301,7 +301,7 @@ function git_index_owner(index_: Pgit_index): Pgit_repository; cdecl; external l
  * @param index An existing index object
  * @return A combination of GIT_INDEX_CAPABILITY values
   *)
-function git_index_caps(index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_caps(index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set index capabilities flags.
@@ -315,7 +315,7 @@ function git_index_caps(index_: Pgit_index): Integer; cdecl; external libgit2_dl
  * @return 0 on success, -1 on failure
  *)
 
-function git_index_set_caps(index_: Pgit_index; caps: Integer): Integer; cdecl; external libgit2_dll;
+function git_index_set_caps(index_: Pgit_index; caps: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get index on-disk version.
@@ -328,7 +328,7 @@ function git_index_set_caps(index_: Pgit_index; caps: Integer): Integer; cdecl; 
  * @return the index version
  *)
 
-function git_index_version(index_: Pgit_index): Cardinal; cdecl; external libgit2_dll;
+function git_index_version(index_: Pgit_index): Cardinal; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set index on-disk version.
@@ -342,7 +342,7 @@ function git_index_version(index_: Pgit_index): Cardinal; cdecl; external libgit
  * @return 0 on success, -1 on failure
  *)
 
-function git_index_set_version(index_: Pgit_index; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_index_set_version(index_: Pgit_index; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Update the contents of an existing index object in memory by reading
@@ -362,7 +362,7 @@ function git_index_set_version(index_: Pgit_index; version: Cardinal): Integer; 
  * @return 0 or an error code
  *)
 
-function git_index_read(index_: Pgit_index; force: Integer): Integer; cdecl; external libgit2_dll;
+function git_index_read(index_: Pgit_index; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write an existing index object from memory back to disk
@@ -372,7 +372,7 @@ function git_index_read(index_: Pgit_index; force: Integer): Integer; cdecl; ext
  * @return 0 or an error code
  *)
 
-function git_index_write(index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_write(index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the full path to the index file on disk.
@@ -381,7 +381,7 @@ function git_index_write(index_: Pgit_index): Integer; cdecl; external libgit2_d
  * @return path to index file or NULL for in-memory index
  *)
 
-function git_index_path(index_: Pgit_index): PAnsiChar; cdecl; external libgit2_dll;
+function git_index_path(index_: Pgit_index): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFNDEF GIT_DEPRECATE_HARD}
 (**
@@ -396,7 +396,7 @@ function git_index_path(index_: Pgit_index): PAnsiChar; cdecl; external libgit2_
  * @return a pointer to the checksum of the index
  *)
 
-function git_index_checksum(index_: Pgit_index): Pgit_oid; cdecl; external libgit2_dll;
+function git_index_checksum(index_: Pgit_index): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -409,7 +409,7 @@ function git_index_checksum(index_: Pgit_index): Pgit_oid; cdecl; external libgi
  * @return 0 or an error code
  *)
 
-function git_index_read_tree(index_: Pgit_index; tree: Pgit_tree): Integer; cdecl; external libgit2_dll;
+function git_index_read_tree(index_: Pgit_index; tree: Pgit_tree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write the index as a tree
@@ -431,7 +431,7 @@ function git_index_read_tree(index_: Pgit_index; tree: Pgit_tree): Integer; cdec
  * or an error code
  *)
 
-function git_index_write_tree(out_: Pgit_oid; index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_write_tree(out_: Pgit_oid; index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write the index as a tree to the given repository
@@ -450,7 +450,7 @@ function git_index_write_tree(out_: Pgit_oid; index_: Pgit_index): Integer; cdec
  *)
 
 function git_index_write_tree_to(out_: Pgit_oid; index_: Pgit_index;
-  repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -471,7 +471,7 @@ function git_index_write_tree_to(out_: Pgit_oid; index_: Pgit_index;
  * @return integer of count of current entries
  *)
 
-function git_index_entrycount(index_: Pgit_index): size_t; cdecl; external libgit2_dll;
+function git_index_entrycount(index_: Pgit_index): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Clear the contents (all the entries) of an index object.
@@ -483,7 +483,7 @@ function git_index_entrycount(index_: Pgit_index): size_t; cdecl; external libgi
  * @return 0 on success, error code < 0 on failure
  *)
 
-function git_index_clear(index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_clear(index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a pointer to one of the entries in the index
@@ -497,7 +497,7 @@ function git_index_clear(index_: Pgit_index): Integer; cdecl; external libgit2_d
  * @return a pointer to the entry; NULL if out of bounds
  *)
 
-function git_index_get_byindex(index_: Pgit_index; n: size_t): Pgit_index_entry; cdecl; external libgit2_dll;
+function git_index_get_byindex(index_: Pgit_index; n: size_t): Pgit_index_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a pointer to one of the entries in the index
@@ -512,7 +512,7 @@ function git_index_get_byindex(index_: Pgit_index; n: size_t): Pgit_index_entry;
  * @return a pointer to the entry; NULL if it was not found
  *)
 
-function git_index_get_bypath(index_: Pgit_index; path: PAnsiChar; stage: Integer): Pgit_index_entry; cdecl; external libgit2_dll;
+function git_index_get_bypath(index_: Pgit_index; path: PAnsiChar; stage: Integer): Pgit_index_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove an entry from the index
@@ -523,7 +523,7 @@ function git_index_get_bypath(index_: Pgit_index; path: PAnsiChar; stage: Intege
  * @return 0 or an error code
  *)
 
-function git_index_remove(index_: Pgit_index; path: PAnsiChar; stage: Integer): Integer; cdecl; external libgit2_dll;
+function git_index_remove(index_: Pgit_index; path: PAnsiChar; stage: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove all entries from the index under a given directory
@@ -534,7 +534,7 @@ function git_index_remove(index_: Pgit_index; path: PAnsiChar; stage: Integer): 
  * @return 0 or an error code
  *)
 
-function git_index_remove_directory(index_: Pgit_index; dir: PAnsiChar; stage: Integer): Integer; cdecl; external libgit2_dll;
+function git_index_remove_directory(index_: Pgit_index; dir: PAnsiChar; stage: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add or update an index entry from an in-memory struct
@@ -551,7 +551,7 @@ function git_index_remove_directory(index_: Pgit_index; dir: PAnsiChar; stage: I
  * @return 0 or an error code
  *)
 
-function git_index_add(index_: Pgit_index; source_entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll;
+function git_index_add(index_: Pgit_index; source_entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the stage number from a git index entry
@@ -564,7 +564,7 @@ function git_index_add(index_: Pgit_index; source_entry: Pgit_index_entry): Inte
  * @return the stage number
  *)
 
-function git_index_entry_stage(entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll;
+function git_index_entry_stage(entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return whether the given index entry is a conflict (has a high stage
@@ -574,7 +574,7 @@ function git_index_entry_stage(entry: Pgit_index_entry): Integer; cdecl; externa
  * @return 1 if the entry is a conflict entry, 0 otherwise
  *)
 
-function git_index_entry_is_conflict(entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll;
+function git_index_entry_is_conflict(entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -597,7 +597,7 @@ function git_index_entry_is_conflict(entry: Pgit_index_entry): Integer; cdecl; e
  * @return 0 or an error code.
  *)
 
-function git_index_iterator_new(iterator_out: PPgit_index_iterator; index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_iterator_new(iterator_out: PPgit_index_iterator; index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the next index entry in-order from the iterator.
@@ -609,7 +609,7 @@ function git_index_iterator_new(iterator_out: PPgit_index_iterator; index_: Pgit
 
 type
   PPgit_index_entry = ^Pgit_index_entry;
-function git_index_iterator_next(out_: PPgit_index_entry; iterator: Pgit_index_iterator): Integer; cdecl; external libgit2_dll;
+function git_index_iterator_next(out_: PPgit_index_entry; iterator: Pgit_index_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the index iterator
@@ -617,7 +617,7 @@ function git_index_iterator_next(out_: PPgit_index_entry; iterator: Pgit_index_i
  * @param iterator The iterator to free
  *)
 
-procedure git_index_iterator_free(iterator: Pgit_index_iterator); cdecl; external libgit2_dll;
+procedure git_index_iterator_free(iterator: Pgit_index_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -650,7 +650,7 @@ procedure git_index_iterator_free(iterator: Pgit_index_iterator); cdecl; externa
  * @return 0 or an error code
  *)
 
-function git_index_add_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_add_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add or update an index entry from a buffer in memory
@@ -680,7 +680,7 @@ function git_index_add_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cde
  *)
 
 function git_index_add_from_buffer(index_: Pgit_index; entry: Pgit_index_entry; buffer: Pointer;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove an index entry corresponding to a file on disk
@@ -697,7 +697,7 @@ function git_index_add_from_buffer(index_: Pgit_index; entry: Pgit_index_entry; 
  * @return 0 or an error code
  *)
 
-function git_index_remove_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_remove_bypath(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add or update index entries matching files in the working directory.
@@ -747,7 +747,7 @@ function git_index_remove_bypath(index_: Pgit_index; path: PAnsiChar): Integer; 
  *)
 
 function git_index_add_all(index_: Pgit_index; pathspec: Pgit_strarray; flags: Cardinal;
-  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove all matching index entries.
@@ -766,7 +766,7 @@ function git_index_add_all(index_: Pgit_index; pathspec: Pgit_strarray; flags: C
  *)
 
 function git_index_remove_all(index_: Pgit_index; pathspec: Pgit_strarray;
-  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Update all index entries to match the working directory
@@ -793,7 +793,7 @@ function git_index_remove_all(index_: Pgit_index; pathspec: Pgit_strarray;
  *)
 
 function git_index_update_all(index_: Pgit_index; pathspec: Pgit_strarray;
-  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_index_matched_path_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find the first position of any entries which point to given
@@ -807,7 +807,7 @@ function git_index_update_all(index_: Pgit_index; pathspec: Pgit_strarray;
 
 type
   Psize_t = ^size_t;
-function git_index_find(at_pos: Psize_t; index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_find(at_pos: Psize_t; index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find the first position of any entries matching a prefix. To find the first position
@@ -819,7 +819,7 @@ function git_index_find(at_pos: Psize_t; index_: Pgit_index; path: PAnsiChar): I
  * @return 0 or an error code
  *)
 
-function git_index_find_prefix(at_pos: Psize_t; index_: Pgit_index; prefix: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_find_prefix(at_pos: Psize_t; index_: Pgit_index; prefix: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -847,7 +847,7 @@ function git_index_find_prefix(at_pos: Psize_t; index_: Pgit_index; prefix: PAns
  *)
 
 function git_index_conflict_add(index_: Pgit_index;
-  ancestor_entry, our_entry, their_entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll;
+  ancestor_entry, our_entry, their_entry: Pgit_index_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the index entries that represent a conflict of a single file.
@@ -865,7 +865,7 @@ function git_index_conflict_add(index_: Pgit_index;
  *)
 
 function git_index_conflict_get(ancestor_out, our_out, their_out: PPgit_index_entry;
-  index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Removes the index entries that represent a conflict of a single file.
@@ -875,7 +875,7 @@ function git_index_conflict_get(ancestor_out, our_out, their_out: PPgit_index_en
  * @return 0 or an error code
  *)
 
-function git_index_conflict_remove(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_index_conflict_remove(index_: Pgit_index; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove all conflicts in the index (entries with a stage greater than 0).
@@ -884,7 +884,7 @@ function git_index_conflict_remove(index_: Pgit_index; path: PAnsiChar): Integer
  * @return 0 or an error code
  *)
 
-function git_index_conflict_cleanup(index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_conflict_cleanup(index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if the index contains entries representing file conflicts.
@@ -893,7 +893,7 @@ function git_index_conflict_cleanup(index_: Pgit_index): Integer; cdecl; externa
  * @return 1 if at least one conflict is found, 0 otherwise.
  *)
 
-function git_index_has_conflicts(index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+function git_index_has_conflicts(index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an iterator for the conflicts in the index.
@@ -906,7 +906,7 @@ function git_index_has_conflicts(index_: Pgit_index): Integer; cdecl; external l
  *)
 
 function git_index_conflict_iterator_new(iterator_out: PPgit_index_conflict_iterator;
-  index_: Pgit_index): Integer; cdecl; external libgit2_dll;
+  index_: Pgit_index): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Returns the current conflict (ancestor, ours and theirs entry) and
@@ -921,7 +921,7 @@ function git_index_conflict_iterator_new(iterator_out: PPgit_index_conflict_iter
  *)
 
 function git_index_conflict_next(ancestor_out, our_out, their_out: PPgit_index_entry;
-  iterator: Pgit_index_conflict_iterator): Integer; cdecl; external libgit2_dll;
+  iterator: Pgit_index_conflict_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Frees a `git_index_conflict_iterator`.
@@ -929,7 +929,7 @@ function git_index_conflict_next(ancestor_out, our_out, their_out: PPgit_index_e
  * @param iterator pointer to the iterator
  *)
 
-procedure git_index_conflict_iterator_free(iterator: Pgit_index_conflict_iterator); cdecl; external libgit2_dll;
+procedure git_index_conflict_iterator_free(iterator: Pgit_index_conflict_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

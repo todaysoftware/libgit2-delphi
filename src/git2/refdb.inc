@@ -18,7 +18,7 @@
  * @return 0 or an error code
  *)
 
-function git_refdb_new(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_refdb_new(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new reference database and automatically add
@@ -33,7 +33,7 @@ function git_refdb_new(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl
  * @return 0 or an error code
  *)
 
-function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Suggests that the given refdb compress or optimize its references.
@@ -44,7 +44,7 @@ function git_refdb_open(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdec
  * @return 0 or an error code.
  *)
 
-function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2_dll;
+function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open reference database.
@@ -52,7 +52,7 @@ function git_refdb_compress(refdb: Pgit_refdb): Integer; cdecl; external libgit2
  * @param refdb reference database pointer or NULL
  *)
 
-procedure git_refdb_free(refdb: Pgit_refdb); cdecl; external libgit2_dll;
+procedure git_refdb_free(refdb: Pgit_refdb); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

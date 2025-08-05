@@ -56,7 +56,7 @@ type
    *)
 
 function git_stash_save(out_: Pgit_oid; repo: Pgit_repository; stasher: Pgit_signature;
-  message: PAnsiChar; flags: uint32_t): Integer; cdecl; external libgit2_dll;
+  message: PAnsiChar; flags: uint32_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Stash save options structure
@@ -100,7 +100,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 function git_stash_save_options_init(opts: Pgit_stash_save_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Save the local modifications to a new stash, with options.
@@ -113,7 +113,7 @@ function git_stash_save_options_init(opts: Pgit_stash_save_options;
  * or error code.
  *)
 function git_stash_save_with_opts(out_: Pgit_oid; repo: Pgit_repository;
-  opts: Pgit_stash_save_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_stash_save_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** Stash application flags.  *)
 
@@ -195,7 +195,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_stash_apply_options_init(opts: Pgit_stash_apply_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_stash_apply_options_init(opts: Pgit_stash_apply_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a single stashed state from the stash list.
@@ -223,7 +223,7 @@ function git_stash_apply_options_init(opts: Pgit_stash_apply_options; version: C
  *)
 
 function git_stash_apply(repo: Pgit_repository; index_: size_t;
-  options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll;
+  options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * This is a callback function you can provide to iterate over all the
@@ -256,7 +256,7 @@ type
    *)
 
 function git_stash_foreach(repo: Pgit_repository; callback: git_stash_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove a single stashed state from the stash list.
@@ -270,7 +270,7 @@ function git_stash_foreach(repo: Pgit_repository; callback: git_stash_cb;
  * index, or error code.
  *)
 
-function git_stash_drop(repo: Pgit_repository; index_: size_t): Integer; cdecl; external libgit2_dll;
+function git_stash_drop(repo: Pgit_repository; index_: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a single stashed state from the stash list and remove it from the list
@@ -286,7 +286,7 @@ function git_stash_drop(repo: Pgit_repository; index_: size_t): Integer; cdecl; 
  *)
 
 function git_stash_pop(repo: Pgit_repository; index_: size_t;
-  options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll;
+  options: Pgit_stash_apply_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

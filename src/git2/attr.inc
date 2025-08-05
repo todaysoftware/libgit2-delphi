@@ -97,7 +97,7 @@ type
   * @return the value type for the attribute
   *)
 
-function git_attr_value(attr: PAnsiChar): git_attr_value_t; cdecl; external libgit2_dll;
+function git_attr_value(attr: PAnsiChar): git_attr_value_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check attribute flags: Reading values from index and working directory.
@@ -189,7 +189,7 @@ const
   *)
 
 function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository; flags: uint32_t; path,
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look up the value of one git attribute for path with extended options.
@@ -209,7 +209,7 @@ function git_attr_get(value_out: PPAnsiChar; repo: Pgit_repository; flags: uint3
  *)
 
 function git_attr_get_ext(value_out: PPAnsiChar; repo: Pgit_repository; opts: Pgit_attr_options;
-  path, name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path, name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look up a list of git attributes for path.
@@ -243,7 +243,7 @@ function git_attr_get_ext(value_out: PPAnsiChar; repo: Pgit_repository; opts: Pg
   *)
 
 function git_attr_get_many(values_out: PPAnsiChar; repo: Pgit_repository; flags: uint32_t; path: PAnsiChar;
-  num_attr: size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll;
+  num_attr: size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look up a list of git attributes for path with extended options.
@@ -264,7 +264,7 @@ function git_attr_get_many(values_out: PPAnsiChar; repo: Pgit_repository; flags:
  *)
 
 function git_attr_get_many_ext(values_out: PPAnsiChar; repo: Pgit_repository; opts: Pgit_attr_options; path: PAnsiChar; num_attr:
-  size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll;
+  size_t; names: PPAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * The callback used with git_attr_foreach.
@@ -301,7 +301,7 @@ type
     *)
 
 function git_attr_foreach(repo: Pgit_repository; flags: uint32_t; path: PAnsiChar; callback: git_attr_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Loop over all the git attributes for a path with extended options.
@@ -318,7 +318,7 @@ function git_attr_foreach(repo: Pgit_repository; flags: uint32_t; path: PAnsiCha
  *)
 
 function git_attr_foreach_ext(repo: Pgit_repository; opts: Pgit_attr_options; path: PAnsiChar;
-  callback: git_attr_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_attr_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Flush the gitattributes cache.
@@ -332,7 +332,7 @@ function git_attr_foreach_ext(repo: Pgit_repository; opts: Pgit_attr_options; pa
  * @return 0 on success, or an error code
   *)
 
-function git_attr_cache_flush(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_attr_cache_flush(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a macro definition.
@@ -350,7 +350,7 @@ function git_attr_cache_flush(repo: Pgit_repository): Integer; cdecl; external l
  * @return 0 or an error code.
   *)
 
-function git_attr_add_macro(repo: Pgit_repository; name_, values: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_attr_add_macro(repo: Pgit_repository; name_, values: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -18,7 +18,7 @@
  * @return the number of initializations of the library, or an error code.
  *)
 
-function git_libgit2_init: Integer; cdecl; external libgit2_dll;
+function git_libgit2_init: Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Shutdown the global state
@@ -32,7 +32,7 @@ function git_libgit2_init: Integer; cdecl; external libgit2_dll;
  * error code.
  *)
 
-function git_libgit2_shutdown: Integer; cdecl; external libgit2_dll;
+function git_libgit2_shutdown: Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

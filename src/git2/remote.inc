@@ -247,7 +247,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_remote_init_callbacks(opts: Pgit_remote_callbacks; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_remote_init_callbacks(opts: Pgit_remote_callbacks; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** Acceptable prune settings when fetching  *)
 
@@ -397,7 +397,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_fetch_options_init(opts: Pgit_fetch_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_fetch_options_init(opts: Pgit_fetch_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Controls the behavior of a git_push object.
@@ -456,7 +456,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_push_options_init(opts: Pgit_push_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_push_options_init(opts: Pgit_push_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a remote with the default fetch refspec to the repository's configuration.
@@ -469,7 +469,7 @@ function git_push_options_init(opts: Pgit_push_options; version: Cardinal): Inte
  *)
 
 function git_remote_create(out_: PPgit_remote; repo: Pgit_repository;
-  name_, url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remote creation options flags
@@ -538,7 +538,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_remote_create_options_init(opts: Pgit_remote_create_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_remote_create_options_init(opts: Pgit_remote_create_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a remote, with options.
@@ -554,7 +554,7 @@ function git_remote_create_options_init(opts: Pgit_remote_create_options; versio
  *)
 
 function git_remote_create_with_opts(out_: PPgit_remote; url: PAnsiChar;
-  opts: Pgit_remote_create_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_remote_create_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a remote with the provided fetch refspec (or default if NULL) to the repository's
@@ -569,7 +569,7 @@ function git_remote_create_with_opts(out_: PPgit_remote; url: PAnsiChar;
  *)
 
 function git_remote_create_with_fetchspec(out_: PPgit_remote; repo: Pgit_repository;
-  name_, url, fetch: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, url, fetch: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an anonymous remote
@@ -584,7 +584,7 @@ function git_remote_create_with_fetchspec(out_: PPgit_remote; repo: Pgit_reposit
  *)
 
 function git_remote_create_anonymous(out_: PPgit_remote; repo: Pgit_repository;
-  url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a remote without a connected local repo
@@ -601,7 +601,7 @@ function git_remote_create_anonymous(out_: PPgit_remote; repo: Pgit_repository;
  * @return 0 or an error code
  *)
 
-function git_remote_create_detached(out_: PPgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_create_detached(out_: PPgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the information for a particular remote
@@ -615,7 +615,7 @@ function git_remote_create_detached(out_: PPgit_remote; url: PAnsiChar): Integer
  * @return 0, GIT_ENOTFOUND, GIT_EINVALIDSPEC or an error code
   *)
 
-function git_remote_lookup(out_: PPgit_remote; repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_lookup(out_: PPgit_remote; repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a copy of an existing remote.  All internal strings are also
@@ -628,7 +628,7 @@ function git_remote_lookup(out_: PPgit_remote; repo: Pgit_repository; name_: PAn
  * @return 0 or an error code
  *)
 
-function git_remote_dup(dest: PPgit_remote; source: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_dup(dest: PPgit_remote; source: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's repository
@@ -637,7 +637,7 @@ function git_remote_dup(dest: PPgit_remote; source: Pgit_remote): Integer; cdecl
  * @return a pointer to the repository
  *)
 
-function git_remote_owner(remote: Pgit_remote): Pgit_repository; cdecl; external libgit2_dll;
+function git_remote_owner(remote: Pgit_remote): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's name
@@ -646,7 +646,7 @@ function git_remote_owner(remote: Pgit_remote): Pgit_repository; cdecl; external
  * @return a pointer to the name or NULL for in-memory remotes
  *)
 
-function git_remote_name(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll;
+function git_remote_name(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's url
@@ -659,7 +659,7 @@ function git_remote_name(remote: Pgit_remote): PAnsiChar; cdecl; external libgit
  * @return a pointer to the url
  *)
 
-function git_remote_url(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll;
+function git_remote_url(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's url for pushing.
@@ -671,7 +671,7 @@ function git_remote_url(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2
  * @return a pointer to the url or NULL if no special url for pushing is set
  *)
 
-function git_remote_pushurl(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll;
+function git_remote_pushurl(remote: Pgit_remote): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the remote's url in the configuration
@@ -685,7 +685,7 @@ function git_remote_pushurl(remote: Pgit_remote): PAnsiChar; cdecl; external lib
  * @return 0 or an error value
  *)
 
-function git_remote_set_url(repo: Pgit_repository; remote, url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_set_url(repo: Pgit_repository; remote, url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the remote's url for pushing in the configuration.
@@ -700,7 +700,7 @@ function git_remote_set_url(repo: Pgit_repository; remote, url: PAnsiChar): Inte
  * @return 0, or an error code
  *)
 
-function git_remote_set_pushurl(repo: Pgit_repository; remote, url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_set_pushurl(repo: Pgit_repository; remote, url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the url for this particular url instance.  The URL in the
@@ -711,7 +711,7 @@ function git_remote_set_pushurl(repo: Pgit_repository; remote, url: PAnsiChar): 
  * @return 0 or an error value
  *)
 
-function git_remote_set_instance_url(remote: Pgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_set_instance_url(remote: Pgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the push url for this particular url instance.  The URL in the
@@ -722,7 +722,7 @@ function git_remote_set_instance_url(remote: Pgit_remote; url: PAnsiChar): Integ
  * @return 0 or an error value
  *)
 
-function git_remote_set_instance_pushurl(remote: Pgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_set_instance_pushurl(remote: Pgit_remote; url: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a fetch refspec to the remote's configuration
@@ -736,7 +736,7 @@ function git_remote_set_instance_pushurl(remote: Pgit_remote; url: PAnsiChar): I
  * @return 0, GIT_EINVALIDSPEC if refspec is invalid or an error value
  *)
 
-function git_remote_add_fetch(repo: Pgit_repository; remote, refspec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_add_fetch(repo: Pgit_repository; remote, refspec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's list of fetch refspecs
@@ -749,7 +749,7 @@ function git_remote_add_fetch(repo: Pgit_repository; remote, refspec: PAnsiChar)
  * @return 0 or an error code.
  *)
 
-function git_remote_get_fetch_refspecs(array_: Pgit_strarray; remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_get_fetch_refspecs(array_: Pgit_strarray; remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a push refspec to the remote's configuration
@@ -763,7 +763,7 @@ function git_remote_get_fetch_refspecs(array_: Pgit_strarray; remote: Pgit_remot
  * @return 0, GIT_EINVALIDSPEC if refspec is invalid or an error value
  *)
 
-function git_remote_add_push(repo: Pgit_repository; remote, refspec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_add_push(repo: Pgit_repository; remote, refspec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote's list of push refspecs
@@ -776,7 +776,7 @@ function git_remote_add_push(repo: Pgit_repository; remote, refspec: PAnsiChar):
  * @return 0 or an error code.
  *)
 
-function git_remote_get_push_refspecs(array_: Pgit_strarray; remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_get_push_refspecs(array_: Pgit_strarray; remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of refspecs for a remote
@@ -785,7 +785,7 @@ function git_remote_get_push_refspecs(array_: Pgit_strarray; remote: Pgit_remote
  * @return the amount of refspecs configured in this remote
  *)
 
-function git_remote_refspec_count(remote: Pgit_remote): size_t; cdecl; external libgit2_dll;
+function git_remote_refspec_count(remote: Pgit_remote): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a refspec from the remote
@@ -795,7 +795,7 @@ function git_remote_refspec_count(remote: Pgit_remote): size_t; cdecl; external 
  * @return the nth refspec
  *)
 
-function git_remote_get_refspec(remote: Pgit_remote; n: size_t): Pgit_refspec; cdecl; external libgit2_dll;
+function git_remote_get_refspec(remote: Pgit_remote; n: size_t): Pgit_refspec; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the remote repository's reference advertisement list
@@ -818,7 +818,7 @@ function git_remote_get_refspec(remote: Pgit_remote; n: size_t): Pgit_refspec; c
  * @return 0 on success, or an error code
  *)
 
-function git_remote_ls(out_: PPPgit_remote_head; size: Psize_t; remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_ls(out_: PPPgit_remote_head; size: Psize_t; remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check whether the remote is connected
@@ -830,7 +830,7 @@ function git_remote_ls(out_: PPPgit_remote_head; size: Psize_t; remote: Pgit_rem
  * @return 1 if it's connected, 0 otherwise.
  *)
 
-function git_remote_connected(remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_connected(remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Cancel the operation
@@ -842,7 +842,7 @@ function git_remote_connected(remote: Pgit_remote): Integer; cdecl; external lib
  * @return 0 on success, or an error code
  *)
 
-function git_remote_stop(remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_stop(remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Disconnect from the remote
@@ -853,7 +853,7 @@ function git_remote_stop(remote: Pgit_remote): Integer; cdecl; external libgit2_
  * @return 0 on success, or an error code
  *)
 
-function git_remote_disconnect(remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_disconnect(remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the memory associated with a remote
@@ -864,7 +864,7 @@ function git_remote_disconnect(remote: Pgit_remote): Integer; cdecl; external li
  * @param remote the remote to free
  *)
 
-procedure git_remote_free(remote: Pgit_remote); cdecl; external libgit2_dll;
+procedure git_remote_free(remote: Pgit_remote); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a list of the configured remotes for a repo
@@ -876,7 +876,7 @@ procedure git_remote_free(remote: Pgit_remote); cdecl; external libgit2_dll;
  * @return 0 or an error code
  *)
 
-function git_remote_list(out_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_remote_list(out_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remote creation options structure
@@ -926,7 +926,7 @@ const
  * @return Zero on success; -1 on failure.
  *)
 
-function git_remote_connect_options_init(opts: Pgit_remote_connect_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_remote_connect_options_init(opts: Pgit_remote_connect_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open a connection to a remote.
@@ -946,7 +946,7 @@ function git_remote_connect_options_init(opts: Pgit_remote_connect_options; vers
 
 function git_remote_connect(remote: Pgit_remote; direction: git_direction;
   callbacks: Pgit_remote_callbacks; proxy_opts: Pgit_proxy_options;
-  custom_headers: Pgit_strarray): Integer; cdecl; external libgit2_dll;
+  custom_headers: Pgit_strarray): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open a connection to a remote with extended options.
@@ -968,7 +968,7 @@ function git_remote_connect(remote: Pgit_remote; direction: git_direction;
  *)
 
 function git_remote_connect_ext(remote: Pgit_remote; direction: git_direction;
-  opts: Pgit_remote_connect_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_remote_connect_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Download and index the packfile
@@ -992,7 +992,7 @@ function git_remote_connect_ext(remote: Pgit_remote; direction: git_direction;
  *)
 
 function git_remote_download(remote: Pgit_remote; refspecs: Pgit_strarray;
-  opts: Pgit_fetch_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_fetch_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a packfile and send it to the server
@@ -1013,7 +1013,7 @@ function git_remote_download(remote: Pgit_remote; refspecs: Pgit_strarray;
  *)
 
 function git_remote_upload(remote: Pgit_remote; refspecs: Pgit_strarray;
-  opts: Pgit_push_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_push_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Update the tips to the new state.
@@ -1035,7 +1035,7 @@ function git_remote_upload(remote: Pgit_remote; refspecs: Pgit_strarray;
 
 function git_remote_update_tips(remote: Pgit_remote; callbacks: Pgit_remote_callbacks;
   update_flags: Cardinal; download_tags: git_remote_autotag_option_t;
-  reflog_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  reflog_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Download new data and update tips.
@@ -1057,7 +1057,7 @@ function git_remote_update_tips(remote: Pgit_remote; callbacks: Pgit_remote_call
  *)
 
 function git_remote_fetch(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pgit_fetch_options;
-  reflog_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  reflog_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Prune tracking refs that are no longer present on remote.
@@ -1070,7 +1070,7 @@ function git_remote_fetch(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pg
  * @return 0 or an error code
  *)
 
-function git_remote_prune(remote: Pgit_remote; callbacks: Pgit_remote_callbacks): Integer; cdecl; external libgit2_dll;
+function git_remote_prune(remote: Pgit_remote; callbacks: Pgit_remote_callbacks): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform a push.
@@ -1086,7 +1086,7 @@ function git_remote_prune(remote: Pgit_remote; callbacks: Pgit_remote_callbacks)
  * @return 0 or an error code.
  *)
 
-function git_remote_push(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pgit_push_options): Integer; cdecl; external libgit2_dll;
+function git_remote_push(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pgit_push_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the statistics structure that is filled in by the fetch operation.
@@ -1095,7 +1095,7 @@ function git_remote_push(remote: Pgit_remote; refspecs: Pgit_strarray; opts: Pgi
  * @return the git_indexer_progress for the remote
  *)
 
-function git_remote_stats(remote: Pgit_remote): Pgit_indexer_progress; cdecl; external libgit2_dll;
+function git_remote_stats(remote: Pgit_remote): Pgit_indexer_progress; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the tag auto-follow setting
@@ -1104,7 +1104,7 @@ function git_remote_stats(remote: Pgit_remote): Pgit_indexer_progress; cdecl; ex
  * @return the auto-follow setting
  *)
 
-function git_remote_autotag(remote: Pgit_remote): git_remote_autotag_option_t; cdecl; external libgit2_dll;
+function git_remote_autotag(remote: Pgit_remote): git_remote_autotag_option_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the remote's tag following setting.
@@ -1119,7 +1119,7 @@ function git_remote_autotag(remote: Pgit_remote): git_remote_autotag_option_t; c
  *)
 
 function git_remote_set_autotag(repo: Pgit_repository; remote: PAnsiChar;
-  Value: git_remote_autotag_option_t): Integer; cdecl; external libgit2_dll;
+  Value: git_remote_autotag_option_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the ref-prune setting
@@ -1128,7 +1128,7 @@ function git_remote_set_autotag(repo: Pgit_repository; remote: PAnsiChar;
  * @return the ref-prune setting
  *)
 
-function git_remote_prune_refs(remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_prune_refs(remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Give the remote a new name
@@ -1152,7 +1152,7 @@ function git_remote_prune_refs(remote: Pgit_remote): Integer; cdecl; external li
  *)
 
 function git_remote_rename(problems: Pgit_strarray; repo: Pgit_repository;
-  name_, new_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, new_name: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Ensure the remote name is well-formed.
@@ -1162,7 +1162,7 @@ function git_remote_rename(problems: Pgit_strarray; repo: Pgit_repository;
  * @return 0 on success or an error code
  *)
 
-function git_remote_name_is_valid(valid: PInteger; remote_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_name_is_valid(valid: PInteger; remote_name: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
 * Delete an existing persisted remote.
@@ -1175,7 +1175,7 @@ function git_remote_name_is_valid(valid: PInteger; remote_name: PAnsiChar): Inte
 * @return 0 on success, or an error code.
 *)
 
-function git_remote_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_remote_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the name of the remote's default branch
@@ -1194,7 +1194,7 @@ function git_remote_delete(repo: Pgit_repository; name_: PAnsiChar): Integer; cd
  * or none of them point to HEAD's commit, or an error message.
  *)
 
-function git_remote_default_branch(out_: Pgit_buf; remote: Pgit_remote): Integer; cdecl; external libgit2_dll;
+function git_remote_default_branch(out_: Pgit_buf; remote: Pgit_remote): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -21,7 +21,7 @@
  *)
 
 function git_reference_lookup(out_: PPgit_reference; repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a reference by name and resolve immediately to OID.
@@ -40,7 +40,7 @@ function git_reference_lookup(out_: PPgit_reference; repo: Pgit_repository;
  *)
 
 function git_reference_name_to_id(out_: Pgit_oid; repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a reference by DWIMing its short name
@@ -55,7 +55,7 @@ function git_reference_name_to_id(out_: Pgit_oid; repo: Pgit_repository;
  *)
 
 function git_reference_dwim(out_: PPgit_reference; repo: Pgit_repository;
-  shorthand: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  shorthand: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Conditionally create a new symbolic reference.
@@ -101,7 +101,7 @@ function git_reference_dwim(out_: PPgit_reference; repo: Pgit_repository;
  *)
 
 function git_reference_symbolic_create_matching(out_: PPgit_reference; repo: Pgit_repository;
-  name_, target: PAnsiChar; force: Integer; current_value, log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, target: PAnsiChar; force: Integer; current_value, log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new symbolic reference.
@@ -139,7 +139,7 @@ function git_reference_symbolic_create_matching(out_: PPgit_reference; repo: Pgi
  *)
 
 function git_reference_symbolic_create(out_: PPgit_reference; repo: Pgit_repository;
-  name_, target: PAnsiChar; force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, target: PAnsiChar; force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new direct reference.
@@ -178,7 +178,7 @@ function git_reference_symbolic_create(out_: PPgit_reference; repo: Pgit_reposit
  *)
 
 function git_reference_create(out_: PPgit_reference; repo: Pgit_repository; name_: PAnsiChar;
-  id: Pgit_oid; force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  id: Pgit_oid; force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Conditionally create new direct reference
@@ -223,7 +223,7 @@ function git_reference_create(out_: PPgit_reference; repo: Pgit_repository; name
  *)
 
 function git_reference_create_matching(out_: PPgit_reference; repo: Pgit_repository; name_: PAnsiChar;
-  id: Pgit_oid; force: Integer; current_id: Pgit_oid; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  id: Pgit_oid; force: Integer; current_id: Pgit_oid; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the OID pointed to by a direct reference.
@@ -239,7 +239,7 @@ function git_reference_create_matching(out_: PPgit_reference; repo: Pgit_reposit
  * @return a pointer to the oid if available, NULL otherwise
  *)
 
-function git_reference_target(ref: Pgit_reference): Pgit_oid; cdecl; external libgit2_dll;
+function git_reference_target(ref: Pgit_reference): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the peeled OID target of this reference.
@@ -251,7 +251,7 @@ function git_reference_target(ref: Pgit_reference): Pgit_oid; cdecl; external li
  * @return a pointer to the oid if available, NULL otherwise
  *)
 
-function git_reference_target_peel(ref: Pgit_reference): Pgit_oid; cdecl; external libgit2_dll;
+function git_reference_target_peel(ref: Pgit_reference): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get full name to the reference pointed to by a symbolic reference.
@@ -262,7 +262,7 @@ function git_reference_target_peel(ref: Pgit_reference): Pgit_oid; cdecl; extern
  * @return a pointer to the name if available, NULL otherwise
  *)
 
-function git_reference_symbolic_target(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll;
+function git_reference_symbolic_target(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the type of a reference.
@@ -273,7 +273,7 @@ function git_reference_symbolic_target(ref: Pgit_reference): PAnsiChar; cdecl; e
  * @return the type
  *)
 
-function git_reference_type(ref: Pgit_reference): git_reference_t; cdecl; external libgit2_dll;
+function git_reference_type(ref: Pgit_reference): git_reference_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the full name of a reference.
@@ -284,7 +284,7 @@ function git_reference_type(ref: Pgit_reference): git_reference_t; cdecl; extern
  * @return the full name for the ref
  *)
 
-function git_reference_name(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll;
+function git_reference_name(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Resolve a symbolic reference to a direct reference.
@@ -303,7 +303,7 @@ function git_reference_name(ref: Pgit_reference): PAnsiChar; cdecl; external lib
  * @return 0 or an error code
  *)
 
-function git_reference_resolve(out_: PPgit_reference; ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_resolve(out_: PPgit_reference; ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository where a reference resides.
@@ -312,7 +312,7 @@ function git_reference_resolve(out_: PPgit_reference; ref: Pgit_reference): Inte
  * @return a pointer to the repo
  *)
 
-function git_reference_owner(ref: Pgit_reference): Pgit_repository; cdecl; external libgit2_dll;
+function git_reference_owner(ref: Pgit_reference): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new reference with the same name as the given reference but a
@@ -336,7 +336,7 @@ function git_reference_owner(ref: Pgit_reference): Pgit_repository; cdecl; exter
  *)
 
 function git_reference_symbolic_set_target(out_: PPgit_reference; ref: Pgit_reference;
-  target, log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  target, log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Conditionally create a new reference with the same name as the given reference but a
@@ -354,7 +354,7 @@ function git_reference_symbolic_set_target(out_: PPgit_reference; ref: Pgit_refe
   *)
 
 function git_reference_set_target(out_: PPgit_reference; ref: Pgit_reference; id: Pgit_oid;
-  log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Rename an existing reference.
@@ -381,7 +381,7 @@ function git_reference_set_target(out_: PPgit_reference; ref: Pgit_reference; id
  *)
 
 function git_reference_rename(new_ref: PPgit_reference; ref: Pgit_reference; new_name: PAnsiChar;
-  force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  force: Integer; log_message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Delete an existing reference.
@@ -397,7 +397,7 @@ function git_reference_rename(new_ref: PPgit_reference; ref: Pgit_reference; new
  * @return 0, GIT_EMODIFIED or an error code
  *)
 
-function git_reference_delete(ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_delete(ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Delete an existing reference by name
@@ -410,7 +410,7 @@ function git_reference_delete(ref: Pgit_reference): Integer; cdecl; external lib
  * @return 0 or an error code
  *)
 
-function git_reference_remove(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_remove(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Fill a list with all the references that can be found in a repository.
@@ -425,7 +425,7 @@ function git_reference_remove(repo: Pgit_repository; name_: PAnsiChar): Integer;
  * @return 0 or an error code
  *)
 
-function git_reference_list(array_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_reference_list(array_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback used to iterate over references
@@ -471,7 +471,7 @@ type
    *)
 
 function git_reference_foreach(repo: Pgit_repository; callback: git_reference_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform a callback on the fully-qualified name of each reference.
@@ -488,7 +488,7 @@ function git_reference_foreach(repo: Pgit_repository; callback: git_reference_fo
  *)
 
 function git_reference_foreach_name(repo: Pgit_repository; callback: git_reference_foreach_name_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a copy of an existing reference.
@@ -500,7 +500,7 @@ function git_reference_foreach_name(repo: Pgit_repository; callback: git_referen
  * @return 0 or an error code
  *)
 
-function git_reference_dup(dest: PPgit_reference; source: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_dup(dest: PPgit_reference; source: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the given reference.
@@ -508,7 +508,7 @@ function git_reference_dup(dest: PPgit_reference; source: Pgit_reference): Integ
  * @param ref git_reference
  *)
 
-procedure git_reference_free(ref: Pgit_reference); cdecl; external libgit2_dll;
+procedure git_reference_free(ref: Pgit_reference); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare two references.
@@ -518,7 +518,7 @@ procedure git_reference_free(ref: Pgit_reference); cdecl; external libgit2_dll;
  * @return 0 if the same, else a stable but meaningless ordering.
  *)
 
-function git_reference_cmp(ref1, ref2: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_cmp(ref1, ref2: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an iterator for the repo's references
@@ -528,7 +528,7 @@ function git_reference_cmp(ref1, ref2: Pgit_reference): Integer; cdecl; external
  * @return 0 or an error code
  *)
 
-function git_reference_iterator_new(out_: PPgit_reference_iterator; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_reference_iterator_new(out_: PPgit_reference_iterator; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an iterator for the repo's references that match the
@@ -541,7 +541,7 @@ function git_reference_iterator_new(out_: PPgit_reference_iterator; repo: Pgit_r
  *)
 
 function git_reference_iterator_glob_new(out_: PPgit_reference_iterator; repo: Pgit_repository;
-  glob: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  glob: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the next reference
@@ -551,7 +551,7 @@ function git_reference_iterator_glob_new(out_: PPgit_reference_iterator; repo: P
  * @return 0, GIT_ITEROVER if there are no more; or an error code
  *)
 
-function git_reference_next(out_: PPgit_reference; iter: Pgit_reference_iterator): Integer; cdecl; external libgit2_dll;
+function git_reference_next(out_: PPgit_reference; iter: Pgit_reference_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the next reference's name
@@ -565,7 +565,7 @@ function git_reference_next(out_: PPgit_reference; iter: Pgit_reference_iterator
  * @return 0, GIT_ITEROVER if there are no more; or an error code
  *)
 
-function git_reference_next_name(out_: PPAnsiChar; iter: Pgit_reference_iterator): Integer; cdecl; external libgit2_dll;
+function git_reference_next_name(out_: PPAnsiChar; iter: Pgit_reference_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the iterator and its associated resources
@@ -573,7 +573,7 @@ function git_reference_next_name(out_: PPAnsiChar; iter: Pgit_reference_iterator
  * @param iter the iterator to free
  *)
 
-procedure git_reference_iterator_free(iter: Pgit_reference_iterator); cdecl; external libgit2_dll;
+procedure git_reference_iterator_free(iter: Pgit_reference_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform a callback on each reference in the repository whose name
@@ -595,7 +595,7 @@ procedure git_reference_iterator_free(iter: Pgit_reference_iterator); cdecl; ext
  *)
 
 function git_reference_foreach_glob(repo: Pgit_repository; glob: PAnsiChar;
-  callback: git_reference_foreach_name_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_reference_foreach_name_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a reflog exists for the specified reference.
@@ -606,7 +606,7 @@ function git_reference_foreach_glob(repo: Pgit_repository; glob: PAnsiChar;
  * otherwise an error code.
  *)
 
-function git_reference_has_log(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_has_log(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Ensure there is a reflog for a particular reference.
@@ -619,7 +619,7 @@ function git_reference_has_log(repo: Pgit_repository; refname: PAnsiChar): Integ
  * @return 0 or an error code.
  *)
 
-function git_reference_ensure_log(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_ensure_log(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a reference is a local branch.
@@ -630,7 +630,7 @@ function git_reference_ensure_log(repo: Pgit_repository; refname: PAnsiChar): In
  * namespace; 0 otherwise.
  *)
 
-function git_reference_is_branch(ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_is_branch(ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a reference is a remote tracking branch
@@ -641,7 +641,7 @@ function git_reference_is_branch(ref: Pgit_reference): Integer; cdecl; external 
  * namespace; 0 otherwise.
  *)
 
-function git_reference_is_remote(ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_is_remote(ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a reference is a tag
@@ -652,7 +652,7 @@ function git_reference_is_remote(ref: Pgit_reference): Integer; cdecl; external 
  * namespace; 0 otherwise.
  *)
 
-function git_reference_is_tag(ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_is_tag(ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a reference is a note
@@ -663,7 +663,7 @@ function git_reference_is_tag(ref: Pgit_reference): Integer; cdecl; external lib
  * namespace; 0 otherwise.
  *)
 
-function git_reference_is_note(ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_reference_is_note(ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Normalization options for reference lookup
@@ -720,7 +720,7 @@ type
    *)
 
 function git_reference_normalize_name(buffer_out: PAnsiChar; buffer_size: size_t; name_: PAnsiChar;
-  flags: Cardinal): Integer; cdecl; external libgit2_dll;
+  flags: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Recursively peel reference until object of the specified type is found.
@@ -738,7 +738,7 @@ function git_reference_normalize_name(buffer_out: PAnsiChar; buffer_size: size_t
  * @return 0 on success, GIT_EAMBIGUOUS, GIT_ENOTFOUND or an error code
  *)
 
-function git_reference_peel(out_: PPgit_object; ref: Pgit_reference; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+function git_reference_peel(out_: PPgit_object; ref: Pgit_reference; type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Ensure the reference name is well-formed.
@@ -756,7 +756,7 @@ function git_reference_peel(out_: PPgit_object; ref: Pgit_reference; type_: git_
  * @return 0 on success or an error code
  *)
 
-function git_reference_name_is_valid(valid: PInteger; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_reference_name_is_valid(valid: PInteger; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the reference's short name
@@ -771,7 +771,7 @@ function git_reference_name_is_valid(valid: PInteger; refname: PAnsiChar): Integ
  * @return the human-readable version of the name
  *)
 
-function git_reference_shorthand(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll;
+function git_reference_shorthand(ref: Pgit_reference): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

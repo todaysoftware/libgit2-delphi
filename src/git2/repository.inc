@@ -24,7 +24,7 @@
  * @return 0 or an error code
  *)
 
-function git_repository_open(out_: PPgit_repository; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_open(out_: PPgit_repository; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open working tree as a repository
@@ -37,7 +37,7 @@ function git_repository_open(out_: PPgit_repository; path: PAnsiChar): Integer; 
  * @return 0 or an error code
  *)
 
-function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
+function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_worktree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a "fake" repository to wrap an object database
@@ -51,7 +51,7 @@ function git_repository_open_from_worktree(out_: PPgit_repository; wt: Pgit_work
  * @return 0 or an error code
  *)
 
-function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer; cdecl; external libgit2_dll;
+function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look for a git repository and copy its path in the given buffer.
@@ -85,7 +85,7 @@ function git_repository_wrap_odb(out_: PPgit_repository; odb: Pgit_odb): Integer
  *)
 
 function git_repository_discover(out_: Pgit_buf; start_path: PAnsiChar; across_fs: Integer;
-  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Option flags for `git_repository_open_ext`.
@@ -161,7 +161,7 @@ type
    *)
 
 function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar; flags: Cardinal;
-  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  ceiling_dirs: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open a bare repository on the serverside.
@@ -179,7 +179,7 @@ function git_repository_open_ext(out_: PPgit_repository; path: PAnsiChar; flags:
  * @return 0 on success, or an error code
  *)
 
-function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a previously allocated repository
@@ -193,7 +193,7 @@ function git_repository_open_bare(out_: PPgit_repository; bare_path: PAnsiChar):
  * @param repo repository handle to close. If NULL nothing occurs.
  *)
 
-procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dll;
+procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a new Git repository in the given folder.
@@ -216,7 +216,7 @@ procedure git_repository_free(repo: Pgit_repository); cdecl; external libgit2_dl
  *)
 
 function git_repository_init(out_: PPgit_repository; path: PAnsiChar;
-  is_bare: Cardinal): Integer; cdecl; external libgit2_dll;
+  is_bare: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Option flags for `git_repository_init_ext`.
@@ -373,7 +373,7 @@ const
   *)
 
 function git_repository_init_options_init(opts: Pgit_repository_init_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new Git repository in the given folder with extended controls.
@@ -393,7 +393,7 @@ function git_repository_init_options_init(opts: Pgit_repository_init_options;
  *)
 
 function git_repository_init_ext(out_: PPgit_repository; repo_path: PAnsiChar;
-  opts: Pgit_repository_init_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_repository_init_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve and resolve the reference pointed at by HEAD.
@@ -409,7 +409,7 @@ function git_repository_init_ext(out_: PPgit_repository; repo_path: PAnsiChar;
  * branch, GIT_ENOTFOUND when HEAD is missing; an error code otherwise
  *)
 
-function git_repository_head(out_: PPgit_reference; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_head(out_: PPgit_reference; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the referenced HEAD for the worktree
@@ -421,7 +421,7 @@ function git_repository_head(out_: PPgit_reference; repo: Pgit_repository): Inte
  *)
 
 function git_repository_head_for_worktree(out_: PPgit_reference; repo: Pgit_repository;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a repository's HEAD is detached
@@ -434,7 +434,7 @@ function git_repository_head_for_worktree(out_: PPgit_reference; repo: Pgit_repo
  * was an error.
  *)
 
-function git_repository_head_detached(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_head_detached(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a worktree's HEAD is detached
@@ -448,7 +448,7 @@ function git_repository_head_detached(repo: Pgit_repository): Integer; cdecl; ex
  *  there was an error
  *)
 
-function git_repository_head_detached_for_worktree(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_head_detached_for_worktree(repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if the current branch is unborn
@@ -461,7 +461,7 @@ function git_repository_head_detached_for_worktree(repo: Pgit_repository; name_:
  * code if there was an error
  *)
 
-function git_repository_head_unborn(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_head_unborn(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a repository is empty
@@ -476,7 +476,7 @@ function git_repository_head_unborn(repo: Pgit_repository): Integer; cdecl; exte
  * if the repository is corrupted
   *)
 
-function git_repository_is_empty(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_is_empty(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * List of items which belong to the git repository layout
@@ -518,7 +518,7 @@ type
    *)
 
 function git_repository_item_path(out_: Pgit_buf; repo: Pgit_repository;
-  item: git_repository_item_t): Integer; cdecl; external libgit2_dll;
+  item: git_repository_item_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the path of this repository
@@ -530,7 +530,7 @@ function git_repository_item_path(out_: Pgit_buf; repo: Pgit_repository;
  * @return the path to the repository
  *)
 
-function git_repository_path(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
+function git_repository_path(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the path of the working directory for this repository
@@ -542,7 +542,7 @@ function git_repository_path(repo: Pgit_repository): PAnsiChar; cdecl; external 
  * @return the path to the working dir, if it exists
  *)
 
-function git_repository_workdir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
+function git_repository_workdir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the path of the shared common directory for this repository.
@@ -555,7 +555,7 @@ function git_repository_workdir(repo: Pgit_repository): PAnsiChar; cdecl; extern
  * @return the path to the common dir
  *)
 
-function git_repository_commondir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
+function git_repository_commondir(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the path to the working directory for this repository
@@ -576,7 +576,7 @@ function git_repository_commondir(repo: Pgit_repository): PAnsiChar; cdecl; exte
  *)
 
 function git_repository_set_workdir(repo: Pgit_repository; workdir: PAnsiChar;
-  update_gitlink: Integer): Integer; cdecl; external libgit2_dll;
+  update_gitlink: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a repository is bare
@@ -585,7 +585,7 @@ function git_repository_set_workdir(repo: Pgit_repository; workdir: PAnsiChar;
  * @return 1 if the repository is bare, 0 otherwise.
  *)
 
-function git_repository_is_bare(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_is_bare(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if a repository is a linked work tree
@@ -594,7 +594,7 @@ function git_repository_is_bare(repo: Pgit_repository): Integer; cdecl; external
  * @return 1 if the repository is a linked work tree, 0 otherwise.
  *)
 
-function git_repository_is_worktree(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_is_worktree(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the configuration file for this repository.
@@ -611,7 +611,7 @@ function git_repository_is_worktree(repo: Pgit_repository): Integer; cdecl; exte
  * @return 0, or an error code
  *)
 
-function git_repository_config(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_config(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a snapshot of the repository's configuration
@@ -628,7 +628,7 @@ function git_repository_config(out_: PPgit_config; repo: Pgit_repository): Integ
  * @return 0, or an error code
  *)
 
-function git_repository_config_snapshot(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_config_snapshot(out_: PPgit_config; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the Object Database for this repository.
@@ -645,7 +645,7 @@ function git_repository_config_snapshot(out_: PPgit_config; repo: Pgit_repositor
  * @return 0, or an error code
  *)
 
-function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the Reference Database Backend for this repository.
@@ -662,7 +662,7 @@ function git_repository_odb(out_: PPgit_odb; repo: Pgit_repository): Integer; cd
  * @return 0, or an error code
  *)
 
-function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the Index file for this repository.
@@ -679,7 +679,7 @@ function git_repository_refdb(out_: PPgit_refdb; repo: Pgit_repository): Integer
  * @return 0, or an error code
  *)
 
-function git_repository_index(out_: PPgit_index; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_index(out_: PPgit_index; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve git's prepared message
@@ -698,7 +698,7 @@ function git_repository_index(out_: PPgit_index; repo: Pgit_repository): Integer
  * @return 0, GIT_ENOTFOUND if no message exists or an error code
  *)
 
-function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove git's prepared message.
@@ -709,7 +709,7 @@ function git_repository_message(out_: Pgit_buf; repo: Pgit_repository): Integer;
  * @return 0 or an error code.
  *)
 
-function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove all the metadata associated with an ongoing command like merge,
@@ -719,7 +719,7 @@ function git_repository_message_remove(repo: Pgit_repository): Integer; cdecl; e
  * @return 0 on success, or error
  *)
 
-function git_repository_state_cleanup(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_state_cleanup(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback used to iterate over each FETCH_HEAD entry
@@ -751,7 +751,7 @@ type
    *)
 
 function git_repository_fetchhead_foreach(repo: Pgit_repository; callback: git_repository_fetchhead_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback used to iterate over each MERGE_HEAD entry
@@ -780,7 +780,7 @@ type
    *)
 
 function git_repository_mergehead_foreach(repo: Pgit_repository; callback: git_repository_mergehead_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Calculate hash of file using repository filtering rules.
@@ -809,7 +809,7 @@ function git_repository_mergehead_foreach(repo: Pgit_repository; callback: git_r
  *)
 
 function git_repository_hashfile(out_: Pgit_oid; repo: Pgit_repository; path: PAnsiChar;
-  type_: git_object_t; as_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  type_: git_object_t; as_path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Make the repository HEAD point to the specified reference.
@@ -830,7 +830,7 @@ function git_repository_hashfile(out_: Pgit_oid; repo: Pgit_repository; path: PA
  * @return 0 on success, or an error code
  *)
 
-function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Make the repository HEAD directly point to the Commit.
@@ -849,7 +849,7 @@ function git_repository_set_head(repo: Pgit_repository; refname: PAnsiChar): Int
  * @return 0 on success, or an error code
  *)
 
-function git_repository_set_head_detached(repo: Pgit_repository; committish: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_repository_set_head_detached(repo: Pgit_repository; committish: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Make the repository HEAD directly point to the Commit.
@@ -867,7 +867,7 @@ function git_repository_set_head_detached(repo: Pgit_repository; committish: Pgi
  *)
 
 function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
-  commitish: Pgit_annotated_commit): Integer; cdecl; external libgit2_dll;
+  commitish: Pgit_annotated_commit): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Detach the HEAD.
@@ -887,7 +887,7 @@ function git_repository_set_head_detached_from_annotated(repo: Pgit_repository;
  * branch or an error code
  *)
 
-function git_repository_detach_head(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_detach_head(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Repository state
@@ -920,7 +920,7 @@ type
    * @return The state of the repository
    *)
 
-function git_repository_state(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_state(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Sets the active namespace for this Git Repository
@@ -935,7 +935,7 @@ function git_repository_state(repo: Pgit_repository): Integer; cdecl; external l
  *	@return 0 on success, -1 on error
  *)
 
-function git_repository_set_namespace(repo: Pgit_repository; nmspace: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_set_namespace(repo: Pgit_repository; nmspace: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the currently active namespace for this repository
@@ -944,7 +944,7 @@ function git_repository_set_namespace(repo: Pgit_repository; nmspace: PAnsiChar)
  * @return the active namespace, or NULL if there isn't one
  *)
 
-function git_repository_get_namespace(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll;
+function git_repository_get_namespace(repo: Pgit_repository): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if the repository was a shallow clone
@@ -953,7 +953,7 @@ function git_repository_get_namespace(repo: Pgit_repository): PAnsiChar; cdecl; 
  * @return 1 if shallow, zero if not
  *)
 
-function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the configured identity to use for reflogs
@@ -967,7 +967,7 @@ function git_repository_is_shallow(repo: Pgit_repository): Integer; cdecl; exter
  * @return 0 or an error code
  *)
 
-function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the identity to be used for writing reflogs
@@ -982,7 +982,7 @@ function git_repository_ident(name_, email: PPAnsiChar; repo: Pgit_repository): 
  * @return 0 or an error code
  *)
 
-function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the object type used by this repository.
@@ -990,7 +990,7 @@ function git_repository_set_ident(repo: Pgit_repository; name_, email: PAnsiChar
  * @param repo the repository
  * @return the object id type
  *)
-function git_repository_oid_type(repo: Pgit_repository): git_oid_t; cdecl; external libgit2_dll;
+function git_repository_oid_type(repo: Pgit_repository): git_oid_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the parents of the next commit, given the current repository state.
@@ -1002,7 +1002,7 @@ function git_repository_oid_type(repo: Pgit_repository): git_oid_t; cdecl; exter
  * @return 0 or an error code
  *)
 function git_repository_commit_parents(commits: Pgit_commitarray; repo: Pgit_repository): Integer;
-  cdecl; external libgit2_dll;
+  cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

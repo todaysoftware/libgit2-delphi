@@ -38,7 +38,7 @@
   *)
 
 function git_branch_create(out_: PPgit_reference; repo: Pgit_repository; branch_name: PAnsiChar;
-  target: Pgit_commit; force: Integer): Integer; cdecl; external libgit2_dll;
+  target: Pgit_commit; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new branch pointing at a target commit
@@ -59,7 +59,7 @@ function git_branch_create(out_: PPgit_reference; repo: Pgit_repository; branch_
   *)
 
 function git_branch_create_from_annotated(ref_out: PPgit_reference; repo: Pgit_repository;
-  branch_name: PAnsiChar; target: Pgit_annotated_commit; force: Integer): Integer; cdecl; external libgit2_dll;
+  branch_name: PAnsiChar; target: Pgit_annotated_commit; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Delete an existing branch reference.
@@ -72,7 +72,7 @@ function git_branch_create_from_annotated(ref_out: PPgit_reference; repo: Pgit_r
  * @return 0 on success, or an error code.
   *)
 
-function git_branch_delete(branch: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_branch_delete(branch: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** Iterator type for branches  *)
 
@@ -97,7 +97,7 @@ type
   PPgit_branch_iterator = ^Pgit_branch_iterator;
 
 function git_branch_iterator_new(out_: PPgit_branch_iterator; repo: Pgit_repository;
-  list_flags: git_branch_t): Integer; cdecl; external libgit2_dll;
+  list_flags: git_branch_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the next branch from the iterator
@@ -108,7 +108,7 @@ function git_branch_iterator_new(out_: PPgit_branch_iterator; repo: Pgit_reposit
  * @return 0 on success, GIT_ITEROVER if there are no more branches or an error code.
   *)
 
-function git_branch_next(out_: PPgit_reference; out_type: Pgit_branch_t; iter: Pgit_branch_iterator): Integer; cdecl; external libgit2_dll;
+function git_branch_next(out_: PPgit_reference; out_type: Pgit_branch_t; iter: Pgit_branch_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a branch iterator
@@ -116,7 +116,7 @@ function git_branch_next(out_: PPgit_reference; out_type: Pgit_branch_t; iter: P
  * @param iter the iterator to free
   *)
 
-procedure git_branch_iterator_free(iter: Pgit_branch_iterator); cdecl; external libgit2_dll;
+procedure git_branch_iterator_free(iter: Pgit_branch_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Move/rename an existing local branch reference.
@@ -141,7 +141,7 @@ procedure git_branch_iterator_free(iter: Pgit_branch_iterator); cdecl; external 
   *)
 
 function git_branch_move(out_: PPgit_reference; branch: Pgit_reference; new_branch_name: PAnsiChar;
-  force: Integer): Integer; cdecl; external libgit2_dll;
+  force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a branch by its name in a repository.
@@ -163,7 +163,7 @@ function git_branch_move(out_: PPgit_reference; branch: Pgit_reference; new_bran
   *)
 
 function git_branch_lookup(out_: PPgit_reference; repo: Pgit_repository; branch_name: PAnsiChar;
-  branch_type: git_branch_t): Integer; cdecl; external libgit2_dll;
+  branch_type: git_branch_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the branch name
@@ -181,7 +181,7 @@ function git_branch_lookup(out_: PPgit_reference; repo: Pgit_repository; branch_
  *         remote branch, otherwise an error code.
   *)
 
-function git_branch_name(out_: PPAnsiChar; ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_branch_name(out_: PPAnsiChar; ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the upstream of a branch
@@ -198,7 +198,7 @@ function git_branch_name(out_: PPAnsiChar; ref: Pgit_reference): Integer; cdecl;
  *         reference exists, otherwise an error code.
   *)
 
-function git_branch_upstream(out_: PPgit_reference; branch: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_branch_upstream(out_: PPgit_reference; branch: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set a branch's upstream branch
@@ -216,7 +216,7 @@ function git_branch_upstream(out_: PPgit_reference; branch: Pgit_reference): Int
  *         or an error code
   *)
 
-function git_branch_set_upstream(branch: Pgit_reference; branch_name: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_set_upstream(branch: Pgit_reference; branch_name: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the upstream name of a branch
@@ -233,7 +233,7 @@ function git_branch_set_upstream(branch: Pgit_reference; branch_name: PAnsiChar)
  *         or an error code.
   *)
 
-function git_branch_upstream_name(out_: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_upstream_name(out_: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if HEAD points to the given branch
@@ -244,7 +244,7 @@ function git_branch_upstream_name(out_: Pgit_buf; repo: Pgit_repository; refname
  * 		   as an error code.
   *)
 
-function git_branch_is_head(branch: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_branch_is_head(branch: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if any HEAD points to the current branch
@@ -257,7 +257,7 @@ function git_branch_is_head(branch: Pgit_reference): Integer; cdecl; external li
  * @return 1 if branch is checked out, 0 if it isn't, an error code otherwise.
   *)
 
-function git_branch_is_checked_out(branch: Pgit_reference): Integer; cdecl; external libgit2_dll;
+function git_branch_is_checked_out(branch: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find the remote name of a remote-tracking branch
@@ -276,7 +276,7 @@ function git_branch_is_checked_out(branch: Pgit_reference): Integer; cdecl; exte
  *         otherwise an error code.
   *)
 
-function git_branch_remote_name(out_: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_remote_name(out_: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the upstream remote of a local branch
@@ -290,7 +290,7 @@ function git_branch_remote_name(out_: Pgit_buf; repo: Pgit_repository; refname: 
  * @return 0 or an error code
   *)
 
-function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the upstream merge of a local branch
@@ -303,7 +303,7 @@ function git_branch_upstream_remote(buf: Pgit_buf; repo: Pgit_repository; refnam
  * @param refname the full name of the branch
  * @return 0 or an error code
  *)
-function git_branch_upstream_merge(buf: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_upstream_merge(buf: Pgit_buf; repo: Pgit_repository; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine whether a branch name is valid, meaning that (when prefixed
@@ -315,7 +315,7 @@ function git_branch_upstream_merge(buf: Pgit_buf; repo: Pgit_repository; refname
  * @param name a branch name to test
  * @return 0 on success or an error code
  *)
-function git_branch_name_is_valid(valid: PInteger; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_branch_name_is_valid(valid: PInteger; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -48,7 +48,7 @@ type
    *)
 
 function git_reset(repo: Pgit_repository; target: Pgit_object; reset_type: git_reset_t;
-  checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Sets the current head to the specified commit oid and optionally
@@ -76,7 +76,7 @@ function git_reset(repo: Pgit_repository; target: Pgit_object; reset_type: git_r
  *)
 
 function git_reset_from_annotated(repo: Pgit_repository; target: Pgit_annotated_commit;
-  reset_type: git_reset_t; checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  reset_type: git_reset_t; checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Updates some entries in the index from the target commit tree.
@@ -97,7 +97,7 @@ function git_reset_from_annotated(repo: Pgit_repository; target: Pgit_annotated_
  * @return 0 on success or an error code < 0
  *)
 
-function git_reset_default(repo: Pgit_repository; target: Pgit_object; pathspecs: Pgit_strarray): Integer; cdecl; external libgit2_dll;
+function git_reset_default(repo: Pgit_repository; target: Pgit_object; pathspecs: Pgit_strarray): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

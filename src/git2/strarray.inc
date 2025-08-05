@@ -26,7 +26,7 @@ type
  * @param array The git_strarray that contains strings to free
  *)
 
-procedure git_strarray_dispose(array_: Pgit_strarray); cdecl; external libgit2_dll;
+procedure git_strarray_dispose(array_: Pgit_strarray); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

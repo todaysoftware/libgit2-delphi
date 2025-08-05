@@ -27,7 +27,7 @@
  *)
 
 function git_signature_new(out_: PPgit_signature; name_, email: PAnsiChar; time: git_time_t;
-  offset: Integer): Integer; cdecl; external libgit2_dll;
+  offset: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new action signature with a timestamp of 'now'.
@@ -40,7 +40,7 @@ function git_signature_new(out_: PPgit_signature; name_, email: PAnsiChar; time:
  * @return 0 or an error code
  *)
 
-function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new author and/or committer signatures with default
@@ -74,7 +74,7 @@ function git_signature_now(out_: PPgit_signature; name_, email: PAnsiChar): Inte
  * @return 0 on success, GIT_ENOTFOUND if config is missing, or error code
  *)
 function git_signature_default_from_env(author_out, committer_out: PPgit_signature;
-  repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new action signature with default user and now timestamp.
@@ -93,7 +93,7 @@ function git_signature_default_from_env(author_out, committer_out: PPgit_signatu
  * @return 0 on success, GIT_ENOTFOUND if config is missing, or error code
  *)
 
-function git_signature_default(out_: PPgit_signature; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_signature_default(out_: PPgit_signature; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new signature by parsing the given buffer, which is
@@ -107,7 +107,7 @@ function git_signature_default(out_: PPgit_signature; repo: Pgit_repository): In
  * @return 0 on success, GIT_EINVALID if the signature is not parseable, or an error code
  *)
 
-function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a copy of an existing signature.  All internal strings are also
@@ -120,7 +120,7 @@ function git_signature_from_buffer(out_: PPgit_signature; buf: PAnsiChar): Integ
  * @return 0 or an error code
  *)
 
-function git_signature_dup(dest: PPgit_signature; sig: Pgit_signature): Integer; cdecl; external libgit2_dll;
+function git_signature_dup(dest: PPgit_signature; sig: Pgit_signature): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free an existing signature.
@@ -132,7 +132,7 @@ function git_signature_dup(dest: PPgit_signature; sig: Pgit_signature): Integer;
  * @param sig signature to free
  *)
 
-procedure git_signature_free(sig: Pgit_signature); cdecl; external libgit2_dll;
+procedure git_signature_free(sig: Pgit_signature); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

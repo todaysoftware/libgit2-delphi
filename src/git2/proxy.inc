@@ -85,7 +85,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_proxy_options_init(opts: Pgit_proxy_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_proxy_options_init(opts: Pgit_proxy_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 
 

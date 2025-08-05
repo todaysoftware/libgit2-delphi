@@ -34,7 +34,7 @@ type
    * @return a pointer to the repository
    *)
 
-function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external libgit2_dll;
+function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return a patch for an entry in the diff list.
@@ -57,7 +57,7 @@ function git_patch_owner(patch: Pgit_patch): Pgit_repository; cdecl; external li
  * @return 0 on success, other value < 0 on error
  *)
 
-function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t): Integer; cdecl; external libgit2_dll;
+function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Directly generate a patch from the difference between two blobs.
@@ -77,7 +77,7 @@ function git_patch_from_diff(out_: PPgit_patch; diff: Pgit_diff; idx: size_t): I
  *)
 
 function git_patch_from_blobs(out_: PPgit_patch; old_blob: Pgit_blob; old_as_path: PAnsiChar;
-  new_blob: Pgit_blob; new_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  new_blob: Pgit_blob; new_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Directly generate a patch from the difference between a blob and a buffer.
@@ -98,7 +98,7 @@ function git_patch_from_blobs(out_: PPgit_patch; old_blob: Pgit_blob; old_as_pat
  *)
 
 function git_patch_from_blob_and_buffer(out_: PPgit_patch; old_blob: Pgit_blob; old_as_path: PAnsiChar;
-  buffer: Pointer; buffer_len: size_t; buffer_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  buffer: Pointer; buffer_len: size_t; buffer_as_path: PAnsiChar; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Directly generate a patch from the difference between two buffers.
@@ -121,7 +121,7 @@ function git_patch_from_blob_and_buffer(out_: PPgit_patch; old_blob: Pgit_blob; 
 
 function git_patch_from_buffers(out_: PPgit_patch; old_buffer: Pointer; old_len: size_t;
   old_as_path: PAnsiChar; new_buffer: Pointer; new_len: size_t; new_as_path: PAnsiChar;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a git_patch object.
@@ -129,7 +129,7 @@ function git_patch_from_buffers(out_: PPgit_patch; old_buffer: Pointer; old_len:
  * @param patch The patch to free.
  *)
 
-procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll;
+procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the delta associated with a patch.  This delta points to internal
@@ -139,7 +139,7 @@ procedure git_patch_free(patch: Pgit_patch); cdecl; external libgit2_dll;
  * @return The delta associated with the patch.
  *)
 
-function git_patch_get_delta(patch: Pgit_patch): Pgit_diff_delta; cdecl; external libgit2_dll;
+function git_patch_get_delta(patch: Pgit_patch): Pgit_diff_delta; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of hunks in a patch
@@ -148,7 +148,7 @@ function git_patch_get_delta(patch: Pgit_patch): Pgit_diff_delta; cdecl; externa
  * @return The number of hunks of the patch.
  *)
 
-function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2_dll;
+function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get line counts of each type in a patch.
@@ -168,7 +168,7 @@ function git_patch_num_hunks(patch: Pgit_patch): size_t; cdecl; external libgit2
  *)
 
 function git_patch_line_stats(total_context, total_additions, total_deletions: Psize_t;
-  patch: Pgit_patch): Integer; cdecl; external libgit2_dll;
+  patch: Pgit_patch): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the information about a hunk in a patch
@@ -187,7 +187,7 @@ function git_patch_line_stats(total_context, total_additions, total_deletions: P
 type
   PPgit_diff_hunk = ^Pgit_diff_hunk;
 function git_patch_get_hunk(out_: PPgit_diff_hunk; lines_in_hunk: Psize_t; patch: Pgit_patch;
-  hunk_idx: size_t): Integer; cdecl; external libgit2_dll;
+  hunk_idx: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of lines in a hunk.
@@ -197,7 +197,7 @@ function git_patch_get_hunk(out_: PPgit_diff_hunk; lines_in_hunk: Psize_t; patch
  * @return Number of lines in hunk or GIT_ENOTFOUND if invalid hunk index
  *)
 
-function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t): Integer; cdecl; external libgit2_dll;
+function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get data about a line in a hunk of a patch.
@@ -217,7 +217,7 @@ function git_patch_num_lines_in_hunk(patch: Pgit_patch; hunk_idx: size_t): Integ
 type
   PPgit_diff_line = ^Pgit_diff_line;
 function git_patch_get_line_in_hunk(out_: PPgit_diff_line; patch: Pgit_patch;
-  hunk_idx, line_of_hunk: size_t): Integer; cdecl; external libgit2_dll;
+  hunk_idx, line_of_hunk: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look up size of patch diff data in bytes
@@ -237,7 +237,7 @@ function git_patch_get_line_in_hunk(out_: PPgit_diff_line; patch: Pgit_patch;
  *)
 
 function git_patch_size(patch: Pgit_patch;
-include_context, include_hunk_headers, include_file_headers: Integer): size_t; cdecl; external libgit2_dll;
+include_context, include_hunk_headers, include_file_headers: Integer): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Serialize the patch to text via callback.
@@ -253,7 +253,7 @@ include_context, include_hunk_headers, include_file_headers: Integer): size_t; c
  *)
 
 function git_patch_print(patch: Pgit_patch; print_cb: git_diff_line_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the content of a patch as a single diff text.
@@ -263,7 +263,7 @@ function git_patch_print(patch: Pgit_patch; print_cb: git_diff_line_cb;
  * @return 0 on success, <0 on failure.
  *)
 
-function git_patch_to_buf(out_: Pgit_buf; patch: Pgit_patch): Integer; cdecl; external libgit2_dll;
+function git_patch_to_buf(out_: Pgit_buf; patch: Pgit_patch): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 

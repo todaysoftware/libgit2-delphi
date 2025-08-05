@@ -31,7 +31,7 @@
  * @return 0 on success
  *)
 
-function git_ignore_add_rule(repo: Pgit_repository; rules: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_ignore_add_rule(repo: Pgit_repository; rules: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Clear ignore rules that were explicitly added.
@@ -45,7 +45,7 @@ function git_ignore_add_rule(repo: Pgit_repository; rules: PAnsiChar): Integer; 
  * @return 0 on success
  *)
 
-function git_ignore_clear_internal_rules(repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_ignore_clear_internal_rules(repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Test if the ignore rules apply to a given path.
@@ -65,5 +65,5 @@ function git_ignore_clear_internal_rules(repo: Pgit_repository): Integer; cdecl;
  *)
 
 function git_ignore_path_is_ignored(ignored: PInteger; repo: Pgit_repository;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 

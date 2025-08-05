@@ -144,7 +144,7 @@ type
    * @param cred the object to free
    *)
 
-procedure git_credential_free(cred: Pgit_credential); cdecl; external libgit2_dll;
+procedure git_credential_free(cred: Pgit_credential); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check whether a credential object contains username information.
@@ -153,7 +153,7 @@ procedure git_credential_free(cred: Pgit_credential); cdecl; external libgit2_dl
  * @return 1 if the credential object has non-NULL username, 0 otherwise
   *)
 
-function git_credential_has_username(cred: Pgit_credential): Integer; cdecl; external libgit2_dll;
+function git_credential_has_username(cred: Pgit_credential): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the username associated with a credential object.
@@ -162,7 +162,7 @@ function git_credential_has_username(cred: Pgit_credential): Integer; cdecl; ext
  * @return the credential username, or NULL if not applicable
  *)
 
-function git_credential_get_username(cred: Pgit_credential): PAnsiChar; cdecl; external libgit2_dll;
+function git_credential_get_username(cred: Pgit_credential): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new plain-text username and password credential object.
@@ -175,7 +175,7 @@ function git_credential_get_username(cred: Pgit_credential): PAnsiChar; cdecl; e
  *)
 
 function git_credential_userpass_plaintext_new(out_: PPgit_credential;
-  username, password: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  username, password: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a "default" credential usable for Negotiate mechanisms like NTLM
@@ -185,7 +185,7 @@ function git_credential_userpass_plaintext_new(out_: PPgit_credential;
  * @return 0 for success or an error code for failure
  *)
 
-function git_credential_default_new(out_: PPgit_credential): Integer; cdecl; external libgit2_dll;
+function git_credential_default_new(out_: PPgit_credential): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a credential to specify a username.
@@ -198,7 +198,7 @@ function git_credential_default_new(out_: PPgit_credential): Integer; cdecl; ext
  * @return 0 for success or an error code for failure
  *)
 
-function git_credential_username_new(out_: PPgit_credential; username: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_credential_username_new(out_: PPgit_credential; username: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new passphrase-protected ssh key credential object.
@@ -213,7 +213,7 @@ function git_credential_username_new(out_: PPgit_credential; username: PAnsiChar
  *)
 
 function git_credential_ssh_key_new(out_: PPgit_credential;
-  username, publickey, privatekey, passphrase: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  username, publickey, privatekey, passphrase: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new ssh key credential object reading the keys from memory.
@@ -227,7 +227,7 @@ function git_credential_ssh_key_new(out_: PPgit_credential;
  *)
 
 function git_credential_ssh_key_memory_new(out_: PPgit_credential;
-  username, publickey, privatekey, passphrase: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  username, publickey, privatekey, passphrase: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (*
  * If the user hasn't included libssh2.h before git2.h, we need to
@@ -279,7 +279,7 @@ type
    *)
 
 function git_credential_ssh_interactive_new(out_: PPgit_credential; username: PAnsiChar;
-  prompt_callback: git_credential_ssh_interactive_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  prompt_callback: git_credential_ssh_interactive_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new ssh key credential object used for querying an ssh-agent.
@@ -291,7 +291,7 @@ function git_credential_ssh_interactive_new(out_: PPgit_credential; username: PA
  *)
 
 function git_credential_ssh_key_from_agent(out_: PPgit_credential;
-  username: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  username: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 type
   PLIBSSH2_SESSION = ^LIBSSH2_SESSION;
   (**
@@ -329,7 +329,7 @@ type
    *)
 
 function git_credential_ssh_custom_new(out_: PPgit_credential; username, publickey: PAnsiChar;
-  publickey_len: size_t; sign_callback: git_credential_sign_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  publickey_len: size_t; sign_callback: git_credential_sign_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

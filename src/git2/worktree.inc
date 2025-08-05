@@ -17,7 +17,7 @@
  * @return 0 or an error code
  *)
 
-function git_worktree_list(out_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_worktree_list(out_: Pgit_strarray; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a working tree by its name for a given repository
@@ -28,7 +28,7 @@ function git_worktree_list(out_: Pgit_strarray; repo: Pgit_repository): Integer;
  * @return 0 or an error code
  *)
 
-function git_worktree_lookup(out_: PPgit_worktree; repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_worktree_lookup(out_: PPgit_worktree; repo: Pgit_repository; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open a worktree of a given repository
@@ -43,7 +43,7 @@ function git_worktree_lookup(out_: PPgit_worktree; repo: Pgit_repository; name_:
  *)
 
 function git_worktree_open_from_repository(out_: PPgit_worktree;
-  repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a previously allocated worktree
@@ -51,7 +51,7 @@ function git_worktree_open_from_repository(out_: PPgit_worktree;
  * @param wt worktree handle to close. If NULL nothing occurs.
  *)
 
-procedure git_worktree_free(wt: Pgit_worktree); cdecl; external libgit2_dll;
+procedure git_worktree_free(wt: Pgit_worktree); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if worktree is valid
@@ -64,7 +64,7 @@ procedure git_worktree_free(wt: Pgit_worktree); cdecl; external libgit2_dll;
  * @return 0 when worktree is valid, error-code otherwise
  *)
 
-function git_worktree_validate(wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
+function git_worktree_validate(wt: Pgit_worktree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Worktree add options structure
@@ -103,7 +103,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_worktree_add_options_init(opts: Pgit_worktree_add_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_worktree_add_options_init(opts: Pgit_worktree_add_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a new working tree
@@ -121,7 +121,7 @@ function git_worktree_add_options_init(opts: Pgit_worktree_add_options; version:
  *)
 
 function git_worktree_add(out_: PPgit_worktree; repo: Pgit_repository; name_, path: PAnsiChar;
-  opts: Pgit_worktree_add_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_worktree_add_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lock worktree if not already locked
@@ -134,7 +134,7 @@ function git_worktree_add(out_: PPgit_worktree; repo: Pgit_repository; name_, pa
  * @return 0 on success, non-zero otherwise
  *)
 
-function git_worktree_lock(wt: Pgit_worktree; reason: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_worktree_lock(wt: Pgit_worktree; reason: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Unlock a locked worktree
@@ -144,7 +144,7 @@ function git_worktree_lock(wt: Pgit_worktree; reason: PAnsiChar): Integer; cdecl
  *  otherwise
  *)
 
-function git_worktree_unlock(wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
+function git_worktree_unlock(wt: Pgit_worktree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if worktree is locked
@@ -159,7 +159,7 @@ function git_worktree_unlock(wt: Pgit_worktree): Integer; cdecl; external libgit
  *  error
  *)
 
-function git_worktree_is_locked(reason: Pgit_buf; wt: Pgit_worktree): Integer; cdecl; external libgit2_dll;
+function git_worktree_is_locked(reason: Pgit_buf; wt: Pgit_worktree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the name of the worktree
@@ -169,7 +169,7 @@ function git_worktree_is_locked(reason: Pgit_buf; wt: Pgit_worktree): Integer; c
  *  lifetime of the git_worktree
  *)
 
-function git_worktree_name(wt: Pgit_worktree): PAnsiChar; cdecl; external libgit2_dll;
+function git_worktree_name(wt: Pgit_worktree): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve the filesystem path for the worktree
@@ -179,7 +179,7 @@ function git_worktree_name(wt: Pgit_worktree): PAnsiChar; cdecl; external libgit
  *  is valid for the lifetime of the git_worktree.
  *)
 
-function git_worktree_path(wt: Pgit_worktree): PAnsiChar; cdecl; external libgit2_dll;
+function git_worktree_path(wt: Pgit_worktree): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Flags which can be passed to git_worktree_prune to alter its
@@ -227,7 +227,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_worktree_prune_options_init(opts: Pgit_worktree_prune_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_worktree_prune_options_init(opts: Pgit_worktree_prune_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Is the worktree prunable with the given options?
@@ -249,7 +249,7 @@ function git_worktree_prune_options_init(opts: Pgit_worktree_prune_options; vers
  * @param opts The prunable options.
  * @return 1 if the worktree is prunable, 0 otherwise, or an error code.
   *)
-function git_worktree_is_prunable(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll;
+function git_worktree_is_prunable(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Prune working tree
@@ -264,6 +264,6 @@ function git_worktree_is_prunable(wt: Pgit_worktree; opts: Pgit_worktree_prune_o
  * @return 0 or an error code
   *)
 
-function git_worktree_prune(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll;
+function git_worktree_prune(wt: Pgit_worktree; opts: Pgit_worktree_prune_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)

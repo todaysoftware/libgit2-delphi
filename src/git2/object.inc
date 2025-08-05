@@ -29,7 +29,7 @@ const
  *)
 
 function git_object_lookup(object_: PPgit_object; repo: Pgit_repository; id: Pgit_oid;
-  type_: git_object_t): Integer; cdecl; external libgit2_dll;
+  type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a reference to one of the objects in a repository,
@@ -60,7 +60,7 @@ function git_object_lookup(object_: PPgit_object; repo: Pgit_repository; id: Pgi
  *)
 
 function git_object_lookup_prefix(object_out: PPgit_object; repo: Pgit_repository; id: Pgit_oid;
-  len: size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll;
+  len: size_t; type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup an object that represents a tree entry.
@@ -74,7 +74,7 @@ function git_object_lookup_prefix(object_out: PPgit_object; repo: Pgit_repositor
  *)
 
 function git_object_lookup_bypath(out_: PPgit_object; treeish: Pgit_object; path: PAnsiChar;
-  type_: git_object_t): Integer; cdecl; external libgit2_dll;
+  type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id (SHA1) of a repository object
@@ -83,7 +83,7 @@ function git_object_lookup_bypath(out_: PPgit_object; treeish: Pgit_object; path
  * @return the SHA1 id
  *)
 
-function git_object_id(obj: Pgit_object): Pgit_oid; cdecl; external libgit2_dll;
+function git_object_id(obj: Pgit_object): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a short abbreviated OID string for the object
@@ -98,7 +98,7 @@ function git_object_id(obj: Pgit_object): Pgit_oid; cdecl; external libgit2_dll;
  * @return 0 on success, <0 for error
  *)
 
-function git_object_short_id(out_: Pgit_buf; obj: Pgit_object): Integer; cdecl; external libgit2_dll;
+function git_object_short_id(out_: Pgit_buf; obj: Pgit_object): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the object type of an object
@@ -107,7 +107,7 @@ function git_object_short_id(out_: Pgit_buf; obj: Pgit_object): Integer; cdecl; 
  * @return the object's type
  *)
 
-function git_object_type(obj: Pgit_object): git_object_t; cdecl; external libgit2_dll;
+function git_object_type(obj: Pgit_object): git_object_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository that owns this object
@@ -122,7 +122,7 @@ function git_object_type(obj: Pgit_object): git_object_t; cdecl; external libgit
  * @return the repository who owns this object
  *)
 
-function git_object_owner(obj: Pgit_object): Pgit_repository; cdecl; external libgit2_dll;
+function git_object_owner(obj: Pgit_object): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open object
@@ -140,7 +140,7 @@ function git_object_owner(obj: Pgit_object): Pgit_repository; cdecl; external li
  * @param object the object to close
  *)
 
-procedure git_object_free(object_: Pgit_object); cdecl; external libgit2_dll;
+procedure git_object_free(object_: Pgit_object); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Convert an object type to its string representation.
@@ -152,7 +152,7 @@ procedure git_object_free(object_: Pgit_object); cdecl; external libgit2_dll;
  * @return the corresponding string representation.
  *)
 
-function git_object_type2string(type_: git_object_t): PAnsiChar; cdecl; external libgit2_dll;
+function git_object_type2string(type_: git_object_t): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Convert a string object type representation to it's git_object_t.
@@ -161,7 +161,7 @@ function git_object_type2string(type_: git_object_t): PAnsiChar; cdecl; external
  * @return the corresponding git_object_t.
  *)
 
-function git_object_string2type(str: PAnsiChar): git_object_t; cdecl; external libgit2_dll;
+function git_object_string2type(str: PAnsiChar): git_object_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if the given git_object_t is a valid loose object type.
@@ -171,7 +171,7 @@ function git_object_string2type(str: PAnsiChar): git_object_t; cdecl; external l
  * false otherwise.
  *)
 
-function git_object_typeisloose(type_: git_object_t): Integer; cdecl; external libgit2_dll;
+function git_object_typeisloose(type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Recursively peel an object until an object of the specified type is met.
@@ -198,7 +198,7 @@ function git_object_typeisloose(type_: git_object_t): Integer; cdecl; external l
  *)
 
 function git_object_peel(peeled: PPgit_object; object_: Pgit_object;
-  target_type: git_object_t): Integer; cdecl; external libgit2_dll;
+  target_type: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a Git object. The copy must be
@@ -209,7 +209,7 @@ function git_object_peel(peeled: PPgit_object; object_: Pgit_object;
  * @return 0 or an error code
  *)
 
-function git_object_dup(dest: PPgit_object; source: Pgit_object): Integer; cdecl; external libgit2_dll;
+function git_object_dup(dest: PPgit_object; source: Pgit_object): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
 (**
@@ -231,7 +231,7 @@ function git_object_dup(dest: PPgit_object; source: Pgit_object): Integer; cdecl
  *)
 
 function git_object_rawcontent_is_valid(valid: PInteger; buf: PAnsiChar; len: size_t;
-  type_: git_object_t; oid_type: git_oid_t): Integer; cdecl; external libgit2_dll;
+  type_: git_object_t; oid_type: git_oid_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
 (**
@@ -251,7 +251,7 @@ function git_object_rawcontent_is_valid(valid: PInteger; buf: PAnsiChar; len: si
  * @return 0 on success or an error code
  *)
 function git_object_rawcontent_is_valid(valid: PInteger; buf: PAnsiChar; len: size_t;
-  type_: git_object_t): Integer; cdecl; external libgit2_dll;
+  type_: git_object_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (** @}  *)
