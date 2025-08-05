@@ -19,7 +19,7 @@
  * @return 0 or an error code
   *)
 
-function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a blob object from a repository,
@@ -35,7 +35,7 @@ function git_blob_lookup(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid):
   *)
 
 function git_blob_lookup_prefix(blob: PPgit_blob; repo: Pgit_repository; id: Pgit_oid;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open blob
@@ -49,7 +49,7 @@ function git_blob_lookup_prefix(blob: PPgit_blob; repo: Pgit_repository; id: Pgi
  * @param blob the blob to close
   *)
 
-procedure git_blob_free(blob: Pgit_blob); cdecl; external libgit2_dll;
+procedure git_blob_free(blob: Pgit_blob); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of a blob.
@@ -58,7 +58,7 @@ procedure git_blob_free(blob: Pgit_blob); cdecl; external libgit2_dll;
  * @return SHA1 hash for this blob.
   *)
 
-function git_blob_id(blob: Pgit_blob): Pgit_oid; cdecl; external libgit2_dll;
+function git_blob_id(blob: Pgit_blob): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository that contains the blob.
@@ -67,7 +67,7 @@ function git_blob_id(blob: Pgit_blob): Pgit_oid; cdecl; external libgit2_dll;
  * @return Repository that contains this blob.
   *)
 
-function git_blob_owner(blob: Pgit_blob): Pgit_repository; cdecl; external libgit2_dll;
+function git_blob_owner(blob: Pgit_blob): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get a read-only buffer with the raw content of a blob.
@@ -81,7 +81,7 @@ function git_blob_owner(blob: Pgit_blob): Pgit_repository; cdecl; external libgi
  * @return @type `unsigned char *` the pointer, or NULL on error
   *)
 
-function git_blob_rawcontent(blob: Pgit_blob): Pointer; cdecl; external libgit2_dll;
+function git_blob_rawcontent(blob: Pgit_blob): Pointer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the size in bytes of the contents of a blob
@@ -90,7 +90,7 @@ function git_blob_rawcontent(blob: Pgit_blob): Pointer; cdecl; external libgit2_
  * @return size in bytes
   *)
 
-function git_blob_rawsize(blob: Pgit_blob): git_object_size_t; cdecl; external libgit2_dll;
+function git_blob_rawsize(blob: Pgit_blob): git_object_size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Flags to control the functionality of `git_blob_filter`.
@@ -184,7 +184,7 @@ const
     *)
 
 function git_blob_filter_options_init(opts: Pgit_blob_filter_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
 * Get a buffer with the filtered content of a blob.
@@ -210,7 +210,7 @@ function git_blob_filter_options_init(opts: Pgit_blob_filter_options;
 *)
 
 function git_blob_filter(out_: Pgit_buf; blob: Pgit_blob; as_path: PAnsiChar;
-  opts: Pgit_blob_filter_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_blob_filter_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read a file from the working folder of a repository and write it
@@ -225,7 +225,7 @@ function git_blob_filter(out_: Pgit_buf; blob: Pgit_blob; as_path: PAnsiChar;
   *)
 
 function git_blob_create_from_workdir(id: Pgit_oid; repo: Pgit_repository;
-  relative_path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  relative_path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Read a file from the filesystem (not necessarily inside the
@@ -240,7 +240,7 @@ function git_blob_create_from_workdir(id: Pgit_oid; repo: Pgit_repository;
   *)
 
 function git_blob_create_from_disk(id: Pgit_oid; repo: Pgit_repository;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a stream to write a new blob into the object database.
@@ -269,7 +269,7 @@ function git_blob_create_from_disk(id: Pgit_oid; repo: Pgit_repository;
   *)
 
 function git_blob_create_from_stream(out_: PPgit_writestream; repo: Pgit_repository;
-  hintpath: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  hintpath: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close the stream and finalize writing the blob to the object database.
@@ -281,7 +281,7 @@ function git_blob_create_from_stream(out_: PPgit_writestream; repo: Pgit_reposit
  * @return 0 or an error code
   *)
 
-function git_blob_create_from_stream_commit(out_: Pgit_oid; stream: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+function git_blob_create_from_stream_commit(out_: Pgit_oid; stream: Pgit_writestream): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write an in-memory buffer to the object database as a blob.
@@ -294,7 +294,7 @@ function git_blob_create_from_stream_commit(out_: Pgit_oid; stream: Pgit_writest
   *)
 
 function git_blob_create_from_buffer(id: Pgit_oid; repo: Pgit_repository; buffer: Pointer;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if the blob content is most likely binary or not.
@@ -308,7 +308,7 @@ function git_blob_create_from_buffer(id: Pgit_oid; repo: Pgit_repository; buffer
  * as binary; 0 otherwise.
   *)
 
-function git_blob_is_binary(blob: Pgit_blob): Integer; cdecl; external libgit2_dll;
+function git_blob_is_binary(blob: Pgit_blob): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if the given content is most certainly binary or not;
@@ -321,7 +321,7 @@ function git_blob_is_binary(blob: Pgit_blob): Integer; cdecl; external libgit2_d
  * as binary; 0 otherwise.
  *)
 
-function git_blob_data_is_binary(data: Pointer; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_blob_data_is_binary(data: Pointer; len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a blob. The copy must be explicitly
@@ -332,7 +332,7 @@ function git_blob_data_is_binary(data: Pointer; len: size_t): Integer; cdecl; ex
  * @return 0.
   *)
 
-function git_blob_dup(out_: PPgit_blob; source: Pgit_blob): Integer; cdecl; external libgit2_dll;
+function git_blob_dup(out_: PPgit_blob; source: Pgit_blob): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

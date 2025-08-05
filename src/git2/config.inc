@@ -110,7 +110,7 @@ type
    * @param entry The entry to free.
    *)
 
-procedure git_config_entry_free(entry: Pgit_config_entry); cdecl; external libgit2_dll;
+procedure git_config_entry_free(entry: Pgit_config_entry); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * A config enumeration callback.
@@ -171,7 +171,7 @@ type
    * @return 0 if a global configuration file has been found. Its path will be stored in `out`.
    *)
 
-function git_config_find_global(out_: Pgit_buf): Integer; cdecl; external libgit2_dll;
+function git_config_find_global(out_: Pgit_buf): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Locate the path to the global xdg compatible configuration file
@@ -189,7 +189,7 @@ function git_config_find_global(out_: Pgit_buf): Integer; cdecl; external libgit
  *	found. Its path will be stored in `out`.
  *)
 
-function git_config_find_xdg(out_: Pgit_buf): Integer; cdecl; external libgit2_dll;
+function git_config_find_xdg(out_: Pgit_buf): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Locate the path to the system configuration file
@@ -202,7 +202,7 @@ function git_config_find_xdg(out_: Pgit_buf): Integer; cdecl; external libgit2_d
  *	found. Its path will be stored in `out`.
  *)
 
-function git_config_find_system(out_: Pgit_buf): Integer; cdecl; external libgit2_dll;
+function git_config_find_system(out_: Pgit_buf): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Locate the path to the configuration file in ProgramData
@@ -214,7 +214,7 @@ function git_config_find_system(out_: Pgit_buf): Integer; cdecl; external libgit
  *	found. Its path will be stored in `out`.
  *)
 
-function git_config_find_programdata(out_: Pgit_buf): Integer; cdecl; external libgit2_dll;
+function git_config_find_programdata(out_: Pgit_buf): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open the global, XDG and system configuration files
@@ -227,7 +227,7 @@ function git_config_find_programdata(out_: Pgit_buf): Integer; cdecl; external l
  * @return 0 or an error code
  *)
 
-function git_config_open_default(out_: PPgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_open_default(out_: PPgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Allocate a new configuration object
@@ -239,7 +239,7 @@ function git_config_open_default(out_: PPgit_config): Integer; cdecl; external l
  * @return 0 or an error code
  *)
 
-function git_config_new(out_: PPgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_new(out_: PPgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add an on-disk config file instance to an existing config
@@ -270,7 +270,7 @@ function git_config_new(out_: PPgit_config): Integer; cdecl; external libgit2_dl
  *)
 
 function git_config_add_file_ondisk(cfg: Pgit_config; path: PAnsiChar; level: git_config_level_t;
-  repo: Pgit_repository; force: Integer): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository; force: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new config instance containing a single on-disk file
@@ -285,7 +285,7 @@ function git_config_add_file_ondisk(cfg: Pgit_config; path: PAnsiChar; level: gi
  * @return 0 on success, or an error code
   *)
 
-function git_config_open_ondisk(out_: PPgit_config; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_open_ondisk(out_: PPgit_config; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Build a single-level focused config object from a multi-level one.
@@ -305,7 +305,7 @@ function git_config_open_ondisk(out_: PPgit_config; path: PAnsiChar): Integer; c
   *)
 
 function git_config_open_level(out_: PPgit_config; parent: Pgit_config;
-  level: git_config_level_t): Integer; cdecl; external libgit2_dll;
+  level: git_config_level_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Open the global/XDG configuration file according to git's rules
@@ -321,7 +321,7 @@ function git_config_open_level(out_: PPgit_config; parent: Pgit_config;
  * @return 0 or an error code.
  *)
 
-function git_config_open_global(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_open_global(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the write order for configuration backends. By default, the
@@ -335,7 +335,7 @@ function git_config_open_global(out_: PPgit_config; config: Pgit_config): Intege
  * @return 0 or an error code
  *)
 function git_config_set_writeorder(config: Pgit_config; levels: Pgit_config_level_t;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a snapshot of the configuration
@@ -352,7 +352,7 @@ function git_config_set_writeorder(config: Pgit_config; levels: Pgit_config_leve
  * @return 0 or an error code
  *)
 
-function git_config_snapshot(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_snapshot(out_: PPgit_config; config: Pgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the configuration and its associated memory and files
@@ -360,7 +360,7 @@ function git_config_snapshot(out_: PPgit_config; config: Pgit_config): Integer; 
  * @param cfg the configuration to free
  *)
 
-procedure git_config_free(cfg: Pgit_config); cdecl; external libgit2_dll;
+procedure git_config_free(cfg: Pgit_config); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the git_config_entry of a config variable.
@@ -374,7 +374,7 @@ procedure git_config_free(cfg: Pgit_config); cdecl; external libgit2_dll;
  *)
 
 function git_config_get_entry(out_: PPgit_config_entry; cfg: Pgit_config;
-  name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of an integer config variable.
@@ -392,7 +392,7 @@ function git_config_get_entry(out_: PPgit_config_entry; cfg: Pgit_config;
 type
   Pint32_t = ^int32_t;
 
-function git_config_get_int32(out_: Pint32_t; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_int32(out_: Pint32_t; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of a long integer config variable.
@@ -410,7 +410,7 @@ function git_config_get_int32(out_: Pint32_t; cfg: Pgit_config; name_: PAnsiChar
 type
   Pint64_t = ^int64_t;
 
-function git_config_get_int64(out_: Pint64_t; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_int64(out_: Pint64_t; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of a boolean config variable.
@@ -428,7 +428,7 @@ function git_config_get_int64(out_: Pint64_t; cfg: Pgit_config; name_: PAnsiChar
  * @return 0 or an error code
  *)
 
-function git_config_get_bool(out_: PInteger; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_bool(out_: PInteger; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of a path config variable.
@@ -447,7 +447,7 @@ function git_config_get_bool(out_: PInteger; cfg: Pgit_config; name_: PAnsiChar)
  * @return 0 or an error code
  *)
 
-function git_config_get_path(out_: Pgit_buf; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_path(out_: Pgit_buf; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of a string config variable.
@@ -466,7 +466,7 @@ function git_config_get_path(out_: Pgit_buf; cfg: Pgit_config; name_: PAnsiChar)
  * @return 0 or an error code
  *)
 
-function git_config_get_string(out_: PPAnsiChar; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_string(out_: PPAnsiChar; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the value of a string config variable.
@@ -483,7 +483,7 @@ function git_config_get_string(out_: PPAnsiChar; cfg: Pgit_config; name_: PAnsiC
  * @return 0 or an error code
  *)
 
-function git_config_get_string_buf(out_: Pgit_buf; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_get_string_buf(out_: Pgit_buf; cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get each value of a multivar in a foreach callback
@@ -504,7 +504,7 @@ function git_config_get_string_buf(out_: Pgit_buf; cfg: Pgit_config; name_: PAns
  *)
 
 function git_config_get_multivar_foreach(cfg: Pgit_config; name_, regexp: PAnsiChar;
-  callback: git_config_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  callback: git_config_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get each value of a multivar
@@ -526,7 +526,7 @@ type
   Pgit_config_iterator = ^git_config_iterator;
 
 function git_config_multivar_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config;
-  name_, regexp: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  name_, regexp: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the current entry and advance the iterator
@@ -539,7 +539,7 @@ function git_config_multivar_iterator_new(out_: PPgit_config_iterator; cfg: Pgit
  * @return 0 or an error code. GIT_ITEROVER if the iteration has completed
  *)
 
-function git_config_next(entry: PPgit_config_entry; iter: Pgit_config_iterator): Integer; cdecl; external libgit2_dll;
+function git_config_next(entry: PPgit_config_entry; iter: Pgit_config_iterator): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a config iterator
@@ -547,7 +547,7 @@ function git_config_next(entry: PPgit_config_entry; iter: Pgit_config_iterator):
  * @param iter the iterator to free
  *)
 
-procedure git_config_iterator_free(iter: Pgit_config_iterator); cdecl; external libgit2_dll;
+procedure git_config_iterator_free(iter: Pgit_config_iterator); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the value of an integer config variable in the config file
@@ -559,7 +559,7 @@ procedure git_config_iterator_free(iter: Pgit_config_iterator); cdecl; external 
  * @return 0 or an error code
  *)
 
-function git_config_set_int32(cfg: Pgit_config; name_: PAnsiChar; Value: int32_t): Integer; cdecl; external libgit2_dll;
+function git_config_set_int32(cfg: Pgit_config; name_: PAnsiChar; Value: int32_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the value of a long integer config variable in the config file
@@ -571,7 +571,7 @@ function git_config_set_int32(cfg: Pgit_config; name_: PAnsiChar; Value: int32_t
  * @return 0 or an error code
  *)
 
-function git_config_set_int64(cfg: Pgit_config; name_: PAnsiChar; Value: int64_t): Integer; cdecl; external libgit2_dll;
+function git_config_set_int64(cfg: Pgit_config; name_: PAnsiChar; Value: int64_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the value of a boolean config variable in the config file
@@ -583,7 +583,7 @@ function git_config_set_int64(cfg: Pgit_config; name_: PAnsiChar; Value: int64_t
  * @return 0 or an error code
  *)
 
-function git_config_set_bool(cfg: Pgit_config; name_: PAnsiChar; Value: Integer): Integer; cdecl; external libgit2_dll;
+function git_config_set_bool(cfg: Pgit_config; name_: PAnsiChar; Value: Integer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the value of a string config variable in the config file
@@ -598,7 +598,7 @@ function git_config_set_bool(cfg: Pgit_config; name_: PAnsiChar; Value: Integer)
  * @return 0 or an error code
  *)
 
-function git_config_set_string(cfg: Pgit_config; name_, Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_set_string(cfg: Pgit_config; name_, Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set a multivar in the local config file.
@@ -612,7 +612,7 @@ function git_config_set_string(cfg: Pgit_config; name_, Value: PAnsiChar): Integ
  * @return 0 or an error code.
  *)
 
-function git_config_set_multivar(cfg: Pgit_config; name_, regexp, Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_set_multivar(cfg: Pgit_config; name_, regexp, Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Delete a config variable from the config file
@@ -623,7 +623,7 @@ function git_config_set_multivar(cfg: Pgit_config; name_, regexp, Value: PAnsiCh
  * @return 0 or an error code.
  *)
 
-function git_config_delete_entry(cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_delete_entry(cfg: Pgit_config; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Deletes one or several entries from a multivar in the local config file.
@@ -637,7 +637,7 @@ function git_config_delete_entry(cfg: Pgit_config; name_: PAnsiChar): Integer; c
  * @return 0 or an error code
  *)
 
-function git_config_delete_multivar(cfg: Pgit_config; name_, regexp: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_delete_multivar(cfg: Pgit_config; name_, regexp: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform an operation on each config variable.
@@ -656,7 +656,7 @@ function git_config_delete_multivar(cfg: Pgit_config; name_, regexp: PAnsiChar):
  * @return 0 on success, non-zero callback return value, or error code
  *)
 
-function git_config_foreach(cfg: Pgit_config; callback: git_config_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+function git_config_foreach(cfg: Pgit_config; callback: git_config_foreach_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Iterate over all the config variables
@@ -669,7 +669,7 @@ function git_config_foreach(cfg: Pgit_config; callback: git_config_foreach_cb; p
  * @return 0 or an error code.
  *)
 
-function git_config_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Iterate over all the config variables whose name matches a pattern
@@ -688,7 +688,7 @@ function git_config_iterator_new(out_: PPgit_config_iterator; cfg: Pgit_config):
  *)
 
 function git_config_iterator_glob_new(out_: PPgit_config_iterator; cfg: Pgit_config;
-  regexp: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  regexp: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform an operation on each config variable matching a regular expression.
@@ -712,7 +712,7 @@ function git_config_iterator_glob_new(out_: PPgit_config_iterator; cfg: Pgit_con
  *)
 
 function git_config_foreach_match(cfg: Pgit_config; regexp: PAnsiChar; callback: git_config_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Query the value of a config variable and return it mapped to
@@ -753,7 +753,7 @@ type
   Pgit_configmap = ^git_configmap;
 
 function git_config_get_mapped(out_: PInteger; cfg: Pgit_config; name_: PAnsiChar; maps: Pgit_configmap;
-  map_n: size_t): Integer; cdecl; external libgit2_dll;
+  map_n: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Maps a string value to an integer constant
@@ -766,7 +766,7 @@ function git_config_get_mapped(out_: PInteger; cfg: Pgit_config; name_: PAnsiCha
  *)
 
 function git_config_lookup_map_value(out_: PInteger; maps: Pgit_configmap; map_n: size_t;
-  Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Parse a string value as a bool.
@@ -780,7 +780,7 @@ function git_config_lookup_map_value(out_: PInteger; maps: Pgit_configmap; map_n
  * @return 0 or an error code.
  *)
 
-function git_config_parse_bool(out_: PInteger; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_parse_bool(out_: PInteger; Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Parse a string value as an int32.
@@ -794,7 +794,7 @@ function git_config_parse_bool(out_: PInteger; Value: PAnsiChar): Integer; cdecl
  * @return 0 or an error code.
  *)
 
-function git_config_parse_int32(out_: Pint32_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_parse_int32(out_: Pint32_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Parse a string value as an int64.
@@ -808,7 +808,7 @@ function git_config_parse_int32(out_: Pint32_t; Value: PAnsiChar): Integer; cdec
  * @return 0 or an error code.
  *)
 
-function git_config_parse_int64(out_: Pint64_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_parse_int64(out_: Pint64_t; Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Parse a string value as a path.
@@ -825,7 +825,7 @@ function git_config_parse_int64(out_: Pint64_t; Value: PAnsiChar): Integer; cdec
  * @return 0 or an error code.
  *)
 
-function git_config_parse_path(out_: Pgit_buf; Value: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_config_parse_path(out_: Pgit_buf; Value: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Perform an operation on each config variable in a given config backend,
@@ -846,7 +846,7 @@ function git_config_parse_path(out_: Pgit_buf; Value: PAnsiChar): Integer; cdecl
  *)
 
 function git_config_backend_foreach_match(backend: Pgit_config_backend; regexp: PAnsiChar; callback: git_config_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lock the backend with the highest priority
@@ -865,7 +865,7 @@ function git_config_backend_foreach_match(backend: Pgit_config_backend; regexp: 
  * @return 0 or an error code
  *)
 
-function git_config_lock(tx: PPgit_transaction; cfg: Pgit_config): Integer; cdecl; external libgit2_dll;
+function git_config_lock(tx: PPgit_transaction; cfg: Pgit_config): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

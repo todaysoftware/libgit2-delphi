@@ -17,7 +17,7 @@
  * @return 0 or an error code
  *)
 
-function git_transaction_new(out_: PPgit_transaction; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_transaction_new(out_: PPgit_transaction; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lock a reference
@@ -30,7 +30,7 @@ function git_transaction_new(out_: PPgit_transaction; repo: Pgit_repository): In
  * @return 0 or an error message
  *)
 
-function git_transaction_lock_ref(tx: Pgit_transaction; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_transaction_lock_ref(tx: Pgit_transaction; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the target of a reference
@@ -47,7 +47,7 @@ function git_transaction_lock_ref(tx: Pgit_transaction; refname: PAnsiChar): Int
  *)
 
 function git_transaction_set_target(tx: Pgit_transaction; refname: PAnsiChar; target: Pgit_oid;
-  sig: Pgit_signature; msg: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  sig: Pgit_signature; msg: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the target of a reference
@@ -64,7 +64,7 @@ function git_transaction_set_target(tx: Pgit_transaction; refname: PAnsiChar; ta
  *)
 
 function git_transaction_set_symbolic_target(tx: Pgit_transaction; refname, target: PAnsiChar;
-  sig: Pgit_signature; msg: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  sig: Pgit_signature; msg: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set the reflog of a reference
@@ -79,7 +79,7 @@ function git_transaction_set_symbolic_target(tx: Pgit_transaction; refname, targ
  *)
 
 function git_transaction_set_reflog(tx: Pgit_transaction; refname: PAnsiChar;
-  reflog: Pgit_reflog): Integer; cdecl; external libgit2_dll;
+  reflog: Pgit_reflog): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove a reference
@@ -89,7 +89,7 @@ function git_transaction_set_reflog(tx: Pgit_transaction; refname: PAnsiChar;
  * @return 0, GIT_ENOTFOUND if the reference is not among the locked ones, or an error code
  *)
 
-function git_transaction_remove(tx: Pgit_transaction; refname: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_transaction_remove(tx: Pgit_transaction; refname: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Commit the changes from the transaction
@@ -101,7 +101,7 @@ function git_transaction_remove(tx: Pgit_transaction; refname: PAnsiChar): Integ
  * @return 0 or an error code
  *)
 
-function git_transaction_commit(tx: Pgit_transaction): Integer; cdecl; external libgit2_dll;
+function git_transaction_commit(tx: Pgit_transaction): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the resources allocated by this transaction
@@ -112,7 +112,7 @@ function git_transaction_commit(tx: Pgit_transaction): Integer; cdecl; external 
  * @param tx the transaction
  *)
 
-procedure git_transaction_free(tx: Pgit_transaction); cdecl; external libgit2_dll;
+procedure git_transaction_free(tx: Pgit_transaction); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

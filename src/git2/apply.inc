@@ -111,7 +111,7 @@ const
    *)
 
 function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
-  : Integer; cdecl; external libgit2_dll;
+  : Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a `git_diff` to a `git_tree`, and return the resulting image
@@ -126,7 +126,7 @@ function git_apply_options_init(opts: Pgit_apply_options; version: Cardinal)
   *)
 
 function git_apply_to_tree(out_: PPgit_index; repo: Pgit_repository; preimage: Pgit_tree; diff: Pgit_diff; options:
-  Pgit_apply_options): Integer; cdecl; external libgit2_dll;
+  Pgit_apply_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** Possible application locations for git_apply  *)
 
@@ -161,7 +161,7 @@ type
   *)
 
 function git_apply(repo: Pgit_repository; diff: Pgit_diff; location: git_apply_location_t; options: Pgit_apply_options): Integer;
-  cdecl; external libgit2_dll;
+  cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

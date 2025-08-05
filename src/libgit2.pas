@@ -28,6 +28,10 @@ uses
 const
   {$IF DEFINED(MSWINDOWS)}
   libgit2_dll                 = 'git2.dll';
+
+  // Define if you want Windows to use delayed (e.g. on-demand) loading of the DLL.
+  {*$DEFINE LIBGIT2_DLL_DELAY_LOAD}
+
   {$ELSEIF DEFINED(MACOS)}
   libgit2_dll                 = 'libgit2.dylib';
   {$ELSE}

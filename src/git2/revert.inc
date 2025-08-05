@@ -36,7 +36,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_revert_options_init(opts: Pgit_revert_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_revert_options_init(opts: Pgit_revert_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Reverts the given commit against the given "our" commit, producing an
@@ -54,7 +54,7 @@ function git_revert_options_init(opts: Pgit_revert_options; version: Cardinal): 
  *)
 
 function git_revert_commit(out_: PPgit_index; repo: Pgit_repository; revert_commit, our_commit: Pgit_commit;
-  mainline: Cardinal; merge_options: Pgit_merge_options): Integer; cdecl; external libgit2_dll;
+  mainline: Cardinal; merge_options: Pgit_merge_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Reverts the given commit, producing changes in the index and working directory.
@@ -66,7 +66,7 @@ function git_revert_commit(out_: PPgit_index; repo: Pgit_repository; revert_comm
  *)
 
 function git_revert(repo: Pgit_repository; commit: Pgit_commit;
-  given_opts: Pgit_revert_options): Integer; cdecl; external libgit2_dll;
+  given_opts: Pgit_revert_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

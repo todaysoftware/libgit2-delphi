@@ -101,7 +101,7 @@ const
  *)
 
 function git_email_create_from_commit(_out: Pgit_buf; commit: Pgit_commit;
-  opts: Pgit_email_create_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_email_create_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

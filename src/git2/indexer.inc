@@ -98,7 +98,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
 (**
@@ -110,7 +110,7 @@ function git_indexer_options_init(opts: Pgit_indexer_options; version: Cardinal)
  * @return 0 or an error code.
  *)
 function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar;
-  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ELSE}
 (**
  * Create a new indexer instance
@@ -127,7 +127,7 @@ function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar;
  *)
 
 function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; odb: Pgit_odb;
-  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_indexer_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -140,7 +140,7 @@ function git_indexer_new(out_: PPgit_indexer; path: PAnsiChar; mode: Cardinal; o
  * @return 0 or an error code.
   *)
 function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
-  stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
+  stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Finalize the pack and index
@@ -152,7 +152,7 @@ function git_indexer_append(idx: Pgit_indexer; data: Pointer; size: size_t;
  * @return 0 or an error code.
  *)
 
-function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll;
+function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFNDEF GIT_DEPRECATE_HARD}
 (**
@@ -166,7 +166,7 @@ function git_indexer_commit(idx: Pgit_indexer; stats: Pgit_indexer_progress): In
  * @return the packfile's hash
  *)
 
-function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_dll;
+function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -178,7 +178,7 @@ function git_indexer_hash(idx: Pgit_indexer): Pgit_oid; cdecl; external libgit2_
  * @param idx the indexer instance
  * @return a NUL terminated string for the packfile name
  *)
-function git_indexer_name(idx: Pgit_indexer): PAnsiChar; cdecl; external libgit2_dll;
+function git_indexer_name(idx: Pgit_indexer): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the indexer and its resources
@@ -186,7 +186,7 @@ function git_indexer_name(idx: Pgit_indexer): PAnsiChar; cdecl; external libgit2
  * @param idx the indexer to free
  *)
 
-procedure git_indexer_free(idx: Pgit_indexer); cdecl; external libgit2_dll;
+procedure git_indexer_free(idx: Pgit_indexer); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 
 

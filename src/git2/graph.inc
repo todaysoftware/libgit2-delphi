@@ -23,7 +23,7 @@
  *)
 
 function git_graph_ahead_behind(ahead, behind: Psize_t; repo: Pgit_repository;
-  local_, upstream: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  local_, upstream: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if a commit is the descendant of another commit.
@@ -38,7 +38,7 @@ function git_graph_ahead_behind(ahead, behind: Psize_t; repo: Pgit_repository;
  * 0 if not, error code otherwise.
  *)
 
-function git_graph_descendant_of(repo: Pgit_repository; commit, ancestor: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_graph_descendant_of(repo: Pgit_repository; commit, ancestor: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Determine if a commit is reachable from any of a list of commits by
@@ -53,7 +53,7 @@ function git_graph_descendant_of(repo: Pgit_repository; commit, ancestor: Pgit_o
  *)
 
 function git_graph_reachable_from_any(repo: Pgit_repository; commit: Pgit_oid;
-  descendant_array: Pgit_oid; Length: size_t): Integer; cdecl; external libgit2_dll;
+  descendant_array: Pgit_oid; Length: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

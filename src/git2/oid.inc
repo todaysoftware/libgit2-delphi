@@ -121,10 +121,10 @@ const
    *)
 
   {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
-function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -137,10 +137,10 @@ function git_oid_fromstr(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; extern
  *)
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar; type_: git_oid_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
-function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -157,10 +157,10 @@ function git_oid_fromstrp(out_: Pgit_oid; str: PAnsiChar): Integer; cdecl; exter
  *)
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t; type_: git_oid_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
-function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t): Integer; cdecl; external libgit2_dll;
+function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -173,10 +173,10 @@ function git_oid_fromstrn(out_: Pgit_oid; str: PAnsiChar; Length: size_t): Integ
  *)
 
 {$IFDEF GIT_EXPERIMENTAL_SHA256}
-function git_oid_fromraw(out_: Pgit_oid; raw: PByte; type_: git_oid_t): Integer; cdecl; external libgit2_dll;
+function git_oid_fromraw(out_: Pgit_oid; raw: PByte; type_: git_oid_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
-function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external libgit2_dll;
+function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -192,7 +192,7 @@ function git_oid_fromraw(out_: Pgit_oid; raw: PByte): Integer; cdecl; external l
  * @return 0 on success or error code
  *)
 
-function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Format a git_oid into a partial hex string.
@@ -205,7 +205,7 @@ function git_oid_fmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external li
  * @return 0 on success or error code
  *)
 
-function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Format a git_oid into a loose-object path string.
@@ -223,7 +223,7 @@ function git_oid_nfmt(out_: PAnsiChar; n: size_t; id: Pgit_oid): Integer; cdecl;
  * @return 0 on success, non-zero callback return value, or error code
  *)
 
-function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Format a git_oid into a statically allocated c-string.
@@ -237,7 +237,7 @@ function git_oid_pathfmt(out_: PAnsiChar; id: Pgit_oid): Integer; cdecl; externa
  * @return the c-string or NULL on failure
  *)
 
-function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
+function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Format a git_oid into a buffer as a hex format c-string.
@@ -259,7 +259,7 @@ function git_oid_tostr_s(oid: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
  *			errors, otherwise a pointer to an empty string.
  *)
 
-function git_oid_tostr(out_: PAnsiChar; n: size_t; id: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll;
+function git_oid_tostr(out_: PAnsiChar; n: size_t; id: Pgit_oid): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Copy an oid from one structure to another.
@@ -269,7 +269,7 @@ function git_oid_tostr(out_: PAnsiChar; n: size_t; id: Pgit_oid): PAnsiChar; cde
  * @return 0 on success or error code
  *)
 
-function git_oid_cpy(out_, src: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_cpy(out_, src: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare two oid structures.
@@ -279,7 +279,7 @@ function git_oid_cpy(out_, src: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @return <0, 0, >0 if a < b, a == b, a > b.
  *)
 
-function git_oid_cmp(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_cmp(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare two oid structures for equality
@@ -289,7 +289,7 @@ function git_oid_cmp(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @return true if equal, false otherwise
  *)
 
-function git_oid_equal(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_equal(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare the first 'len' hexadecimal characters (packets of 4 bits)
@@ -301,7 +301,7 @@ function git_oid_equal(a, b: Pgit_oid): Integer; cdecl; external libgit2_dll;
  * @return 0 in case of a match
  *)
 
-function git_oid_ncmp(a, b: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll;
+function git_oid_ncmp(a, b: Pgit_oid; len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if an oid equals an hex formatted object id.
@@ -311,7 +311,7 @@ function git_oid_ncmp(a, b: Pgit_oid; len: size_t): Integer; cdecl; external lib
  * @return 0 in case of a match, -1 otherwise.
  *)
 
-function git_oid_streq(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_oid_streq(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare an oid to an hex formatted object id.
@@ -322,7 +322,7 @@ function git_oid_streq(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external l
  *         0 if id matches str, >0 if id sorts after str.
  *)
 
-function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check is an oid is all zeros.
@@ -331,7 +331,7 @@ function git_oid_strcmp(id: Pgit_oid; str: PAnsiChar): Integer; cdecl; external 
  * @return 1 if all zeros, 0 otherwise.
  *)
 
-function git_oid_is_zero(id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_oid_is_zero(id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * OID Shortener object
@@ -359,7 +359,7 @@ type
 type
   Pgit_oid_shorten = ^git_oid_shorten;
 
-function git_oid_shorten_new(min_length: size_t): Pgit_oid_shorten; cdecl; external libgit2_dll;
+function git_oid_shorten_new(min_length: size_t): Pgit_oid_shorten; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add a new OID to set of shortened OIDs and calculate
@@ -386,7 +386,7 @@ function git_oid_shorten_new(min_length: size_t): Pgit_oid_shorten; cdecl; exter
  *		error occurs.
  *)
 
-function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free an OID shortener instance
@@ -394,5 +394,5 @@ function git_oid_shorten_add(os: Pgit_oid_shorten; text_id: PAnsiChar): Integer;
  * @param os a `git_oid_shorten` instance
  *)
 
-procedure git_oid_shorten_free(os: Pgit_oid_shorten); cdecl; external libgit2_dll;
+procedure git_oid_shorten_free(os: Pgit_oid_shorten); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 

@@ -158,7 +158,7 @@ const
  * @return Zero on success; -1 on failure.
   *)
 
-function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Clone a remote repository.
@@ -182,7 +182,7 @@ function git_clone_options_init(opts: Pgit_clone_options; version: Cardinal): In
   *)
 
 function git_clone(out_: PPgit_repository; url, local_path: PAnsiChar;
-  options: Pgit_clone_options): Integer; cdecl; external libgit2_dll;
+  options: Pgit_clone_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

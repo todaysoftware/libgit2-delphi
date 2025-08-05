@@ -24,7 +24,7 @@
  *)
 
 function git_message_prettify(out_: Pgit_buf; message: PAnsiChar; strip_comments: Integer;
-  comment_char: AnsiChar): Integer; cdecl; external libgit2_dll;
+  comment_char: AnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Represents a single git message trailer.
@@ -65,7 +65,7 @@ type
    * @return 0 on success, or non-zero on error.
    *)
 
-function git_message_trailers(arr: Pgit_message_trailer_array; message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_message_trailers(arr: Pgit_message_trailer_array; message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Clean's up any allocated memory in the git_message_trailer_array filled by
@@ -74,7 +74,7 @@ function git_message_trailers(arr: Pgit_message_trailer_array; message: PAnsiCha
  * @param arr The trailer to free.
  *)
 
-procedure git_message_trailer_array_free(arr: Pgit_message_trailer_array); cdecl; external libgit2_dll;
+procedure git_message_trailer_array_free(arr: Pgit_message_trailer_array); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

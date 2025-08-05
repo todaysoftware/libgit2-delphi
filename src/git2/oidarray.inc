@@ -28,7 +28,7 @@ type
 type
   Pgit_oidarray = ^git_oidarray;
 
-procedure git_oidarray_dispose(array_: Pgit_oidarray); cdecl; external libgit2_dll;
+procedure git_oidarray_dispose(array_: Pgit_oidarray); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

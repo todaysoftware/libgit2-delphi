@@ -90,7 +90,7 @@ const
  * @return 0 or an error code
  *)
 function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
-  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a backend for a single packfile.
@@ -101,7 +101,7 @@ function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
  * @return 0 or an error code
  *)
 function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar;
-  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_odb_backend_pack_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a backend for loose objects
@@ -113,7 +113,7 @@ function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar
  * @return 0 or an error code
  *)
 function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
-  opts: Pgit_odb_backend_loose_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_odb_backend_loose_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ELSE}
 
@@ -124,7 +124,7 @@ function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar;
  * @param objects_dir the Git repository's objects directory
  * @return 0 or an error code
  *)
-function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a backend out of a single packfile
@@ -136,7 +136,7 @@ function git_odb_backend_pack(out_: PPgit_odb_backend; objects_dir: PAnsiChar): 
  * @param index_file path to the packfile's .idx file
  * @return 0 or an error code
  *)
-function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a backend for loose objects
@@ -150,7 +150,7 @@ function git_odb_backend_one_pack(out_: PPgit_odb_backend; index_file: PAnsiChar
  * @return 0 or an error code
  *)
 function git_odb_backend_loose(out_: PPgit_odb_backend; objects_dir: PAnsiChar; compression_level, do_fsync: Integer;
-  dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll;
+  dir_mode, file_mode: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$ENDIF}
 

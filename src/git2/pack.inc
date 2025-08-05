@@ -51,7 +51,7 @@ type
    * @return 0 or an error code
    *)
 
-function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Set number of threads to spawn
@@ -65,7 +65,7 @@ function git_packbuilder_new(out_: PPgit_packbuilder; repo: Pgit_repository): In
  * @return number of actual threads to be used
  *)
 
-function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal): Cardinal; cdecl; external libgit2_dll;
+function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal): Cardinal; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Insert a single object
@@ -80,7 +80,7 @@ function git_packbuilder_set_threads(pb: Pgit_packbuilder; n: Cardinal): Cardina
  * @return 0 or an error code
  *)
 
-function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Insert a root tree object
@@ -93,7 +93,7 @@ function git_packbuilder_insert(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsi
  * @return 0 or an error code
  *)
 
-function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Insert a commit object
@@ -106,7 +106,7 @@ function git_packbuilder_insert_tree(pb: Pgit_packbuilder; id: Pgit_oid): Intege
  * @return 0 or an error code
  *)
 
-function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Insert objects as given by the walk
@@ -120,7 +120,7 @@ function git_packbuilder_insert_commit(pb: Pgit_packbuilder; id: Pgit_oid): Inte
  * @return 0 or an error code
  *)
 
-function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Recursively insert an object and its referenced objects
@@ -133,7 +133,7 @@ function git_packbuilder_insert_walk(pb: Pgit_packbuilder; walk: Pgit_revwalk): 
  * @return 0 or an error code
  *)
 
-function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write the contents of the packfile to an in-memory buffer
@@ -146,7 +146,7 @@ function git_packbuilder_insert_recur(pb: Pgit_packbuilder; id: Pgit_oid; name_:
  * @return 0 or an error code
  *)
 
-function git_packbuilder_write_buf(buf: Pgit_buf; pb: Pgit_packbuilder): Integer; cdecl; external libgit2_dll;
+function git_packbuilder_write_buf(buf: Pgit_buf; pb: Pgit_packbuilder): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write the new pack and corresponding index file to path.
@@ -161,7 +161,7 @@ function git_packbuilder_write_buf(buf: Pgit_buf; pb: Pgit_packbuilder): Integer
  *)
 
 function git_packbuilder_write(pb: Pgit_packbuilder; path: PAnsiChar; mode: Cardinal;
-  progress_cb: git_indexer_progress_cb; progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
+  progress_cb: git_indexer_progress_cb; progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFNDEF GIT_DEPRECATE_HARD}
 (**
@@ -175,7 +175,7 @@ function git_packbuilder_write(pb: Pgit_packbuilder; path: PAnsiChar; mode: Card
  * @return 0 or an error code
 *)
 
-function git_packbuilder_hash(pb: Pgit_packbuilder): Pgit_oid; cdecl; external libgit2_dll;
+function git_packbuilder_hash(pb: Pgit_packbuilder): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -187,7 +187,7 @@ function git_packbuilder_hash(pb: Pgit_packbuilder): Pgit_oid; cdecl; external l
  * @param pb the packbuilder instance
  * @return a NUL terminated string for the packfile name
  *)
-function git_packbuilder_name(pb: Pgit_packbuilder): PAnsiChar; cdecl; external libgit2_dll;
+function git_packbuilder_name(pb: Pgit_packbuilder): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback used to iterate over packed objects
@@ -214,7 +214,7 @@ type
    *)
 
 function git_packbuilder_foreach(pb: Pgit_packbuilder; cb: git_packbuilder_foreach_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the total number of objects the packbuilder will write out
@@ -223,7 +223,7 @@ function git_packbuilder_foreach(pb: Pgit_packbuilder; cb: git_packbuilder_forea
  * @return the number of objects in the packfile
  *)
 
-function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll;
+function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of objects the packbuilder has already written out
@@ -232,7 +232,7 @@ function git_packbuilder_object_count(pb: Pgit_packbuilder): size_t; cdecl; exte
  * @return the number of objects which have already been written
  *)
 
-function git_packbuilder_written(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll;
+function git_packbuilder_written(pb: Pgit_packbuilder): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Packbuilder progress notification function.
@@ -262,7 +262,7 @@ type
    *)
 
 function git_packbuilder_set_callbacks(pb: Pgit_packbuilder; progress_cb: git_packbuilder_progress;
-  progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll;
+  progress_cb_payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the packbuilder and all associated data
@@ -270,7 +270,7 @@ function git_packbuilder_set_callbacks(pb: Pgit_packbuilder; progress_cb: git_pa
  * @param pb The packbuilder
  *)
 
-procedure git_packbuilder_free(pb: Pgit_packbuilder); cdecl; external libgit2_dll;
+procedure git_packbuilder_free(pb: Pgit_packbuilder); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

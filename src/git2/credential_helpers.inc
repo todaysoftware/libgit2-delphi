@@ -32,7 +32,7 @@ type
    *)
 
 function git_credential_userpass(out_: PPgit_credential; url, user_from_url: PAnsiChar;
-  allowed_types: Cardinal; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  allowed_types: Cardinal; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

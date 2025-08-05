@@ -33,7 +33,7 @@ const
    * @return 0 on success or an error code on failure
    *)
 
-function git_libgit2_version(major, minor, rev: PInteger): Integer; cdecl; external libgit2_dll;
+function git_libgit2_version(major, minor, rev: PInteger): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the prerelease state of the libgit2 library currently being
@@ -45,7 +45,7 @@ function git_libgit2_version(major, minor, rev: PInteger): Integer; cdecl; exter
  * @return the name of the prerelease state or NULL
  *)
 
-function git_libgit2_prerelease: PAnsiChar; cdecl; external libgit2_dll;
+function git_libgit2_prerelease: PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Configurable features of libgit2; either optional settings (like
@@ -87,7 +87,7 @@ type
    * @return A combination of GIT_FEATURE_* values.
    *)
 
-function git_libgit2_features: Integer; cdecl; external libgit2_dll;
+function git_libgit2_features: Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Query the backend details for the compile-time feature in libgit2.
@@ -108,7 +108,7 @@ function git_libgit2_features: Integer; cdecl; external libgit2_dll;
  * @param feature the feature to query details for
  * @return the provider details, or NULL if the feature is not supported
  *)
-function git_libgit2_feature_backend(feature: git_feature_t): PAnsiChar; cdecl; external libgit2_dll;
+function git_libgit2_feature_backend(feature: git_feature_t): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Global library options
@@ -458,4 +458,4 @@ type
    * @return 0 on success, <0 on failure
    *)
 
-function git_libgit2_opts(option: Integer): Integer; cdecl; varargs; external libgit2_dll;
+function git_libgit2_opts(option: Integer): Integer; cdecl; varargs; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};

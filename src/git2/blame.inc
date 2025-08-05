@@ -122,7 +122,7 @@ const
  * @return Zero on success; -1 on failure.
   *)
 
-function git_blame_options_init(opts: Pgit_blame_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_blame_options_init(opts: Pgit_blame_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Structure that represents a blame hunk.
@@ -215,7 +215,7 @@ type
  * @param blame The blame structure to query.
  * @return The number of line.
  *)
-function git_blame_linecount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll;
+function git_blame_linecount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the number of hunks that exist in the blame structure.
@@ -223,7 +223,7 @@ function git_blame_linecount(blame: Pgit_blame): size_t; cdecl; external libgit2
  * @param blame The blame structure to query.
  * @return The number of hunks.
  *)
-function git_blame_hunkcount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll;
+function git_blame_hunkcount(blame: Pgit_blame): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the blame hunk at the given index.
@@ -232,7 +232,7 @@ function git_blame_hunkcount(blame: Pgit_blame): size_t; cdecl; external libgit2
  * @param index index of the hunk to retrieve
  * @return the hunk at the given index, or NULL on error
  *)
-function git_blame_hunk_byindex(blame: Pgit_blame; index: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+function git_blame_hunk_byindex(blame: Pgit_blame; index: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the hunk that relates to the given line number in the newest
@@ -242,7 +242,7 @@ function git_blame_hunk_byindex(blame: Pgit_blame; index: size_t): Pgit_blame_hu
  * @param lineno the (1-based) line number to find a hunk for
  * @return the hunk that contains the given line, or NULL on error
  *)
-function git_blame_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+function git_blame_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the information about the line in the blame.
@@ -251,7 +251,7 @@ function git_blame_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hu
  * @param idx the (1-based) line number
  * @return the blamed line, or NULL on error
  *)
-function git_blame_line_byindex(blame: Pgit_blame; idx: size_t): Pgit_blame_line; cdecl; external libgit2_dll;
+function git_blame_line_byindex(blame: Pgit_blame; idx: size_t): Pgit_blame_line; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 {$IFNDEF GIT_DEPRECATE_HARD}
 (**
@@ -261,7 +261,7 @@ function git_blame_line_byindex(blame: Pgit_blame; idx: size_t): Pgit_blame_line
  * @return The number of hunks.
  *)
 
-function git_blame_get_hunk_count(blame: Pgit_blame): uint32_t; cdecl; external libgit2_dll;
+function git_blame_get_hunk_count(blame: Pgit_blame): uint32_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the blame hunk at the given index.
@@ -271,7 +271,7 @@ function git_blame_get_hunk_count(blame: Pgit_blame): uint32_t; cdecl; external 
  * @return the hunk at the given index, or NULL on error
   *)
 
-function git_blame_get_hunk_byindex(blame: Pgit_blame; index_: uint32_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+function git_blame_get_hunk_byindex(blame: Pgit_blame; index_: uint32_t): Pgit_blame_hunk; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the hunk that relates to the given line number in the newest commit.
@@ -281,7 +281,7 @@ function git_blame_get_hunk_byindex(blame: Pgit_blame; index_: uint32_t): Pgit_b
  * @return the hunk that contains the given line, or NULL on error
   *)
 
-function git_blame_get_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll;
+function git_blame_get_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blame_hunk; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 {$ENDIF}
 
 (**
@@ -295,7 +295,7 @@ function git_blame_get_hunk_byline(blame: Pgit_blame; lineno: size_t): Pgit_blam
   *)
 
 function git_blame_file(out_: PPgit_blame; repo: Pgit_repository; path: PAnsiChar;
-  options: Pgit_blame_options): Integer; cdecl; external libgit2_dll;
+  options: Pgit_blame_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the blame for a single file in the repository, using the specified
@@ -311,7 +311,7 @@ function git_blame_file(out_: PPgit_blame; repo: Pgit_repository; path: PAnsiCha
  * @return 0 on success, or an error code
  *)
 function git_blame_file_from_buffer(out_: PPgit_blame; repo: Pgit_repository; path, contents: PAnsiChar;
-  contents_len: size_t; options: Pgit_blame_options): Integer; cdecl; external libgit2_dll;
+  contents_len: size_t; options: Pgit_blame_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get blame data for a file that has been modified in memory. The `blame`
@@ -332,7 +332,7 @@ function git_blame_file_from_buffer(out_: PPgit_blame; repo: Pgit_repository; pa
   *)
 
 function git_blame_buffer(out_: PPgit_blame; base: Pgit_blame; buffer: PAnsiChar;
-  buffer_len: size_t): Integer; cdecl; external libgit2_dll;
+  buffer_len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free memory allocated by git_blame_file or git_blame_buffer.
@@ -340,7 +340,7 @@ function git_blame_buffer(out_: PPgit_blame; base: Pgit_blame; buffer: PAnsiChar
  * @param blame the blame structure to free
   *)
 
-procedure git_blame_free(blame: Pgit_blame); cdecl; external libgit2_dll;
+procedure git_blame_free(blame: Pgit_blame); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

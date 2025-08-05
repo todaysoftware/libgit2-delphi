@@ -48,7 +48,7 @@ type
    * @return 0 or an error code
    *)
 
-function git_trace_set(level: git_trace_level_t; cb: git_trace_cb): Integer; cdecl; external libgit2_dll;
+function git_trace_set(level: git_trace_level_t; cb: git_trace_cb): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

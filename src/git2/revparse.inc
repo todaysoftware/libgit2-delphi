@@ -22,7 +22,7 @@
  * @return 0 on success, GIT_ENOTFOUND, GIT_EAMBIGUOUS, GIT_EINVALIDSPEC or an error code
  *)
 
-function git_revparse_single(out_: PPgit_object; repo: Pgit_repository; spec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revparse_single(out_: PPgit_object; repo: Pgit_repository; spec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find a single object and intermediate reference by a revision string.
@@ -47,7 +47,7 @@ function git_revparse_single(out_: PPgit_object; repo: Pgit_repository; spec: PA
  *)
 
 function git_revparse_ext(object_out: PPgit_object; reference_out: PPgit_reference; repo: Pgit_repository;
-  spec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  spec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Revparse flags.  These indicate the intended behavior of the spec passed to
@@ -92,7 +92,7 @@ type
    * @return 0 on success, GIT_INVALIDSPEC, GIT_ENOTFOUND, GIT_EAMBIGUOUS or an error code
    *)
 
-function git_revparse(revspec: Pgit_revspec; repo: Pgit_repository; spec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_revparse(revspec: Pgit_revspec; repo: Pgit_repository; spec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

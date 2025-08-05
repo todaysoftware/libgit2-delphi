@@ -439,7 +439,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_diff_options_init(opts: Pgit_diff_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_diff_options_init(opts: Pgit_diff_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * When iterating over a diff, callback that will be made per file.
@@ -783,7 +783,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_diff_find_options_init(opts: Pgit_diff_find_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_diff_find_options_init(opts: Pgit_diff_find_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @name Diff Generator Functions
  *
@@ -799,7 +799,7 @@ function git_diff_find_options_init(opts: Pgit_diff_find_options; version: Cardi
  * @param diff The previously created diff; cannot be used after free.
  *)
 
-procedure git_diff_free(diff: Pgit_diff); cdecl; external libgit2_dll;
+procedure git_diff_free(diff: Pgit_diff); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff with the difference between two tree objects.
@@ -820,7 +820,7 @@ procedure git_diff_free(diff: Pgit_diff); cdecl; external libgit2_dll;
  *)
 
 function git_diff_tree_to_tree(diff: PPgit_diff; repo: Pgit_repository; old_tree, new_tree: Pgit_tree;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff between a tree and repository index.
@@ -844,7 +844,7 @@ function git_diff_tree_to_tree(diff: PPgit_diff; repo: Pgit_repository; old_tree
  *)
 
 function git_diff_tree_to_index(diff: PPgit_diff; repo: Pgit_repository; old_tree: Pgit_tree;
-  index_: Pgit_index; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  index_: Pgit_index; opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff between the repository index and the workdir directory.
@@ -869,7 +869,7 @@ function git_diff_tree_to_index(diff: PPgit_diff; repo: Pgit_repository; old_tre
 *)
 
 function git_diff_index_to_workdir(diff: PPgit_diff; repo: Pgit_repository; index_: Pgit_index;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff between a tree and the working directory.
@@ -897,7 +897,7 @@ function git_diff_index_to_workdir(diff: PPgit_diff; repo: Pgit_repository; inde
  *)
 
 function git_diff_tree_to_workdir(diff: PPgit_diff; repo: Pgit_repository; old_tree: Pgit_tree;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff between a tree and the working directory using index data
@@ -915,7 +915,7 @@ function git_diff_tree_to_workdir(diff: PPgit_diff; repo: Pgit_repository; old_t
  *)
 
 function git_diff_tree_to_workdir_with_index(diff: PPgit_diff; repo: Pgit_repository; old_tree: Pgit_tree;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a diff with the difference between two index objects.
@@ -932,7 +932,7 @@ function git_diff_tree_to_workdir_with_index(diff: PPgit_diff; repo: Pgit_reposi
  *)
 
 function git_diff_index_to_index(diff: PPgit_diff; repo: Pgit_repository; old_index, new_index: Pgit_index;
-  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_diff_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merge one diff into another.
@@ -949,7 +949,7 @@ function git_diff_index_to_index(diff: PPgit_diff; repo: Pgit_repository; old_in
  * @return 0 or an error code.
  *)
 
-function git_diff_merge(onto, from: Pgit_diff): Integer; cdecl; external libgit2_dll;
+function git_diff_merge(onto, from: Pgit_diff): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Transform a diff marking file renames, copies, etc.
@@ -964,7 +964,7 @@ function git_diff_merge(onto, from: Pgit_diff): Integer; cdecl; external libgit2
  * @return 0 on success, -1 on failure
  *)
 
-function git_diff_find_similar(diff: Pgit_diff; options: Pgit_diff_find_options): Integer; cdecl; external libgit2_dll;
+function git_diff_find_similar(diff: Pgit_diff; options: Pgit_diff_find_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -983,7 +983,7 @@ function git_diff_find_similar(diff: Pgit_diff; options: Pgit_diff_find_options)
  * @return Count of number of deltas in the list
  *)
 
-function git_diff_num_deltas(diff: Pgit_diff): size_t; cdecl; external libgit2_dll;
+function git_diff_num_deltas(diff: Pgit_diff): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Query how many diff deltas are there in a diff filtered by type.
@@ -997,7 +997,7 @@ function git_diff_num_deltas(diff: Pgit_diff): size_t; cdecl; external libgit2_d
  * @return Count of number of deltas matching delta_t type
  *)
 
-function git_diff_num_deltas_of_type(diff: Pgit_diff; type_: git_delta_t): size_t; cdecl; external libgit2_dll;
+function git_diff_num_deltas_of_type(diff: Pgit_diff; type_: git_delta_t): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Return the diff delta for an entry in the diff list.
@@ -1017,7 +1017,7 @@ function git_diff_num_deltas_of_type(diff: Pgit_diff; type_: git_delta_t): size_
  * @return Pointer to git_diff_delta (or NULL if `idx` out of range)
  *)
 
-function git_diff_get_delta(diff: Pgit_diff; idx: size_t): Pgit_diff_delta; cdecl; external libgit2_dll;
+function git_diff_get_delta(diff: Pgit_diff; idx: size_t): Pgit_diff_delta; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Check if deltas are sorted case sensitively or insensitively.
@@ -1026,7 +1026,7 @@ function git_diff_get_delta(diff: Pgit_diff; idx: size_t): Pgit_diff_delta; cdec
  * @return 0 if case sensitive, 1 if case is ignored
  *)
 
-function git_diff_is_sorted_icase(diff: Pgit_diff): Integer; cdecl; external libgit2_dll;
+function git_diff_is_sorted_icase(diff: Pgit_diff): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Loop over all deltas in a diff issuing callbacks.
@@ -1056,7 +1056,7 @@ function git_diff_is_sorted_icase(diff: Pgit_diff): Integer; cdecl; external lib
  *)
 
 function git_diff_foreach(diff: Pgit_diff; file_cb: git_diff_file_cb; binary_cb: git_diff_binary_cb;
-  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Look up the single character abbreviation for a delta status code.
@@ -1070,7 +1070,7 @@ function git_diff_foreach(diff: Pgit_diff; file_cb: git_diff_file_cb; binary_cb:
  * @return The single character label for that code
  *)
 
-function git_diff_status_char(status: git_delta_t): AnsiChar; cdecl; external libgit2_dll;
+function git_diff_status_char(status: git_delta_t): AnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Possible output formats for diff data
@@ -1100,7 +1100,7 @@ type
    *)
 
 function git_diff_print(diff: Pgit_diff; format: git_diff_format_t; print_cb: git_diff_line_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Produce the complete formatted text output from a diff into a
@@ -1113,7 +1113,7 @@ function git_diff_print(diff: Pgit_diff; format: git_diff_format_t; print_cb: gi
  * @return 0 on success or error code
  *)
 
-function git_diff_to_buf(out_: Pgit_buf; diff: Pgit_diff; format: git_diff_format_t): Integer; cdecl; external libgit2_dll;
+function git_diff_to_buf(out_: Pgit_buf; diff: Pgit_diff; format: git_diff_format_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**@} *)
 
@@ -1152,7 +1152,7 @@ function git_diff_to_buf(out_: Pgit_buf; diff: Pgit_diff; format: git_diff_forma
 
 function git_diff_blobs(old_blob: Pgit_blob; old_as_path: PAnsiChar; new_blob: Pgit_blob; new_as_path: PAnsiChar;
   options: Pgit_diff_options; file_cb: git_diff_file_cb; binary_cb: git_diff_binary_cb;
-  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Directly run a diff between a blob and a buffer.
@@ -1182,7 +1182,7 @@ function git_diff_blobs(old_blob: Pgit_blob; old_as_path: PAnsiChar; new_blob: P
 
 function git_diff_blob_to_buffer(old_blob: Pgit_blob; old_as_path, buffer: PAnsiChar; buffer_len: size_t;
   buffer_as_path: PAnsiChar; options: Pgit_diff_options; file_cb: git_diff_file_cb; binary_cb: git_diff_binary_cb;
-  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll;
+  hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb; payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Directly run a diff between two buffers.
@@ -1209,7 +1209,7 @@ function git_diff_blob_to_buffer(old_blob: Pgit_blob; old_as_path, buffer: PAnsi
 function git_diff_buffers(old_buffer: Pointer; old_len: size_t; old_as_path: PAnsiChar; new_buffer: Pointer;
   new_len: size_t; new_as_path: PAnsiChar; options: Pgit_diff_options; file_cb: git_diff_file_cb;
   binary_cb: git_diff_binary_cb; hunk_cb: git_diff_hunk_cb; line_cb: git_diff_line_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (* Patch file parsing. *)
 
@@ -1256,7 +1256,7 @@ function git_diff_from_buffer(out_: PPgit_diff; content: PAnsiChar; content_len:
   {$IFDEF GIT_EXPERIMENTAL_SHA256}
   ; opts: Pgit_diff_parse_options
   {$ENDIF}
-  ): Integer; cdecl; external libgit2_dll;
+  ): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * This is an opaque structure which is allocated by `git_diff_get_stats`.
@@ -1296,7 +1296,7 @@ type
    * @return 0 on success; non-zero on error
    *)
 
-function git_diff_get_stats(out_: PPgit_diff_stats; diff: Pgit_diff): Integer; cdecl; external libgit2_dll;
+function git_diff_get_stats(out_: PPgit_diff_stats; diff: Pgit_diff): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the total number of files changed in a diff
@@ -1305,7 +1305,7 @@ function git_diff_get_stats(out_: PPgit_diff_stats; diff: Pgit_diff): Integer; c
  * @return total number of files changed in the diff
  *)
 
-function git_diff_stats_files_changed(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll;
+function git_diff_stats_files_changed(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the total number of insertions in a diff
@@ -1314,7 +1314,7 @@ function git_diff_stats_files_changed(stats: Pgit_diff_stats): size_t; cdecl; ex
  * @return total number of insertions in the diff
  *)
 
-function git_diff_stats_insertions(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll;
+function git_diff_stats_insertions(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the total number of deletions in a diff
@@ -1323,7 +1323,7 @@ function git_diff_stats_insertions(stats: Pgit_diff_stats): size_t; cdecl; exter
  * @return total number of deletions in the diff
  *)
 
-function git_diff_stats_deletions(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll;
+function git_diff_stats_deletions(stats: Pgit_diff_stats): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Print diff statistics to a `git_buf`.
@@ -1336,7 +1336,7 @@ function git_diff_stats_deletions(stats: Pgit_diff_stats): size_t; cdecl; extern
  *)
 
 function git_diff_stats_to_buf(out_: Pgit_buf; stats: Pgit_diff_stats; format: git_diff_stats_format_t;
-  width: size_t): Integer; cdecl; external libgit2_dll;
+  width: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Deallocate a `git_diff_stats`.
@@ -1345,7 +1345,7 @@ function git_diff_stats_to_buf(out_: Pgit_buf; stats: Pgit_diff_stats; format: g
  * cannot be used after free.
  *)
 
-procedure git_diff_stats_free(stats: Pgit_diff_stats); cdecl; external libgit2_dll;
+procedure git_diff_stats_free(stats: Pgit_diff_stats); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Patch ID options structure
@@ -1377,7 +1377,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_diff_patchid_options_init(opts: Pgit_diff_patchid_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_diff_patchid_options_init(opts: Pgit_diff_patchid_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Calculate the patch ID for the given patch.
@@ -1399,7 +1399,7 @@ function git_diff_patchid_options_init(opts: Pgit_diff_patchid_options; version:
  * @return 0 on success, an error code otherwise.
  *)
 
-function git_diff_patchid(out_: Pgit_oid; diff: Pgit_diff; opts: Pgit_diff_patchid_options): Integer; cdecl; external libgit2_dll;
+function git_diff_patchid(out_: Pgit_oid; diff: Pgit_diff; opts: Pgit_diff_patchid_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -176,7 +176,7 @@ type
    *)
 
 function git_rebase_options_init(opts: Pgit_rebase_options; version: Cardinal)
-  : Integer; cdecl; external libgit2_dll;
+  : Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Initializes a rebase operation to rebase the changes in `branch`
@@ -198,7 +198,7 @@ function git_rebase_options_init(opts: Pgit_rebase_options; version: Cardinal)
 
 function git_rebase_init(out_: PPgit_rebase; repo: Pgit_repository;
   branch, upstream, onto: Pgit_annotated_commit; opts: Pgit_rebase_options)
-  : Integer; cdecl; external libgit2_dll;
+  : Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Opens an existing rebase that was previously started by either an
@@ -211,7 +211,7 @@ function git_rebase_init(out_: PPgit_rebase; repo: Pgit_repository;
  *)
 
 function git_rebase_open(out_: PPgit_rebase; repo: Pgit_repository;
-  opts: Pgit_rebase_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_rebase_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the original `HEAD` ref name for merge rebases.
@@ -220,7 +220,7 @@ function git_rebase_open(out_: PPgit_rebase; repo: Pgit_repository;
  * @return The original `HEAD` ref name
  *)
 
-function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll;
+function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the original `HEAD` id for merge rebases.
@@ -229,7 +229,7 @@ function git_rebase_orig_head_name(rebase: Pgit_rebase): PAnsiChar; cdecl; exter
  * @return The original `HEAD` id
  *)
 
-function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll;
+function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the `onto` ref name for merge rebases.
@@ -238,7 +238,7 @@ function git_rebase_orig_head_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external
  * @return The `onto` ref name
  *)
 
-function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll;
+function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the `onto` id for merge rebases.
@@ -247,7 +247,7 @@ function git_rebase_onto_name(rebase: Pgit_rebase): PAnsiChar; cdecl; external l
  * @return The `onto` id
  *)
 
-function git_rebase_onto_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll;
+function git_rebase_onto_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the count of rebase operations that are to be applied.
@@ -256,7 +256,7 @@ function git_rebase_onto_id(rebase: Pgit_rebase): Pgit_oid; cdecl; external libg
  * @return The number of rebase operations in total
  *)
 
-function git_rebase_operation_entrycount(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll;
+function git_rebase_operation_entrycount(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the index of the rebase operation that is currently being applied.
@@ -268,7 +268,7 @@ function git_rebase_operation_entrycount(rebase: Pgit_rebase): size_t; cdecl; ex
  * @return The index of the rebase operation currently being applied.
  *)
 
-function git_rebase_operation_current(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll;
+function git_rebase_operation_current(rebase: Pgit_rebase): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the rebase operation specified by the given index.
@@ -280,7 +280,7 @@ function git_rebase_operation_current(rebase: Pgit_rebase): size_t; cdecl; exter
 
 type
   Pgit_rebase_operation = ^git_rebase_operation;
-function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t): Pgit_rebase_operation; cdecl; external libgit2_dll;
+function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t): Pgit_rebase_operation; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Performs the next rebase operation and returns the information about it.
@@ -296,7 +296,7 @@ function git_rebase_operation_byindex(rebase: Pgit_rebase; idx: size_t): Pgit_re
 
 type
   PPgit_rebase_operation = ^Pgit_rebase_operation;
-function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
+function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the index produced by the last operation, which is the result
@@ -314,7 +314,7 @@ function git_rebase_next(operation: PPgit_rebase_operation; rebase: Pgit_rebase)
  * @return 0 or an error code
  *)
 
-function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
+function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Commits the current patch.  You must have resolved any conflicts that
@@ -340,7 +340,7 @@ function git_rebase_inmemory_index(index_: PPgit_index; rebase: Pgit_rebase): In
  *)
 
 function git_rebase_commit(id: Pgit_oid; rebase: Pgit_rebase; author, committer: Pgit_signature;
-  message_encoding, message: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  message_encoding, message: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Aborts a rebase that is currently in progress, resetting the repository
@@ -351,7 +351,7 @@ function git_rebase_commit(id: Pgit_oid; rebase: Pgit_rebase; author, committer:
  *         -1 on other errors.
  *)
 
-function git_rebase_abort(rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll;
+function git_rebase_abort(rebase: Pgit_rebase): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Finishes a rebase that is currently in progress once all patches have
@@ -362,7 +362,7 @@ function git_rebase_abort(rebase: Pgit_rebase): Integer; cdecl; external libgit2
  * @return Zero on success; -1 on error
  *)
 
-function git_rebase_finish(rebase: Pgit_rebase; signature: Pgit_signature): Integer; cdecl; external libgit2_dll;
+function git_rebase_finish(rebase: Pgit_rebase; signature: Pgit_signature): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Frees the `git_rebase` object.
@@ -370,7 +370,7 @@ function git_rebase_finish(rebase: Pgit_rebase; signature: Pgit_signature): Inte
  * @param rebase The rebase object
  *)
 
-procedure git_rebase_free(rebase: Pgit_rebase); cdecl; external libgit2_dll;
+procedure git_rebase_free(rebase: Pgit_rebase); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -15,7 +15,7 @@
  * @return 0 or an error code
  *)
 
-function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a tree object from the repository,
@@ -31,7 +31,7 @@ function git_tree_lookup(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid):
  *)
 
 function git_tree_lookup_prefix(out_: PPgit_tree; repo: Pgit_repository; id: Pgit_oid;
-  len: size_t): Integer; cdecl; external libgit2_dll;
+  len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Close an open tree
@@ -44,7 +44,7 @@ function git_tree_lookup_prefix(out_: PPgit_tree; repo: Pgit_repository; id: Pgi
  * @param tree The tree to close
  *)
 
-procedure git_tree_free(tree: Pgit_tree); cdecl; external libgit2_dll;
+procedure git_tree_free(tree: Pgit_tree); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of a tree.
@@ -53,7 +53,7 @@ procedure git_tree_free(tree: Pgit_tree); cdecl; external libgit2_dll;
  * @return object identity for the tree.
  *)
 
-function git_tree_id(tree: Pgit_tree): Pgit_oid; cdecl; external libgit2_dll;
+function git_tree_id(tree: Pgit_tree): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the repository that contains the tree.
@@ -62,7 +62,7 @@ function git_tree_id(tree: Pgit_tree): Pgit_oid; cdecl; external libgit2_dll;
  * @return Repository that contains this tree.
  *)
 
-function git_tree_owner(tree: Pgit_tree): Pgit_repository; cdecl; external libgit2_dll;
+function git_tree_owner(tree: Pgit_tree): Pgit_repository; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of entries listed in a tree
@@ -71,7 +71,7 @@ function git_tree_owner(tree: Pgit_tree): Pgit_repository; cdecl; external libgi
  * @return the number of entries in the tree
  *)
 
-function git_tree_entrycount(tree: Pgit_tree): size_t; cdecl; external libgit2_dll;
+function git_tree_entrycount(tree: Pgit_tree): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a tree entry by its filename
@@ -84,7 +84,7 @@ function git_tree_entrycount(tree: Pgit_tree): size_t; cdecl; external libgit2_d
  * @return the tree entry; NULL if not found
  *)
 
-function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a tree entry by its position in the tree
@@ -97,7 +97,7 @@ function git_tree_entry_byname(tree: Pgit_tree; filename: PAnsiChar): Pgit_tree_
  * @return the tree entry; NULL if not found
  *)
 
-function git_tree_entry_byindex(tree: Pgit_tree; idx: size_t): Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_tree_entry_byindex(tree: Pgit_tree; idx: size_t): Pgit_tree_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Lookup a tree entry by SHA value.
@@ -112,7 +112,7 @@ function git_tree_entry_byindex(tree: Pgit_tree; idx: size_t): Pgit_tree_entry; 
  * @return the tree entry; NULL if not found
   *)
 
-function git_tree_entry_byid(tree: Pgit_tree; id: Pgit_oid): Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_tree_entry_byid(tree: Pgit_tree; id: Pgit_oid): Pgit_tree_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Retrieve a tree entry contained in a tree or in any of its subtrees,
@@ -127,7 +127,7 @@ function git_tree_entry_byid(tree: Pgit_tree; id: Pgit_oid): Pgit_tree_entry; cd
  * @return 0 on success; GIT_ENOTFOUND if the path does not exist
  *)
 
-function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree; path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree; path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Duplicate a tree entry
@@ -140,7 +140,7 @@ function git_tree_entry_bypath(out_: PPgit_tree_entry; root: Pgit_tree; path: PA
  * @return 0 or an error code
   *)
 
-function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
+function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a user-owned tree entry
@@ -152,7 +152,7 @@ function git_tree_entry_dup(dest: PPgit_tree_entry; source: Pgit_tree_entry): In
  * @param entry The entry to free
  *)
 
-procedure git_tree_entry_free(entry: Pgit_tree_entry); cdecl; external libgit2_dll;
+procedure git_tree_entry_free(entry: Pgit_tree_entry); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the filename of a tree entry
@@ -161,7 +161,7 @@ procedure git_tree_entry_free(entry: Pgit_tree_entry); cdecl; external libgit2_d
  * @return the name of the file
   *)
 
-function git_tree_entry_name(entry: Pgit_tree_entry): PAnsiChar; cdecl; external libgit2_dll;
+function git_tree_entry_name(entry: Pgit_tree_entry): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the id of the object pointed by the entry
@@ -170,7 +170,7 @@ function git_tree_entry_name(entry: Pgit_tree_entry): PAnsiChar; cdecl; external
  * @return the oid of the object
  *)
 
-function git_tree_entry_id(entry: Pgit_tree_entry): Pgit_oid; cdecl; external libgit2_dll;
+function git_tree_entry_id(entry: Pgit_tree_entry): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the type of the object pointed by the entry
@@ -179,7 +179,7 @@ function git_tree_entry_id(entry: Pgit_tree_entry): Pgit_oid; cdecl; external li
  * @return the type of the pointed object
  *)
 
-function git_tree_entry_type(entry: Pgit_tree_entry): git_object_t; cdecl; external libgit2_dll;
+function git_tree_entry_type(entry: Pgit_tree_entry): git_object_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the UNIX file attributes of a tree entry
@@ -188,7 +188,7 @@ function git_tree_entry_type(entry: Pgit_tree_entry): git_object_t; cdecl; exter
  * @return filemode as an integer
  *)
 
-function git_tree_entry_filemode(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll;
+function git_tree_entry_filemode(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the raw UNIX file attributes of a tree entry
@@ -200,7 +200,7 @@ function git_tree_entry_filemode(entry: Pgit_tree_entry): git_filemode_t; cdecl;
  * @return filemode as an integer
  *)
 
-function git_tree_entry_filemode_raw(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll;
+function git_tree_entry_filemode_raw(entry: Pgit_tree_entry): git_filemode_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Compare two tree entries
@@ -210,7 +210,7 @@ function git_tree_entry_filemode_raw(entry: Pgit_tree_entry): git_filemode_t; cd
  * @return <0 if e1 is before e2, 0 if e1 == e2, >0 if e1 is after e2
  *)
 
-function git_tree_entry_cmp(e1, e2: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
+function git_tree_entry_cmp(e1, e2: Pgit_tree_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Convert a tree entry to the git_object it points to.
@@ -224,7 +224,7 @@ function git_tree_entry_cmp(e1, e2: Pgit_tree_entry): Integer; cdecl; external l
  *)
 
 function git_tree_entry_to_object(object_out: PPgit_object; repo: Pgit_repository;
-  entry: Pgit_tree_entry): Integer; cdecl; external libgit2_dll;
+  entry: Pgit_tree_entry): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create a new tree builder.
@@ -245,7 +245,7 @@ function git_tree_entry_to_object(object_out: PPgit_object; repo: Pgit_repositor
  *)
 
 function git_treebuilder_new(out_: PPgit_treebuilder; repo: Pgit_repository;
-  source: Pgit_tree): Integer; cdecl; external libgit2_dll;
+  source: Pgit_tree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Clear all the entries in the builder
@@ -254,7 +254,7 @@ function git_treebuilder_new(out_: PPgit_treebuilder; repo: Pgit_repository;
  * @return 0 on success; error code otherwise
  *)
 
-function git_treebuilder_clear(bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
+function git_treebuilder_clear(bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the number of entries listed in a treebuilder
@@ -263,7 +263,7 @@ function git_treebuilder_clear(bld: Pgit_treebuilder): Integer; cdecl; external 
  * @return the number of entries in the treebuilder
  *)
 
-function git_treebuilder_entrycount(bld: Pgit_treebuilder): size_t; cdecl; external libgit2_dll;
+function git_treebuilder_entrycount(bld: Pgit_treebuilder): size_t; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a tree builder
@@ -275,7 +275,7 @@ function git_treebuilder_entrycount(bld: Pgit_treebuilder): size_t; cdecl; exter
  * @param bld Builder to free
  *)
 
-procedure git_treebuilder_free(bld: Pgit_treebuilder); cdecl; external libgit2_dll;
+procedure git_treebuilder_free(bld: Pgit_treebuilder); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get an entry from the builder from its filename
@@ -288,7 +288,7 @@ procedure git_treebuilder_free(bld: Pgit_treebuilder); cdecl; external libgit2_d
  * @return pointer to the entry; NULL if not found
  *)
 
-function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll;
+function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar): Pgit_tree_entry; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Add or update an entry to the builder
@@ -320,7 +320,7 @@ function git_treebuilder_get(bld: Pgit_treebuilder; filename: PAnsiChar): Pgit_t
  *)
 
 function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder; filename: PAnsiChar;
-  id: Pgit_oid; filemode: git_filemode_t): Integer; cdecl; external libgit2_dll;
+  id: Pgit_oid; filemode: git_filemode_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Remove an entry from the builder by its filename
@@ -330,7 +330,7 @@ function git_treebuilder_insert(out_: PPgit_tree_entry; bld: Pgit_treebuilder; f
  * @return 0 or an error code
  *)
 
-function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_treebuilder_remove(bld: Pgit_treebuilder; filename: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Callback for git_treebuilder_filter
@@ -361,7 +361,7 @@ type
  *)
 
 function git_treebuilder_filter(bld: Pgit_treebuilder; filter: git_treebuilder_filter_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Write the contents of the tree builder as a tree object
@@ -374,7 +374,7 @@ function git_treebuilder_filter(bld: Pgit_treebuilder; filter: git_treebuilder_f
  * @return 0 or an error code
  *)
 
-function git_treebuilder_write(id: Pgit_oid; bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll;
+function git_treebuilder_write(id: Pgit_oid; bld: Pgit_treebuilder): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 type
   (**
@@ -414,7 +414,7 @@ type
    *)
 
 function git_tree_walk(tree: Pgit_tree; mode: git_treewalk_mode; callback: git_treewalk_cb;
-  payload: Pointer): Integer; cdecl; external libgit2_dll;
+  payload: Pointer): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Create an in-memory copy of a tree. The copy must be explicitly
@@ -425,7 +425,7 @@ function git_tree_walk(tree: Pgit_tree; mode: git_treewalk_mode; callback: git_t
  * @return 0
  *)
 
-function git_tree_dup(out_: PPgit_tree; source: Pgit_tree): Integer; cdecl; external libgit2_dll;
+function git_tree_dup(out_: PPgit_tree; source: Pgit_tree): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * The kind of update to perform
@@ -478,7 +478,7 @@ type
    *)
 
 function git_tree_create_updated(out_: Pgit_oid; repo: Pgit_repository; baseline: Pgit_tree;
-  nupdates: size_t; updates: Pgit_tree_update): Integer; cdecl; external libgit2_dll;
+  nupdates: size_t; updates: Pgit_tree_update): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

@@ -129,7 +129,7 @@ type
    *)
 
 function git_filter_list_load(filters: PPgit_filter_list; repo: Pgit_repository; blob: Pgit_blob;
-  path: PAnsiChar; mode: git_filter_mode_t; flags: uint32_t): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar; mode: git_filter_mode_t; flags: uint32_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Load the filter list for a given path.
@@ -148,7 +148,7 @@ function git_filter_list_load(filters: PPgit_filter_list; repo: Pgit_repository;
  *)
 
 function git_filter_list_load_ext(filters: PPgit_filter_list; repo: Pgit_repository; blob: Pgit_blob;
-  path: PAnsiChar; mode: git_filter_mode_t; opts: Pgit_filter_options): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar; mode: git_filter_mode_t; opts: Pgit_filter_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Query the filter list to see if a given filter (by name) will run.
@@ -163,7 +163,7 @@ function git_filter_list_load_ext(filters: PPgit_filter_list; repo: Pgit_reposit
  * @return 1 if the filter is in the list, 0 otherwise
  *)
 
-function git_filter_list_contains(filters: Pgit_filter_list; name_: PAnsiChar): Integer; cdecl; external libgit2_dll;
+function git_filter_list_contains(filters: Pgit_filter_list; name_: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply filter list to a data buffer.
@@ -176,7 +176,7 @@ function git_filter_list_contains(filters: Pgit_filter_list; name_: PAnsiChar): 
  *)
 
 function git_filter_list_apply_to_buffer(out_: Pgit_buf; filters: Pgit_filter_list; const in_: PAnsiChar;
-  in_len: size_t): Integer; cdecl; external libgit2_dll;
+  in_len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a filter list to the contents of a file on disk
@@ -190,7 +190,7 @@ function git_filter_list_apply_to_buffer(out_: Pgit_buf; filters: Pgit_filter_li
  *)
 
 function git_filter_list_apply_to_file(out_: Pgit_buf; filters: Pgit_filter_list; repo: Pgit_repository;
-  path: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  path: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a filter list to the contents of a blob
@@ -202,7 +202,7 @@ function git_filter_list_apply_to_file(out_: Pgit_buf; filters: Pgit_filter_list
  *)
 
 function git_filter_list_apply_to_blob(out_: Pgit_buf; filters: Pgit_filter_list;
-  blob: Pgit_blob): Integer; cdecl; external libgit2_dll;
+  blob: Pgit_blob): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a filter list to an arbitrary buffer as a stream
@@ -215,7 +215,7 @@ function git_filter_list_apply_to_blob(out_: Pgit_buf; filters: Pgit_filter_list
  *)
 
 function git_filter_list_stream_buffer(filters: Pgit_filter_list; const buffer: PAnsiChar; len: size_t;
-  target: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+  target: Pgit_writestream): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a filter list to a file as a stream
@@ -229,7 +229,7 @@ function git_filter_list_stream_buffer(filters: Pgit_filter_list; const buffer: 
  *)
 
 function git_filter_list_stream_file(filters: Pgit_filter_list; repo: Pgit_repository; path: PAnsiChar;
-  target: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+  target: Pgit_writestream): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Apply a filter list to a blob as a stream
@@ -241,7 +241,7 @@ function git_filter_list_stream_file(filters: Pgit_filter_list; repo: Pgit_repos
  *)
 
 function git_filter_list_stream_blob(filters: Pgit_filter_list; blob: Pgit_blob;
-  target: Pgit_writestream): Integer; cdecl; external libgit2_dll;
+  target: Pgit_writestream): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free a git_filter_list
@@ -249,7 +249,7 @@ function git_filter_list_stream_blob(filters: Pgit_filter_list; blob: Pgit_blob;
  * @param filters A git_filter_list created by `git_filter_list_load`
  *)
 
-procedure git_filter_list_free(filters: Pgit_filter_list); cdecl; external libgit2_dll;
+procedure git_filter_list_free(filters: Pgit_filter_list); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

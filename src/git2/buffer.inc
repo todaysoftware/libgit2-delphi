@@ -45,6 +45,6 @@ type
    * @param buffer The buffer to deallocate
     *)
 
-procedure git_buf_dispose(buffer: Pgit_buf); cdecl; external libgit2_dll;
+procedure git_buf_dispose(buffer: Pgit_buf); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 

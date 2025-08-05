@@ -75,7 +75,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_describe_options_init(opts: Pgit_describe_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_describe_options_init(opts: Pgit_describe_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Describe format options structure
@@ -123,7 +123,7 @@ const
    *)
 
 function git_describe_format_options_init(opts: Pgit_describe_format_options;
-  version: Cardinal): Integer; cdecl; external libgit2_dll;
+  version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * A struct that stores the result of a describe operation.
@@ -148,7 +148,7 @@ type
    *)
 
 function git_describe_commit(Result: PPgit_describe_result; committish: Pgit_object;
-  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Describe a commit
@@ -165,7 +165,7 @@ function git_describe_commit(Result: PPgit_describe_result; committish: Pgit_obj
  *)
 
 function git_describe_workdir(out_: PPgit_describe_result; repo: Pgit_repository;
-  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_describe_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Print the describe result to a buffer
@@ -178,7 +178,7 @@ function git_describe_workdir(out_: PPgit_describe_result; repo: Pgit_repository
  *)
 
 function git_describe_format(out_: Pgit_buf; Result: Pgit_describe_result;
-  opts: Pgit_describe_format_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_describe_format_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Free the describe result.
@@ -186,7 +186,7 @@ function git_describe_format(out_: Pgit_buf; Result: Pgit_describe_result;
  * @param result The result to free.
  *)
 
-procedure git_describe_result_free(Result: Pgit_describe_result); cdecl; external libgit2_dll;
+procedure git_describe_result_free(Result: Pgit_describe_result); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

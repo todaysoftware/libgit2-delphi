@@ -25,7 +25,7 @@
   *)
 
 function git_annotated_commit_from_ref(out_: PPgit_annotated_commit; repo: Pgit_repository;
-  ref: Pgit_reference): Integer; cdecl; external libgit2_dll;
+  ref: Pgit_reference): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a `git_annotated_commit` from the given fetch head data.
@@ -41,7 +41,7 @@ function git_annotated_commit_from_ref(out_: PPgit_annotated_commit; repo: Pgit_
   *)
 
 function git_annotated_commit_from_fetchhead(out_: PPgit_annotated_commit; repo: Pgit_repository; branch_name, remote_url:
-  PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  PAnsiChar; id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a `git_annotated_commit` from the given commit id.
@@ -63,7 +63,7 @@ function git_annotated_commit_from_fetchhead(out_: PPgit_annotated_commit; repo:
   *)
 
 function git_annotated_commit_lookup(out_: PPgit_annotated_commit; repo: Pgit_repository;
-  id: Pgit_oid): Integer; cdecl; external libgit2_dll;
+  id: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Creates a `git_annotated_commit` from a revision string.
@@ -79,7 +79,7 @@ function git_annotated_commit_lookup(out_: PPgit_annotated_commit; repo: Pgit_re
   *)
 
 function git_annotated_commit_from_revspec(out_: PPgit_annotated_commit; repo: Pgit_repository;
-  revspec: PAnsiChar): Integer; cdecl; external libgit2_dll;
+  revspec: PAnsiChar): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Gets the commit ID that the given `git_annotated_commit` refers to.
@@ -88,7 +88,7 @@ function git_annotated_commit_from_revspec(out_: PPgit_annotated_commit; repo: P
  * @return commit id
   *)
 
-function git_annotated_commit_id(commit: Pgit_annotated_commit): Pgit_oid; cdecl; external libgit2_dll;
+function git_annotated_commit_id(commit: Pgit_annotated_commit): Pgit_oid; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Get the refname that the given `git_annotated_commit` refers to.
@@ -97,7 +97,7 @@ function git_annotated_commit_id(commit: Pgit_annotated_commit): Pgit_oid; cdecl
  * @return ref name.
   *)
 
-function git_annotated_commit_ref(commit: Pgit_annotated_commit): PAnsiChar; cdecl; external libgit2_dll;
+function git_annotated_commit_ref(commit: Pgit_annotated_commit): PAnsiChar; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Frees a `git_annotated_commit`.
@@ -105,7 +105,7 @@ function git_annotated_commit_ref(commit: Pgit_annotated_commit): PAnsiChar; cde
  * @param commit annotated commit to free
   *)
 
-procedure git_annotated_commit_free(commit: Pgit_annotated_commit); cdecl; external libgit2_dll;
+procedure git_annotated_commit_free(commit: Pgit_annotated_commit); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

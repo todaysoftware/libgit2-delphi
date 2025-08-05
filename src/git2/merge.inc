@@ -44,7 +44,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_merge_file_input_init(opts: Pgit_merge_file_input; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_merge_file_input_init(opts: Pgit_merge_file_input; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Flags for `git_merge` options.  A combination of these flags can be
@@ -205,7 +205,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_merge_file_options_init(opts: Pgit_merge_file_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_merge_file_options_init(opts: Pgit_merge_file_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Information about file-level merging
@@ -296,7 +296,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_merge_options_init(opts: Pgit_merge_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_merge_options_init(opts: Pgit_merge_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * The results of `git_merge_analysis` indicate the merge opportunities.
@@ -368,7 +368,7 @@ type
    *)
 
 function git_merge_analysis(analysis_out: Pgit_merge_analysis_t; preference_out: Pgit_merge_preference_t;
-  repo: Pgit_repository; their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll;
+  repo: Pgit_repository; their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Analyzes the given branch(es) and determines the opportunities for
@@ -385,7 +385,7 @@ function git_merge_analysis(analysis_out: Pgit_merge_analysis_t; preference_out:
 
 function git_merge_analysis_for_ref(analysis_out: Pgit_merge_analysis_t;
   preference_out: Pgit_merge_preference_t; repo: Pgit_repository; our_ref: Pgit_reference;
-  their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll;
+  their_heads: PPgit_annotated_commit; their_heads_len: size_t): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find a merge base between two commits
@@ -397,7 +397,7 @@ function git_merge_analysis_for_ref(analysis_out: Pgit_merge_analysis_t;
  * @return 0 on success, GIT_ENOTFOUND if not found or error code
  *)
 
-function git_merge_base(out_: Pgit_oid; repo: Pgit_repository; one, two: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_merge_base(out_: Pgit_oid; repo: Pgit_repository; one, two: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find merge bases between two commits
@@ -409,7 +409,7 @@ function git_merge_base(out_: Pgit_oid; repo: Pgit_repository; one, two: Pgit_oi
  * @return 0 on success, GIT_ENOTFOUND if not found or error code
  *)
 
-function git_merge_bases(out_: Pgit_oidarray; repo: Pgit_repository; one, two: Pgit_oid): Integer; cdecl; external libgit2_dll;
+function git_merge_bases(out_: Pgit_oidarray; repo: Pgit_repository; one, two: Pgit_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find all merge bases given a list of commits
@@ -453,7 +453,7 @@ function git_merge_bases(out_: Pgit_oidarray; repo: Pgit_repository; one, two: P
  *)
 
 function git_merge_base_many(out_: Pgit_oid; repo: Pgit_repository; Length: size_t;
-  input_array: git_oid): Integer; cdecl; external libgit2_dll;
+  input_array: git_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find all merge bases given a list of commits
@@ -466,7 +466,7 @@ function git_merge_base_many(out_: Pgit_oid; repo: Pgit_repository; Length: size
  *)
 
 function git_merge_bases_many(out_: Pgit_oidarray; repo: Pgit_repository; Length: size_t;
-  input_array: git_oid): Integer; cdecl; external libgit2_dll;
+  input_array: git_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Find a merge base in preparation for an octopus merge
@@ -479,7 +479,7 @@ function git_merge_bases_many(out_: Pgit_oidarray; repo: Pgit_repository; Length
  *)
 
 function git_merge_base_octopus(out_: Pgit_oid; repo: Pgit_repository; Length: size_t;
-  input_array: git_oid): Integer; cdecl; external libgit2_dll;
+  input_array: git_oid): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merge two files as they exist in the in-memory data structures, using
@@ -499,7 +499,7 @@ function git_merge_base_octopus(out_: Pgit_oid; repo: Pgit_repository; Length: s
  *)
 
 function git_merge_file(out_: Pgit_merge_file_result; ancestor, ours, theirs: Pgit_merge_file_input;
-  opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merge two files as they exist in the index, using the given common
@@ -517,7 +517,7 @@ function git_merge_file(out_: Pgit_merge_file_result; ancestor, ours, theirs: Pg
  *)
 
 function git_merge_file_from_index(out_: Pgit_merge_file_result; repo: Pgit_repository;
-  ancestor, ours, theirs: Pgit_index_entry; opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll;
+  ancestor, ours, theirs: Pgit_index_entry; opts: Pgit_merge_file_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Frees a `git_merge_file_result`.
@@ -525,7 +525,7 @@ function git_merge_file_from_index(out_: Pgit_merge_file_result; repo: Pgit_repo
  * @param result The result to free or `NULL`
  *)
 
-procedure git_merge_file_result_free(Result: Pgit_merge_file_result); cdecl; external libgit2_dll;
+procedure git_merge_file_result_free(Result: Pgit_merge_file_result); cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merge two trees, producing a `git_index` that reflects the result of
@@ -545,7 +545,7 @@ procedure git_merge_file_result_free(Result: Pgit_merge_file_result); cdecl; ext
  *)
 
 function git_merge_trees(out_: PPgit_index; repo: Pgit_repository;
-  ancestor_tree, our_tree, their_tree: Pgit_tree; opts: Pgit_merge_options): Integer; cdecl; external libgit2_dll;
+  ancestor_tree, our_tree, their_tree: Pgit_tree; opts: Pgit_merge_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merge two commits, producing a `git_index` that reflects the result of
@@ -564,7 +564,7 @@ function git_merge_trees(out_: PPgit_index; repo: Pgit_repository;
  *)
 
 function git_merge_commits(out_: PPgit_index; repo: Pgit_repository;
-  our_commit, their_commit: Pgit_commit; opts: Pgit_merge_options): Integer; cdecl; external libgit2_dll;
+  our_commit, their_commit: Pgit_commit; opts: Pgit_merge_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Merges the given commit(s) into HEAD, writing the results into the working
@@ -586,7 +586,7 @@ function git_merge_commits(out_: PPgit_index; repo: Pgit_repository;
  *)
 
 function git_merge(repo: Pgit_repository; their_heads: PPgit_annotated_commit; their_heads_len: size_t;
-  merge_opts: Pgit_merge_options; checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  merge_opts: Pgit_merge_options; checkout_opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 

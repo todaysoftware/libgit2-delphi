@@ -354,7 +354,7 @@ const
    * @return Zero on success; -1 on failure.
    *)
 
-function git_checkout_options_init(opts: Pgit_checkout_options; version: Cardinal): Integer; cdecl; external libgit2_dll;
+function git_checkout_options_init(opts: Pgit_checkout_options; version: Cardinal): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Updates files in the index and the working tree to match the content of
@@ -375,7 +375,7 @@ function git_checkout_options_init(opts: Pgit_checkout_options; version: Cardina
   *)
 
 function git_checkout_head(repo: Pgit_repository;
-  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Updates files in the working tree to match the content of the index.
@@ -388,7 +388,7 @@ function git_checkout_head(repo: Pgit_repository;
   *)
 
 function git_checkout_index(repo: Pgit_repository; index_: Pgit_index;
-  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (**
  * Updates files in the index and working tree to match the content of the
@@ -403,7 +403,7 @@ function git_checkout_index(repo: Pgit_repository; index_: Pgit_index;
   *)
 
 function git_checkout_tree(repo: Pgit_repository; treeish: Pgit_object;
-  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll;
+  opts: Pgit_checkout_options): Integer; cdecl; external libgit2_dll {$IFDEF LIBGIT2_DLL_DELAY_LOAD}delayed{$ENDIF};
 
 (** @}  *)
 
